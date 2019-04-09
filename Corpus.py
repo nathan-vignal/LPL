@@ -2,7 +2,7 @@ class Corpus():
 
     def __init__(self,type,path,name):
         self.name = name
-        Corpus.delimiters = {'CID': ' ', 'DVD': ',', 'MTX': ','}
+        Corpus.delimiters = {'CID': ' ', 'DVD': ',', 'MTX': ',','SWBD':' '}
         self.type = type
         self.path = path
         self.elements = []
@@ -22,5 +22,17 @@ class Corpus():
             for file in self.elements:
                 self.__nbOfLines += file.getNbOfLines()
         return self.__nbOfLines
+
+    def getNbOfLinesByFile(self):
+        result = []
+        for file in self.elements:
+            result.append(file.getNbOfLines())
+        return result
     def getNumberOfFiles(self):
         return len(self.elements)
+
+    def getDurations(self):
+        result = []
+        for file in self.elements:
+            result.append(file.getDuration())
+        return result

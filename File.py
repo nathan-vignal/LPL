@@ -1,18 +1,29 @@
 import csv
+import math
 class File():
 
     def __init__(self,path,delimiter):
         self.delimiter = delimiter
         self.path = path
-        self.__nbOfLines = 0
+        self.__nbOfLines = self.getNbOfLines()
+        self.duration = self.getDuration()
 
 
     def getNbOfLines(self):
-        if self.__nbOfLines == 0:
-            with open(self.path) as csv_file:
-                csv_reader = csv.reader(csv_file, delimiter=',')
-                line_count = 0
-                for row in csv_reader:
-                    line_count += 1
-        self.__nbOfLines = line_count
-        return self.__nbOfLines
+        with open(self.path) as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            line_count = 0
+            for row in csv_reader:
+                line_count += 1
+            return line_count
+
+    def getDuration(self):
+        f1 = open(self.path, "r")
+        lines = f1.readlines()
+        duration = float(lines[-1].split(self.delimiter)[2]) - float(lines[0].split(self.delimiter)[1])
+        f1.close()
+        return math.floor(duration)
+
+
+
+
