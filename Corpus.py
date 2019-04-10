@@ -2,7 +2,7 @@ class Corpus():
 
     def __init__(self,type,path,name):
         self.name = name
-        Corpus.delimiters = {'CID': ' ', 'DVD': ',', 'MTX': ',','SWBD':' '}
+        Corpus.delimiters = {'CID': ' ', 'DVD': ',', 'MTX': ','}
         self.type = type
         self.path = path
         self.elements = []

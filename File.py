@@ -19,11 +19,6 @@ class File():
 
     def getDuration(self):
         f1 = open(self.path, "r")
-        lines = f1.readlines()
-        duration = float(lines[-1].split(self.delimiter)[2]) - float(lines[0].split(self.delimiter)[1])
+        duration = f1.readlines()[-1].split(self.delimiter)[2]
         f1.close()
-        return math.floor(duration)
-
-
-
-
+        return math.floor(float(duration))
