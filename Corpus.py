@@ -1,38 +1,70 @@
+import copy
 class Corpus():
 
     def __init__(self,type,path,name):
-        self.name = name
-        Corpus.delimiters = {'CID': ' ', 'DVD': ',', 'MTX': ','}
-        self.type = type
-        self.path = path
-        self.elements = []
-        self.__nbOfLines =0
+        Corpus.delimiters = {'CID': ' ', 'DVD': ',', 'MTX': ',', 'SWBD': ' '}
+        self.__name = name
+        self.__type = type
+        self.__path = path
+        self.__elements = []
+        self.__nbOfLines = 0
+        self.__numberOfLinesByFile =[]
+        self.__durationByFile = []
+        self.__numberOfWordsByFile = []
         if type in Corpus.delimiters.keys():
             self.delimiter = Corpus.delimiters[type]
-        else :
-            print("wrong type : "+ type )
-
+        else:
+            print("wrong type : " + type)
 
     def addElements(self, elements):
+        '''
+        add the content of elements inside the corpus's group of file
+        :param elements: is a file containing a written oral interaction
+        '''
         for element in elements:
-            self.elements.append(element)
+            self.__elements.append(element)
 
     def getNbOfLines(self):
+        """
+         calculate __nbOfLines it if it's not already done and return it
+        :return: __nbOfLines
+        """
         if self.__nbOfLines == 0:
-            for file in self.elements:
+            for file in self.__elements:
                 self.__nbOfLines += file.getNbOfLines()
-        return self.__nbOfLines
+        return copy.copy(self.__nbOfLines)
 
     def getNbOfLinesByFile(self):
-        result = []
-        for file in self.elements:
-            result.append(file.getNbOfLines())
-        return result
-    def getNumberOfFiles(self):
-        return len(self.elements)
+        """
+         calculate __numberOfLinesByFile it if it's not already done and return it
+        :return: __numberOfLinesByFile
+        """
+        if self.__numberOfLinesByFile == []:
+            for file in self.__elements:
+                self.__numberOfLinesByFile.append(file.getNbOfLines())
+        return copy.copy(self.__numberOfLinesByFile)
 
-    def getDurations(self):
-        result = []
-        for file in self.elements:
-            result.append(file.getDuration())
-        return result
+    def getNumberOfFiles(self):
+        return len(self.__elements)
+
+    def getDurationByFile(self):
+        """
+         calculate __durationByFile it if it's not already done and return it
+        :return: __durationByFile
+        """
+        if self.__durationByFile == []:
+            for file in self.__elements:
+                self.__durationByFile.append(file.getDuration())
+        return copy.copy(self.__durationByFile)
+    def getNumberOfWordsByFile(self):
+        """
+        calculate __numberOfWordsByFile it if it's not already done and return it
+        :return: __numberOfWordsByFile
+        """
+        if self.__numberOfWordsByFile == []:
+            for file in self.__elements:
+                self.__numberOfWordsByFile.append(file.getNbWords())
+        return copy.copy(self.__numberOfWordsByFile)
+
+    def getName(self):
+        return copy.copy(self.__name)
