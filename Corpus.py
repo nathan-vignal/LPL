@@ -14,7 +14,9 @@ class Corpus():
         if type in Corpus.delimiters.keys():
             self.delimiter = Corpus.delimiters[type]
         else:
-            if type != 'Fisher':
+            if type == 'Fisher':
+                self.delimiter = ""
+            else:
                 print("wrong type : " + type)
 
     def addElements(self, elements):
@@ -57,6 +59,7 @@ class Corpus():
             for file in self.__elements:
                 self.__durationByFile.append(file.getDuration())
         return copy.copy(self.__durationByFile)
+
     def getNumberOfWordsByFile(self):
         """
         calculate __numberOfWordsByFile it if it's not already done and return it
