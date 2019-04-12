@@ -24,20 +24,29 @@ sourcedirectory = "C:/Users/vignal/Documents/corpus/"
 corpuses = []
 # search source directory for corpus and fill corpus object with files inside array corpuses
 for directoryName in listdir(sourcedirectory):
+    path = sourcedirectory + directoryName
     newCorpus = Corpus.Corpus(directoryName, sourcedirectory + directoryName, directoryName)
-    currentDelimiter = newCorpus.delimiter
-    files = []
 
-    for filename in listdir(sourcedirectory+directoryName):
+    files = []
+    if directoryName == "Fisher":
+        path = sourcedirectory + directoryName + "/Fisher1/data/bbn_orig/"
+        for directory in listdir(path):
+            for file in listdir(path + directory + "/auto-segmented"):
+                if "TRN" in file:
+                    print(file)
+        break
+
+    for filename in listdir(path):
         # the directory for switchboard has a specific architecture
-        if directoryName == 'SWBD':
-            for swbdDirectory in listdir(sourcedirectory + directoryName+'/'+filename):
+        if directoryName == 'SWBD' :
+            for swbdDirectory in listdir(path+'/'+filename):
                 for file in listdir(sourcedirectory + directoryName+'/'+filename+'/'+swbdDirectory):
                     if "trans" in file:
                         currentFile = File.File(sourcedirectory + directoryName+'/'+filename+'/'+swbdDirectory+'/'+file
-                                            , newCorpus.delimiter)
+                                            ,newCorpus.delimiter)
                         files.append(currentFile)
             break
+
         currentFile = File.File(sourcedirectory+directoryName+"/"+filename, newCorpus.delimiter)
         files.append(currentFile)
 
@@ -133,23 +142,7 @@ def createBoxPlot(corpusToAnalyze):
         push_notebook(handle=boxplotHandle)
 
 
-# # display checkbox
-# CID = widgets.Checkbox(
-#     value=True,
-#     description='CID'
-# )
-# DVD = widgets.Checkbox(
-#     value=True,
-#     description='DVD'
-# )
-# MTX = widgets.Checkbox(
-#     value=True,
-#     description='MTX'
-# )
-# SWBD = widgets.Checkbox(
-#     value=True,
-#     description='SWBD'
-# )
+
 corpusInputs = []
 for corpus in corpuses:
     temp = widgets.Checkbox(

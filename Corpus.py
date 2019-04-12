@@ -14,7 +14,8 @@ class Corpus():
         if type in Corpus.delimiters.keys():
             self.delimiter = Corpus.delimiters[type]
         else:
-            print("wrong type : " + type)
+            if type != 'Fisher':
+                print("wrong type : " + type)
 
     def addElements(self, elements):
         '''

@@ -1,14 +1,15 @@
 import copy
 import math
-class File():
+
+
+class File:
 
     def __init__(self,path,delimiter):
         self.delimiter = delimiter
         self.path = path
         self.__nbOfLines = 0
         self.__duration = 0
-        self.__numberOfWords =0
-        self.duration = self.getDuration()
+        self.__numberOfWords = 0
 
 # all the getters are in charge for initilazing a vairable if it's not yet initialized yet and then return it
 
