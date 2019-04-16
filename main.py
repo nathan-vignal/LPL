@@ -11,14 +11,60 @@ from os import listdir
 import Corpus
 import File
 import Fisher
+import FileWithSpeaker
 output_notebook()
 
 # global variable for first plot
-boxplot_data_source = 0
-boxplotHandle = 0
-segments_data_source = 0
-rect_data_source = 0
+boxplot_data_source = None
+boxplotHandle = None
+segments_data_source = None
+rect_data_source = None
 # end global variable for first plot
+
+# global variable for second plot
+discr_data_source = None
+discrPlotHandler = None
+discrPlot = None
+# end global variable for second plot
+
+def getSwbdSpeakers(pathToMetadata, speakerDataToRead):
+    # associating each conversation with two speakers and a topic
+    f1 = open(pathToMetadata + "conv_tab.csv", "r")
+    lines = f1.readlines()
+    convMap = {}
+    for i in range(1, len(lines)):
+        line = lines[i].split(',')  # eg : 2001,Y,1020,1044,303,0,910304,1218,1222, ,
+        convMap[line[0]] = [line[2], line[3], line[4]]
+    f1.close()
+
+    # creating each speaker from the speakers file
+    f1 = open(pathToMetadata + "caller_tab.csv", "r")
+    lines = f1.readlines()
+    indexToRead = {}
+    words = lines[0].split(',')
+    for i in range(0, len(words)):
+        if words[i] in speakerDataToRead:
+            indexToRead[i] = words[i]
+    speakers = {}
+    for i in range(1, len(lines)):
+        splittedLine = lines[i].split(',')  # eg : 2001,Y,1020,1044,303,0,910304,1218,1222, ,
+        speakerInfos = {}
+        for j in range(1, len(splittedLine)):
+            if j in indexToRead:
+                if indexToRead[j] == "age":
+                    speakerInfos[indexToRead[j]] = 1990 - int(splittedLine[j])  # 1990 is that date at which the
+                                                                                # recordings took place
+                    continue
+                speakerInfos[indexToRead[j]] = splittedLine[j]
+        speakers[splittedLine[0]] = speakerInfos
+    f1.close()
+    return convMap, speakers
+    # speakers look like {{'1000': {'sex': 'FEMALE', 'age': '1954', 'geog...
+    # convMap look like {'2001': ['1020', '1044', '303'],..
+
+metaDataToLoad = ["sex", "age", "geography", "level_study"]
+convMap, speakers = getSwbdSpeakers("C:/Users/vignal/Documents/metadata/", metaDataToLoad)
+
 
 sourcedirectory = "C:/Users/vignal/Documents/corpus/"
 arrayOfCorpus = []
@@ -49,10 +95,19 @@ for directoryName in listdir(sourcedirectory):
 
                 for file in listdir(sourcedirectory + directoryName+'/'+filename+'/'+swbdDirectory):
                     if "trans" in file:
-                        currentFile = File.File(sourcedirectory + directoryName+'/'+filename+'/'+swbdDirectory+'/'+file
-                                                , newCorpus.delimiter)
+
+                        if "A" in file:
+                            isSpeakerB = 0
+                        elif "B" in file:
+                            isSpeakerB = 1
+                        currentFile = FileWithSpeaker.FileWithSpeaker(sourcedirectory + directoryName+'/'+filename
+                                                                      +'/'+swbdDirectory+'/'+file
+                                                                      , newCorpus.delimiter
+                                                                      , speakers[convMap[
+                                swbdDirectory.replace("R", "")][isSpeakerB]])
+
                         files.append(currentFile)
-            break
+            continue
         currentFile = File.File(sourcedirectory+directoryName+"/"+filename, newCorpus.delimiter)
         files.append(currentFile)
 
@@ -91,7 +146,7 @@ def createFirstCell():
         maxs = []
         q1 = []
         q3 = []
-        if boxplot_data_source == 0:
+        if boxplot_data_source == None:
             boxplot_data_source = ColumnDataSource(data=dict())
         for corpus in arrayOfCorpus:
             if corpus.getName() in corpusToAnalyze:
@@ -130,25 +185,23 @@ def createFirstCell():
                 maxs.append(data.max())
                 q1.append(data.quantile(0.25))
                 q3.append(data.quantile(0.75))
-            if segments_data_source == 0:
+            if segments_data_source == None:
                 segments_data_source = ColumnDataSource(data=dict(x=xAxisData, top=maxs, bottom=mins))
                 rect_data_source = ColumnDataSource(data=dict(x=xAxisData, top=q3, bottom=q1))
             else:
-                segments_data_source.data = {'x':xAxisData, 'top':maxs, 'bottom':mins}
-                rect_data_source.data = {'x':xAxisData, 'top':q3, 'bottom':q1}
+                segments_data_source.data = {'x': xAxisData, 'top': maxs, 'bottom': mins}
+                rect_data_source.data = {'x': xAxisData, 'top': q3, 'bottom': q1}
 
-        #boxplot_data_source.data = {'x_range':xAxisData, 'title':title}
-        if boxplotHandle == 0: #if it's the first time
+        # boxplot_data_source.data = {'x_range':xAxisData, 'title':title}
+        if boxplotHandle == None:  # if it's the first time
             boxplot = figure(x_range=xAxisData, title="title", tools="")
             segments = VBar(x="x", top="top", bottom="bottom", width=0.01, fill_color="black")  # segments
             rectangles = VBar(x="x", top="top", bottom="bottom", width=0.1, fill_color="red")  # rectangles
             boxplot.add_glyph(segments_data_source, segments)
-            boxplot.add_glyph(rect_data_source, rectangles)#boxplot_data_source,
+            boxplot.add_glyph(rect_data_source, rectangles)  # boxplot_data_source,
             boxplotHandle = show(boxplot, notebook_handle=True)
         else:
             push_notebook(handle=boxplotHandle)
-
-
 
     corpusInputs = []
     verticalBoxCorpus = widgets.VBox()
@@ -159,7 +212,6 @@ def createFirstCell():
         )
         corpusInputs.append(temp)
     verticalBoxCorpus.children = corpusInputs
-
 
     def processCorpusToAnalyze():
         """
@@ -201,6 +253,124 @@ def createFirstCell():
     createBoxPlot(corpusToDisplay)
     display(hBox)
 
+# end creatFirstCell
+
+
+
+def createSecondCell():
+    """
+
+    analysis menu regarding switchboard
+    :return:
+    """
+    global metaDataToLoad
+    swbd = 0  # will contain the corpus switchboard
+    for corpus in arrayOfCorpus:
+        if corpus.getName() == "SWBD":
+            swbd = corpus
+            break
+    if swbd == 0:
+        print("Switchboard n'est pas dans le bon fichier")
+        return -1
+
+    fctAnalyseSWBD = widgets.RadioButtons(
+        options=['nombre d \'IPU par fichier',
+                 'nombre de mots par fichier',
+                 'temps par fichier',
+                 ],
+        value='nombre d \'IPU par fichier',
+        description='options d\'analyse',
+        disabled=False
+    )
+    speakerDiscrimination = widgets.RadioButtons(
+        options=metaDataToLoad,
+        value=metaDataToLoad[0],
+        description='discrimination',
+        disabled=False
+    )
+
+    def createOrRefreshDiscrPlot():
+        global discr_data_source
+        global discrPlotHandler
+        global discrPlot
+        eachFilespeaker = swbd.getSpeakerByFile()
+        data = 0
+        if 'nombre d \'IPU' in fctAnalyseSWBD.value:
+            data = corpus.getNbOfLinesByFile()
+        elif 'nombre de mots' in fctAnalyseSWBD.value:
+            data = corpus.getNumberOfWordsByFile()
+        elif "temps par fichier" in fctAnalyseSWBD.value:
+            data = corpus.getDurationByFile()
+            for x in data:
+                x /= 60
+        else:
+            print("unkwnown function in createOrRefreshDisrcPlot :" + str(fctAnalyseSWBD.value))
+        dataBySpeakerType = {}
+        discriminationCritirion = speakerDiscrimination.value
+        if discriminationCritirion not in eachFilespeaker[0]:
+            print("unrecognized speaker discrimination"+ str(discriminationCritirion))
+            return -1
+
+        for i  in range(0,len(data)):
+            speakerType = eachFilespeaker[i][discriminationCritirion]
+            if speakerType in dataBySpeakerType:
+                dataBySpeakerType[speakerType] += 1
+            else:
+                dataBySpeakerType[speakerType] = 1
+
+        # check if all the keys are in the same type
+        types = [type(k) for k in dataBySpeakerType.keys()]
+        for i in range(0,len(types)-1):
+            if types[i] != types[i+1]:
+                print("all keys are not in the same type (createOrRefreshDiscrPlot)" + str(types[i]) + str(types[i+1]))
+
+        xAxisData = None
+        y =None
+        numberOfKeys = len(dataBySpeakerType.keys())
+        if types[0] == type(""):
+            xAxisData = [k for k in dataBySpeakerType.keys()]
+            y = []
+            for key in dataBySpeakerType:
+                y.append(dataBySpeakerType[key])
+
+        # elif types[0] == type(0):
+        #     if numberOfKeys >10:
+        #
+        #     else:
+
+        if discr_data_source == None:
+            print(xAxisData)
+            print(y)
+            discr_data_source = ColumnDataSource(data=dict(x=xAxisData, top=y))
+            discrPlot_source = ColumnDataSource(data=dict(x=xAxisData))
+            discrPlot = figure(x_range=xAxisData)
+            bars = VBar(x="x", top="top", width=0.1, fill_color="black")  # segments
+            discrPlot.add_glyph(discr_data_source, bars)
+            discrPlotHandler = show(discrPlot, notebook_handle=True)
+        else:
+            discrPlot.x_range = xAxisData
+            discr_data_source.data = {"x": xAxisData, "top": y}
+            push_notebook(handle=discrPlotHandler)
+
+            # figure(x_range=xAxisData, title="title", tools="")
+            # segments = VBar(x="x", top="top", bottom="bottom", width=0.01, fill_color="black")  # segments
+            # rectangles = VBar(x="x", top="top", bottom="bottom", width=0.1, fill_color="red")  # rectangles
+            # boxplot.add_glyph(segments_data_source, segments)
+
+
+
+
+    def discrMenuInput(widget):
+        if type(widget.new) == type(""):
+            createOrRefreshDiscrPlot()
+
+    speakerDiscrimination.observe(discrMenuInput)
+    fctAnalyseSWBD.observe(discrMenuInput)
+
+    hBoxDiscrimination = widgets.HBox([fctAnalyseSWBD, speakerDiscrimination])
+    display(hBoxDiscrimination)
+    createOrRefreshDiscrPlot()
+# end createSecondCell
 
 
 
@@ -208,29 +378,7 @@ def createFirstCell():
 
 
 
-#second chart: chart by speaker for SWBD
-fctAnalyseSWBD = widgets.RadioButtons(
-    options=['nombre d \'IPU par fichier',
-             'nombre de mots par fichier',
-             'temps par fichier',
-             ],
-    value='nombre d \'IPU par fichier',
-    description='options d\'analyse',
-    disabled=False
-)
-discriminationOptions = ['age',
-                         'sexe',
-                         'Geography',
-                         'Level of study'
-                         ]
-speakerDiscrimination = widgets.RadioButtons(
-    options=discriminationOptions,
-    value=discriminationOptions[0],
-    description='discrimination',
-    disabled=False
-)
-hBoxDiscrimination = widgets.HBox([fctAnalyseSWBD, speakerDiscrimination])
-display(hBoxDiscrimination)
+
 
 
 

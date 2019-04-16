@@ -27,6 +27,9 @@ class Corpus():
         for element in elements:
             self.__elements.append(element)
 
+    def getNumberOfFiles(self):
+        return len(self.__elements)
+
     def getNbOfLines(self):
         """
          calculate __nbOfLines it if it's not already done and return it
@@ -47,8 +50,7 @@ class Corpus():
                 self.__numberOfLinesByFile.append(file.getNbOfLines())
         return copy.copy(self.__numberOfLinesByFile)
 
-    def getNumberOfFiles(self):
-        return len(self.__elements)
+
 
     def getDurationByFile(self):
         """
@@ -72,3 +74,13 @@ class Corpus():
 
     def getName(self):
         return copy.copy(self.__name)
+
+    def getSpeakerByFile(self):
+        if self.__name != "SWBD":
+            print("no speakers for"+self.__name)
+            return
+        speakers = []
+        for file in self.__elements:
+            speakers.append(file.getSpeaker())
+        return speakers
+
