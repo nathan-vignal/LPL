@@ -10,6 +10,8 @@ import pandas as pd
 import numpy as np
 from os import listdir
 from CorpusReader import createCorpusFromDirectory
+from Speakers import getSwbdSpeakers
+from AnalyseStat import analyseCorpus
 import Corpus
 import File
 import Fisher
@@ -37,51 +39,17 @@ dataBySpeaker_data_source = None
 # end global variable for third plot
 
 
-def getSwbdSpeakers(pathToMetadata, speakerDataToRead):
-    # associating each conversation with two speakers and a topic
-    f1 = open(pathToMetadata + "conv_tab.csv", "r")
-    lines = f1.readlines()
-    convMap = {}
-    for i in range(1, len(lines)):
-        line = lines[i].split(',')  # eg : 2001,Y,1020,1044,303,0,910304,1218,1222, ,
-        convMap[line[0]] = [line[2], line[3], line[4]]
-    f1.close()
-
-    # creating each speaker from the speakers file
-    f1 = open(pathToMetadata + "caller_tab.csv", "r")
-    lines = f1.readlines()
-    indexToRead = {}
-    words = lines[0].split(',')
-    for i in range(0, len(words)):
-        if words[i] in speakerDataToRead:
-            indexToRead[i] = words[i]
-    speakers = {}
-    for i in range(1, len(lines)):
-        splittedLine = lines[i].split(',')  # eg : 2001,Y,1020,1044,303,0,910304,1218,1222, ,
-        speakerInfos = {}
-        for j in range(1, len(splittedLine)):
-            if j in indexToRead:
-                if indexToRead[j] == "age":
-                    speakerInfos[indexToRead[j]] = str(1990 - int(splittedLine[j]))  # 1990 is that date at which the
-                    # recordings took place
-                    continue
-                speakerInfos[indexToRead[j]] = splittedLine[j]
-        speakers[splittedLine[0]] = speakerInfos
-    f1.close()
-    return convMap, speakers
-    # speakers look like {{'1000': {'sex': 'FEMALE', 'age': '1954', 'geog...
-    # convMap look like {'2001': ['1020', '1044', '303'],..
 
 metaDataToLoad = ["sex", "age", "geography", "level_study"]
-convMap, speakers = getSwbdSpeakers("C:/Users/vignal/Documents/metadata/", metaDataToLoad)
+conversationInfo, speakers = getSwbdSpeakers("C:/Users/vignal/Documents/metadata/", metaDataToLoad)
 
 
 def initCorpus(sourceDirectory):
-    global convMap
+    global conversationInfo
     arrayOfCorpus = []
     # search source directory for corpus and fill corpus object with files inside array corpuses
     for directoryName in listdir(sourceDirectory):
-        newCorpus = createCorpusFromDirectory(directoryName, sourceDirectory+'/'+directoryName, convMap)
+        newCorpus = createCorpusFromDirectory(directoryName, sourceDirectory +'/' + directoryName, conversationInfo)
         #print(newCorpus.getName())
         #print(newCorpus.getNbOfLinesByFile())
         arrayOfCorpus.append(newCorpus)
@@ -89,6 +57,7 @@ def initCorpus(sourceDirectory):
 
 
 arrayOfCorpus = initCorpus("C:/Users/vignal/Documents/corpus/")
+
 
 def createFirstCell():
     # radioButton to choose how to analyze the data
@@ -126,35 +95,7 @@ def createFirstCell():
             boxplot_data_source = ColumnDataSource(data=dict())
         for corpus in arrayOfCorpus:
             if corpus.getName() in corpusToAnalyze:
-                if 'nombre d\'IPU' in fctAnalyse.value:
-                    data = pd.Series(corpus.getNbOfLinesByFile())
-                elif 'nombre de mots' in fctAnalyse.value:
-                    data = pd.Series(corpus.getNumberOfWordsByFile())
-                elif "temps par fichier" in fctAnalyse.value:
-                    data = pd.Series(corpus.getDurationByFile())
-                    data /= 60
-                elif "mots/ipu" in fctAnalyse.value:
-                    data = pd.Series(corpus.getNumberOfWordsByFile())
-                    ipuParFichier = corpus.getNbOfLinesByFile()
-                    for i in range(0,len(data)):
-                        data[i] /= ipuParFichier[i]
-                elif "secondes/ipu" in fctAnalyse.value:
-                    data = pd.Series(corpus.getDurationByFile())
-                    nbOfLines = corpus.getNbOfLinesByFile()
-                    for i in range(0, len(data)):
-                        data[i] /= nbOfLines[i]
-                elif "mots/secondes" in fctAnalyse.value:
-                    data = corpus.getNumberOfWordsByFile()
-                    durationByFile = corpus.getDurationByFile()
-                    for i in range(0, len(data)):
-                        if durationByFile[i] == 0:
-                            data[i] = 0
-                            continue
-                        data[i] = data[i] / durationByFile[i]
-                    data = pd.Series(data)
-                else:
-                    print("invalid analyze function ")
-                    data = []  # prevent crash
+                data = analyseCorpus(fctAnalyse.value, corpus)
 
                 xAxisData.append(corpus.getName())
                 mins.append(data.min())
@@ -251,6 +192,7 @@ def createSecondCell():
     analysisOptions = ['nombre d\'IPU par fichier',
                  'nombre de mots par fichier',
                  'temps par fichier',
+                'nombre de fichier'
                  ]
     fctAnalyseSWBD = widgets.RadioButtons(
         options=analysisOptions,
@@ -274,18 +216,7 @@ def createSecondCell():
         for id in eachFilespeakerID:
             eachFilespeaker.append(speakers[id])
 
-
-        data = 0
-        if 'nombre d\'IPU' in fctAnalyseSWBD.value:
-            data = corpus.getNbOfLinesByFile()
-        elif 'nombre de mots' in fctAnalyseSWBD.value:
-            data = corpus.getNumberOfWordsByFile()
-        elif "temps par fichier" in fctAnalyseSWBD.value:
-            data = corpus.getDurationByFile()
-            for x in data:
-                x /= 60
-        else:
-            print("unkwnown function in createOrRefreshDisrcPlot :" + str(fctAnalyseSWBD.value))
+        data = analyseCorpus(fctAnalyseSWBD.value,swbd)
         dataBySpeakerType = {}
         discriminationCritirion = speakerDiscrimination.value
         for speakerData in eachFilespeaker:
@@ -296,9 +227,9 @@ def createSecondCell():
         for i in range(0, len(data)):
             speakerType = eachFilespeaker[i][discriminationCritirion]
             if speakerType in dataBySpeakerType:
-                dataBySpeakerType[speakerType] += 1
+                dataBySpeakerType[speakerType] += data[i]
             else:
-                dataBySpeakerType[speakerType] = 1
+                dataBySpeakerType[speakerType] = data[i]
         # check if all the keys are in the same type
         # types = [type(k) for k in dataBySpeakerType.keys()]
         # for i in range(0,len(types)-1):
@@ -359,7 +290,7 @@ def createSecondCell():
 
 
 def createThirdCell():
-    global convMap
+    global conversationInfo
     global speakers
     global dataBySpeaker_data_source
     xAxisData = []

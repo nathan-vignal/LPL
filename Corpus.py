@@ -6,7 +6,7 @@ class Corpus():
         self.__name = name
         self.__type = type
         self.__path = path
-        self.__elements = []
+        self.__files = []
         self.__nbOfLines = 0
         self.__numberOfLinesByFile =[]
         self.__durationByFile = []
@@ -25,10 +25,10 @@ class Corpus():
         :param elements: is a file containing a written oral interaction
         '''
         for element in elements:
-            self.__elements.append(element)
+            self.__files.append(element)
 
     def getNumberOfFiles(self):
-        return len(self.__elements)
+        return len(self.__files)
 
     def getNbOfLines(self):
         """
@@ -36,7 +36,7 @@ class Corpus():
         :return: __nbOfLines
         """
         if self.__nbOfLines == 0:
-            for file in self.__elements:
+            for file in self.__files:
                 self.__nbOfLines += file.getNbOfLines()
         return copy.copy(self.__nbOfLines)
 
@@ -46,7 +46,7 @@ class Corpus():
         :return: __numberOfLinesByFile
         """
         if self.__numberOfLinesByFile == []:
-            for file in self.__elements:
+            for file in self.__files:
                 self.__numberOfLinesByFile.append(file.getNbOfLines())
         return copy.copy(self.__numberOfLinesByFile)
 
@@ -58,7 +58,7 @@ class Corpus():
         :return: __durationByFile
         """
         if self.__durationByFile == []:
-            for file in self.__elements:
+            for file in self.__files:
                 self.__durationByFile.append(file.getDuration())
         return copy.copy(self.__durationByFile)
 
@@ -68,7 +68,7 @@ class Corpus():
         :return: __numberOfWordsByFile
         """
         if self.__numberOfWordsByFile == []:
-            for file in self.__elements:
+            for file in self.__files:
                 self.__numberOfWordsByFile.append(file.getNbWords())
         return copy.copy(self.__numberOfWordsByFile)
 
@@ -80,7 +80,10 @@ class Corpus():
             print("no speakers for"+self.__name)
             return
         speakers = []
-        for file in self.__elements:
+        for file in self.__files:
             speakers.append(file.getSpeaker())
         return speakers
+
+    def getNbOfFiles(self):
+        return len(self.__files)
 
