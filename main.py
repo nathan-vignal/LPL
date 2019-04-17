@@ -7,11 +7,16 @@ import ipywidgets as widgets
 from bokeh.plotting import figure, output_file, gridplot
 from bokeh.io import output_notebook, show, push_notebook
 import pandas as pd
+import numpy as np
 from os import listdir
+from CorpusReader import createCorpusFromDirectory
 import Corpus
 import File
 import Fisher
 import FileWithSpeaker
+import warnings
+warnings.filterwarnings("ignore")  # to avoid the displaying of a warning caused by the bokeh library...
+
 output_notebook()
 
 # global variable for first plot
@@ -26,6 +31,11 @@ discr_data_source = None
 discrPlotHandler = None
 discrPlot = None
 # end global variable for second plot
+
+# global variable for third plot
+dataBySpeaker_data_source = None
+# end global variable for third plot
+
 
 def getSwbdSpeakers(pathToMetadata, speakerDataToRead):
     # associating each conversation with two speakers and a topic
@@ -52,8 +62,8 @@ def getSwbdSpeakers(pathToMetadata, speakerDataToRead):
         for j in range(1, len(splittedLine)):
             if j in indexToRead:
                 if indexToRead[j] == "age":
-                    speakerInfos[indexToRead[j]] = 1990 - int(splittedLine[j])  # 1990 is that date at which the
-                                                                                # recordings took place
+                    speakerInfos[indexToRead[j]] = str(1990 - int(splittedLine[j]))  # 1990 is that date at which the
+                    # recordings took place
                     continue
                 speakerInfos[indexToRead[j]] = splittedLine[j]
         speakers[splittedLine[0]] = speakerInfos
@@ -66,65 +76,31 @@ metaDataToLoad = ["sex", "age", "geography", "level_study"]
 convMap, speakers = getSwbdSpeakers("C:/Users/vignal/Documents/metadata/", metaDataToLoad)
 
 
-sourcedirectory = "C:/Users/vignal/Documents/corpus/"
-arrayOfCorpus = []
-# search source directory for corpus and fill corpus object with files inside array corpuses
-for directoryName in listdir(sourcedirectory):
-    path = sourcedirectory + directoryName
-    newCorpus = Corpus.Corpus(directoryName, sourcedirectory + directoryName, directoryName)
-
-    files = []
-    if directoryName == "Fisher":
-        path = sourcedirectory + directoryName + "/Fisher1/data/bbn_orig/"
-        for directory in listdir(path):
-            if len(listdir(path + directory)) != 0:
-                for file in listdir(path + directory + "/auto-segmented"):
-                    if ".trn" in file:  # we just want one object by conversation
-                        files.append(Fisher.Fisher(path + directory + "/auto-segmented/", file[:-4]))
-        newCorpus.addElements(files)
+def initCorpus(sourceDirectory):
+    global convMap
+    arrayOfCorpus = []
+    # search source directory for corpus and fill corpus object with files inside array corpuses
+    for directoryName in listdir(sourceDirectory):
+        newCorpus = createCorpusFromDirectory(directoryName, sourceDirectory+'/'+directoryName, convMap)
+        #print(newCorpus.getName())
+        #print(newCorpus.getNbOfLinesByFile())
         arrayOfCorpus.append(newCorpus)
-        continue
+    return arrayOfCorpus
 
 
-    for filename in listdir(path):
-        # the directory for switchboard has a specific architecture
-        if directoryName == 'SWBD':
-            if len(filename) != 3:
-                continue  # filtrage des fichiers inutiles
-            for swbdDirectory in listdir(path+'/'+filename):
-
-                for file in listdir(sourcedirectory + directoryName+'/'+filename+'/'+swbdDirectory):
-                    if "trans" in file:
-
-                        if "A" in file:
-                            isSpeakerB = 0
-                        elif "B" in file:
-                            isSpeakerB = 1
-                        currentFile = FileWithSpeaker.FileWithSpeaker(sourcedirectory + directoryName+'/'+filename
-                                                                      +'/'+swbdDirectory+'/'+file
-                                                                      , newCorpus.delimiter
-                                                                      , speakers[convMap[
-                                swbdDirectory.replace("R", "")][isSpeakerB]])
-
-                        files.append(currentFile)
-            continue
-        currentFile = File.File(sourcedirectory+directoryName+"/"+filename, newCorpus.delimiter)
-        files.append(currentFile)
-
-    newCorpus.addElements(files)
-    arrayOfCorpus.append(newCorpus)
+arrayOfCorpus = initCorpus("C:/Users/vignal/Documents/corpus/")
 
 def createFirstCell():
     # radioButton to choose how to analyze the data
     fctAnalyse = widgets.RadioButtons(
-        options=['nombre d \'IPU par fichier',
+        options=['nombre d\'IPU par fichier',
                  'nombre de mots par fichier',
                  'temps par fichier',
                  'mots/ipu par fichier',
                  'secondes/ipu par fichier',
                  'mots/secondes'
                  ],
-        value='nombre d \'IPU par fichier',
+        value='nombre d\'IPU par fichier',
         description='options d\'analyse',
         disabled=False
     )
@@ -150,7 +126,7 @@ def createFirstCell():
             boxplot_data_source = ColumnDataSource(data=dict())
         for corpus in arrayOfCorpus:
             if corpus.getName() in corpusToAnalyze:
-                if 'nombre d \'IPU' in fctAnalyse.value:
+                if 'nombre d\'IPU' in fctAnalyse.value:
                     data = pd.Series(corpus.getNbOfLinesByFile())
                 elif 'nombre de mots' in fctAnalyse.value:
                     data = pd.Series(corpus.getNumberOfWordsByFile())
@@ -259,7 +235,6 @@ def createFirstCell():
 
 def createSecondCell():
     """
-
     analysis menu regarding switchboard
     :return:
     """
@@ -270,15 +245,16 @@ def createSecondCell():
             swbd = corpus
             break
     if swbd == 0:
-        print("Switchboard n'est pas dans le bon fichier")
+        print("can't find SWBD in the corpus")
         return -1
 
-    fctAnalyseSWBD = widgets.RadioButtons(
-        options=['nombre d \'IPU par fichier',
+    analysisOptions = ['nombre d\'IPU par fichier',
                  'nombre de mots par fichier',
                  'temps par fichier',
-                 ],
-        value='nombre d \'IPU par fichier',
+                 ]
+    fctAnalyseSWBD = widgets.RadioButtons(
+        options=analysisOptions,
+        value=analysisOptions[0],
         description='options d\'analyse',
         disabled=False
     )
@@ -293,9 +269,14 @@ def createSecondCell():
         global discr_data_source
         global discrPlotHandler
         global discrPlot
-        eachFilespeaker = swbd.getSpeakerByFile()
+        eachFilespeakerID = swbd.getSpeakerByFile()
+        eachFilespeaker = []
+        for id in eachFilespeakerID:
+            eachFilespeaker.append(speakers[id])
+
+
         data = 0
-        if 'nombre d \'IPU' in fctAnalyseSWBD.value:
+        if 'nombre d\'IPU' in fctAnalyseSWBD.value:
             data = corpus.getNbOfLinesByFile()
         elif 'nombre de mots' in fctAnalyseSWBD.value:
             data = corpus.getNumberOfWordsByFile()
@@ -307,56 +288,60 @@ def createSecondCell():
             print("unkwnown function in createOrRefreshDisrcPlot :" + str(fctAnalyseSWBD.value))
         dataBySpeakerType = {}
         discriminationCritirion = speakerDiscrimination.value
-        if discriminationCritirion not in eachFilespeaker[0]:
-            print("unrecognized speaker discrimination"+ str(discriminationCritirion))
-            return -1
+        for speakerData in eachFilespeaker:
+            if discriminationCritirion not in speakerData:
+                print("unrecognized speaker discrimination" + str(discriminationCritirion))
+                return -1
 
-        for i  in range(0,len(data)):
+        for i in range(0, len(data)):
             speakerType = eachFilespeaker[i][discriminationCritirion]
             if speakerType in dataBySpeakerType:
                 dataBySpeakerType[speakerType] += 1
             else:
                 dataBySpeakerType[speakerType] = 1
-
         # check if all the keys are in the same type
-        types = [type(k) for k in dataBySpeakerType.keys()]
-        for i in range(0,len(types)-1):
-            if types[i] != types[i+1]:
-                print("all keys are not in the same type (createOrRefreshDiscrPlot)" + str(types[i]) + str(types[i+1]))
+        # types = [type(k) for k in dataBySpeakerType.keys()]
+        # for i in range(0,len(types)-1):
+        #     if types[i] != types[i+1]:
+        #         print("all keys are not in the same type (createOrRefreshDiscrPlot)" + str(types[i]) + str(types[i+1]))
+        #print(dataBySpeakerType.keys()[0])
+        xData = None
+        xAxis = None
+        y = None
+        # if there's too many x axis value and we can group can group them, we group values together
+        # eg 1 2 3 4 -> 1_2 3_4
+        if dataBySpeakerType.keys()[0].isdigit() and len(dataBySpeakerType.keys()) > 10:
 
-        xAxisData = None
-        y =None
-        numberOfKeys = len(dataBySpeakerType.keys())
-        if types[0] == type(""):
-            xAxisData = [k for k in dataBySpeakerType.keys()]
+            for key in dataBySpeakerType.keys():
+                xData.append(key)
+                y = [dataBySpeakerType.keys()[key]]
+            # if there is too many categories we create groups
+            xAxis = np.sort(np.asarray(xData))
+
+            np.split(xAxis, 10)
+
+
+        else :
+            xData = [k for k in dataBySpeakerType.keys()]
+            xAxis = xData
             y = []
             for key in dataBySpeakerType:
                 y.append(dataBySpeakerType[key])
+            # sorting the bars means sorting the range factors
+            xAxis = sorted(xData, key=lambda x: y[xData.index(x)])  # xAxis contains the values that will serve
+            # as the x axis values eg (male, Female)
 
-        # elif types[0] == type(0):
-        #     if numberOfKeys >10:
-        #
-        #     else:
 
         if discr_data_source == None:
-            print(xAxisData)
-            print(y)
-            discr_data_source = ColumnDataSource(data=dict(x=xAxisData, top=y))
-            discrPlot_source = ColumnDataSource(data=dict(x=xAxisData))
-            discrPlot = figure(x_range=xAxisData)
+            discr_data_source = ColumnDataSource(data=dict(x=xData, top=y))
+            discrPlot = figure(x_range=xAxis, tools="")
             bars = VBar(x="x", top="top", width=0.1, fill_color="black")  # segments
             discrPlot.add_glyph(discr_data_source, bars)
             discrPlotHandler = show(discrPlot, notebook_handle=True)
         else:
-            discrPlot.x_range = xAxisData
-            discr_data_source.data = {"x": xAxisData, "top": y}
+            discrPlot.x_range.factors = xAxis
+            discr_data_source.data = {"x": xData, "top": y}
             push_notebook(handle=discrPlotHandler)
-
-            # figure(x_range=xAxisData, title="title", tools="")
-            # segments = VBar(x="x", top="top", bottom="bottom", width=0.01, fill_color="black")  # segments
-            # rectangles = VBar(x="x", top="top", bottom="bottom", width=0.1, fill_color="red")  # rectangles
-            # boxplot.add_glyph(segments_data_source, segments)
-
 
 
 
@@ -371,6 +356,44 @@ def createSecondCell():
     display(hBoxDiscrimination)
     createOrRefreshDiscrPlot()
 # end createSecondCell
+
+
+def createThirdCell():
+    global convMap
+    global speakers
+    global dataBySpeaker_data_source
+    xAxisData = []
+    corpusWithSpeakerData = []  # will contain the corpus that have metadata about speakers
+    for corpus in arrayOfCorpus:
+        if corpus.getName() == "SWBD": # for now is the only corpus that contain metadataa about the speakers
+            corpusWithSpeakerData.append(corpus)
+            xAxisData.append(corpus.getName())
+            break
+    if corpusWithSpeakerData == []:
+        print("Aucun copus ne contient de données sur le locuteur")
+        return -1
+
+    f = figure(x_range=xAxisData)
+    y = []
+    dataBySpeaker = []
+    for corpus in corpusWithSpeakerData:
+        dataBySpeaker.append(zip(corpus.getDurationByFile(), corpus.getSpeakerByFile()))
+    # for item in dataBySpeaker:
+    #     for i in item:
+    #         print(i)
+    speakerData = {}
+    #for i in range()
+
+
+
+    # if dataBySpeaker_data_source == None:
+    #     dataBySpeaker_data_source = ColumnDataSource(data=dict(x_range = y=y))
+    # vbar = VBar(x="x", top="top", width=0.1, fill_color="black")  # segments
+    # f.add_glyph()
+
+# end createThirdCell
+# createThirdCell()
+# createSecondCell()
 
 
 
