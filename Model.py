@@ -226,9 +226,8 @@ class Model:
             for corpus in self.__corpus:
                 if (corpus.getName() in self.__corpusToAnalyzeNames):
                     data = self.analyseCorpus(corpus)
-                    print(data.keys())
                     self.__x = list(data.keys())
-                    self.__xAxisSet = self.__xAxisSet
+                    self.__xAxisSet = self.__x
                     self.__y = list(data.values())
 
     # ---------------------------------------------------------------------------------

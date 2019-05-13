@@ -1,38 +1,48 @@
-from nltk.probability import FreqDist
-from nltk.tokenize import word_tokenize
-import pandas as pd
-from nltk.util import bigrams
-
-
-# sent = "There was Eru, the One, who in Arda is called lluvatar; and he made first the Ainur, the Holy Ones, that were the offspring of his thought, and they were with him before aught else was made. And he spoke to them, propounding to them themes of music; and they sang before him, and he was glad. But for a long while they sang only each alone, or but few together, while the rest hearkened; for each comprehended only that part of me mind of lluvatar from which he came, and in the understanding of their brethren they grew but slowly. Yet ever as they listened they came to deeper understanding, and increased in unison and harmony. "
-first = ["hi","hi"]
-first = " ".join(first)
-second = "HI dogo"
-cfdist = []
-cfdist.append(FreqDist(word_tokenize(first)))
-cfdist.append(FreqDist(word.lower() for word in word_tokenize(second)))
-print(list((cfdist[0] + cfdist[1]).values()))
-# cfdist.append(bigrams(sent))
-#
-#
-# sum = {}
-# for c in cfdist:
-#     for item in c.items():
-#         if item[0] in sum:
-#             sum[item[0]] += item[1]
-#         else:
-#             sum[item[0]] = item[1]
-#
-# print(sum)
-# FreqDist(word.lower() for word in word_tokenize(sent))
-#
-# cfdist[0].count()
+from __future__ import print_function
+from bokeh.plotting import figure
+import numpy as np
+from bokeh.io import output_notebook
+from os import listdir
+from corpusRelated.CorpusReader import createCorpusFromDirectory
+from corpusRelated.Speakers import getSpeakers
+import RadarGraph
+from bokeh.models.renderers import GlyphRenderer
+from bokeh.io import show, push_notebook
+import RadarModel
+import warnings
+from Graph import Graph
+import Cell
+import Model
+import Input
+from bokeh.io import show
 
 
 
-# print(cfdist.items())
-#
-#
-#
-# for item in cfdist.items():
-#     print(item[1])
+metaDataToLoad = ["sex", "age", "geography", "level_study"]
+metaDataFiles = {"SWBD": "./data/metadata/"}
+conversationInfo = {}
+speakers = {}
+for metadata in metaDataFiles:
+    tempConversationInfo, tempspeakers = getSpeakers(metaDataFiles[metadata], metaDataToLoad)
+    conversationInfo[metadata] = tempConversationInfo
+    speakers[metadata] = tempspeakers
+
+
+def initCorpus():
+    global conversationInfo
+    arrayOfCorpus = []
+    sourceDirectory = "./data/corpus/"
+    # search source directory for corpus and fill corpus object with files inside array corpuses
+    for directoryName in listdir(sourceDirectory):
+        newCorpus = createCorpusFromDirectory(directoryName, sourceDirectory + '/' + directoryName, conversationInfo)
+
+        arrayOfCorpus.append(newCorpus)
+    return arrayOfCorpus
+
+# --------------------------------------------------------------------------------------------------------
+
+
+arrayOfCorpus = initCorpus()
+
+
+for

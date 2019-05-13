@@ -42,7 +42,10 @@ class FisherSubUnit:
         else:
             i = 0
             while self.__speakerId == lines[i].split("-")[-2]:
+
                 self.__numberOfWords += lines[i].count(' ') - 2
+                for word in lines[i].split(' ')[0:-2]:
+                    wordsSet.add(word)
                 i += 1
             self.__nbOfLines = i
         f1.close()
@@ -56,7 +59,7 @@ class FisherSubUnit:
             if fctAnalyseIpu(line.split(' ')[0:-2]):
                 nbSpecialIpu += 1
         if self.getNbOfLines() == 0:
-            print("returning 0")
+            print("no lines found")
             return 0
         return nbSpecialIpu / float(self.getNbOfLines())
 
@@ -68,7 +71,7 @@ class FisherSubUnit:
             if fctAnalyseIpu(line.split(' ')[0:-2]):
                 nbSpecialIpu += 1
         if self.getNbOfLines() == 0:
-            print("returning 0")
+            print("no lines found")
             return 0
         return nbSpecialIpu
 
@@ -89,7 +92,7 @@ class FisherSubUnit:
                 nbSpecialIpu += 1
                 meanSizeSpecialIpu += len(words)
         if self.getNbOfLines() == 0:
-            print("returning 0")
+            print("no lines found")
             return 0
         if nbSpecialIpu == 0:
             return 0

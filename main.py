@@ -16,7 +16,7 @@ import Cell
 import Model
 import Input
 from bokeh.io import show
-warnings.filterwarnings("ignore")  # to avoid the displaying of a warning caused by the bokeh library...
+#warnings.filterwarnings("ignore")  # to avoid the displaying of a warning caused by the bokeh library...
 
 output_notebook()
 
@@ -133,12 +133,14 @@ def createSecondCell():
 
 def createThirdCell():
     global arrayOfCorpus
-    #  array with only 2 corpus to run this cell quickly
+    #  array with no every corpus to test code
     test = []
-    test.append(arrayOfCorpus[4])
+    # test.append(arrayOfCorpus[0])
+    # test.append(arrayOfCorpus[1])
+    # test.append(arrayOfCorpus[3])
+    # arrayOfCorpus = test
 
     cell = Cell.Cell()
-    #arrayOfCorpus = test
 
     optionsCorpus = []
     for corpus in arrayOfCorpus:
@@ -156,11 +158,10 @@ def createFourthCell():
 
     testCorpus = [arrayOfCorpus[0]]
     #testCorpus.append(arrayOfCorpus[1])
-    model = Model.Model(testCorpus, monocorpusAnalysis=True)
-    model.setTypeOfAnalysis("freqDist")
+
 
     graph = Graph()
-    graph.addGlyph("column", "VBar", model, option1=0.01, option2="#3AC0C3")
+
 
     optionsCorpus = []
     for corpus in testCorpus:
@@ -168,15 +169,14 @@ def createFourthCell():
 
     inputCorpus = Input.Input("radio", "corpusNames", graph, optionsCorpus, "Corpus")
     cell.addInput(" ", inputCorpus)
+    model = Model.Model(testCorpus, monocorpusAnalysis=True)
+    model.setTypeOfAnalysis("freqDist")
     model.addAssociatedInput(inputCorpus)
 
     cell.updateDisplay()
+    graph.addGlyph("column", "VBar", model, option1=0.1, option2="#3AC0C3")
     graph.update()
 
-
-
-
-#print(arrayOfCorpus[0].distFrequency().items())
 
 
 

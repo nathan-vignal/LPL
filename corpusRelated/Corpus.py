@@ -92,7 +92,7 @@ class Corpus():
 
             for file in self.__files:
                 sum += file.getNbWords()
-            self.__numberOfWords = sum
+            self.__numberOfWords = sum / len(self.__files)
         return self.__numberOfWords
 
     def getName(self):
@@ -110,55 +110,70 @@ class Corpus():
     def getNbOfFiles(self):
         return len(self.__files)
 
-    def getRatioSpecialIpu(self, ipuType):
+    def getRatioSpecialIpu(self, ipuType, forEachFile = False):
 
-        fct = stringToIpuFct(ipuType)
-
-        if fct is None:
-            print("unknow ipuType in Corpus.py getNbSpecialIPu")
-            return -1
-        mean = 0
-        for file in self.__files:
-            mean += file.getRatioSpecialIpu(fct)
-        return mean / len(self.__files)
-
-    def getSpecialIpuMeanSize(self, ipuType):
         fct = stringToIpuFct(ipuType)
         if fct is None:
             print("unknow ipuType in Corpus.py getNbSpecialIPu")
             return -1
-        mean = 0
+        temp = []
         for file in self.__files:
-            mean += file.getMeanSizeSpecialIpu(fct)
-        return mean / float(len(self.__files))
+            temp.append(file.getRatioSpecialIpu(fct))
+        if forEachFile == False:
+            return sum(temp) / float(len(self.__files))
+        return temp
 
-
-    def getMeanNbUniqueWords(self):
-        mean = 0
+    def getSpecialIpuMeanSize(self, ipuType, forEachFile = False):
+        fct = stringToIpuFct(ipuType)
+        if fct is None:
+            print("unknow ipuType in Corpus.py getNbSpecialIPu")
+            return -1
+        temp = []
         for file in self.__files:
-            mean += file.getNbUniqueWords()
-        return mean / len(self.__files)
+            temp.append(file.getMeanSizeSpecialIpu(fct))
+        if forEachFile == False:
+            return sum(temp) / float(len(self.__files))
+        return temp
 
-    def getMeanLexicalRichness(self):
-        mean = 0
+
+    def getMeanNbUniqueWords(self, forEachFile = False):
+
+        temp = []
+        for file in self.__files:
+            temp.append(file.getNbUniqueWords())
+        if forEachFile == False:
+            return sum(temp) / float(len(self.__files))
+        return temp
+
+    def getMeanLexicalRichness(self, forEachFile = False):
+
+        temp = []
         for file in self.__files:
             nbWords = file.getNbWords()
-            if nbWords != 0:
-                 mean += file.getNbUniqueWords() / float(nbWords)
-        return mean / len(self.__files)
+            if nbWords == 0:
+                temp.append(0)
+            else:
+                temp.append(file.getNbUniqueWords() / float(nbWords))
+        if forEachFile == False :
+            return sum(temp) / float(len(self.__files))
+        return temp
 
-    def countSpecialWords(self, specialWords):
-        mean = 0
+    def countSpecialWords(self, specialWords, forEachFile = False):
+        temp = []
         for file in self.__files:
-            mean += file.countSpecialWords(specialWords)
-        return mean / float(len(self.__files))
+            temp.append(file.countSpecialWords(specialWords))
+
+        if forEachFile == False:
+            return sum(temp) / float(len(self.__files))
+        return temp
 
     def distFrequency(self):
 
         sum = FreqDist()
-        for file in self.__files:
-            sum += file.distFrequency()
-            print("one more")
+        # for file in self.__files:
+        #     sum += file.distFrequency()
+        #     print("one more")
+        sum = self.__files[0].distFrequency()
         return sum
 
 

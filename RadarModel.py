@@ -99,9 +99,11 @@ class RadarModel:
 
             else:
                 if nbWords != 0:
-                    temp.append(
-                        corpus.countSpecialWords(open("./corpusRelated/txt/fill_fr", "r").readlines()[0].split(',')
-                                                 ) / float(nbWords))
+
+                    nbSpecialWords = corpus.countSpecialWords(open("./corpusRelated/txt/fill_fr", "r").readlines()[0].split(',')
+                                                 )
+                    temp.append(nbSpecialWords / float(nbWords))
+
                 else:
                     temp.append(0)
 
