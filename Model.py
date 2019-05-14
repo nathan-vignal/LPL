@@ -6,7 +6,7 @@ import math
 import operator
 class Model:
 
-    def __init__(self, corpus, speakersInfos=None, monocorpusAnalysis= False):
+    def __init__(self, corpus, speakersInfos=None, monocorpusAnalysis= False, orderXaxis=False):
         self.__corpus = corpus
         self.__associatedInputs = []
         self.__corpusToAnalyzeNames = "*"
@@ -20,6 +20,7 @@ class Model:
         self.__typeOfAnalysis = None  # eg(number of lines)
         self.__discriminationCriterion = None  # eg age, sex
         self.__speakersInfos = speakersInfos
+        self.__orderXaxis = orderXaxis
 
 
     def getXAxisSet(self):
@@ -49,7 +50,6 @@ class Model:
         :param corpus: Corpus instance
         :return:
         """
-
         if not isinstance(self.__typeOfAnalysis, str):
             print("typeOfAnalysis must be a string")
             return -1
@@ -66,6 +66,7 @@ class Model:
         elif "words/IPU" in self.__typeOfAnalysis:
             data = pd.Series(corpus.getNumberOfWordsByFile())
             ipuParFichier = corpus.getNbOfLinesByFile()
+
             for i in range(0, len(data)):
                 data[i] /= ipuParFichier[i]
 
@@ -110,6 +111,7 @@ class Model:
                 self.__x.append(corpus.getName())
                 data = self.analyseCorpus(corpus)
                 self.__bottom.append(data.min())
+
                 self.__y.append(data.max())
                 self.__q1.append(data.quantile(0.25))
                 self.__q3.append(data.quantile(0.75))
@@ -165,7 +167,7 @@ class Model:
                 isDigitType = False
                 break
 
-        xData = []
+
         xAxis = set()
         y = []
 
@@ -184,8 +186,6 @@ class Model:
 
                 y.append(value)
             xData = list(xAxis)
-
-
         else:
 
             xData = [k for k in dataBySpeakerType.keys()]
@@ -227,8 +227,9 @@ class Model:
                 if (corpus.getName() in self.__corpusToAnalyzeNames):
                     data = self.analyseCorpus(corpus)
                     self.__x = list(data.keys())
-                    self.__xAxisSet = self.__x
                     self.__y = list(data.values())
+
+        self.defXAxisSet()
 
     # ---------------------------------------------------------------------------------
 
@@ -263,3 +264,15 @@ class Model:
         self.__associatedInputs.append(input)
         input.observe(self)
         self.refreshInputInfos()
+
+    def defXAxisSet(self):
+        if self.__x is None:
+            return
+        if not self.__orderXaxis:
+            self.__xAxisSet = set(self.__x)
+        else:
+            xy = zip(self.__y, self.__x)
+
+            xy = sorted(xy, key=lambda y: y[0])
+
+            self.__xAxisSet = [i[1] for i in xy]

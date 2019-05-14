@@ -96,6 +96,7 @@ class Graph:
         :param name: str
         :return:
         """
+
         if name not in self.__glyphs:
             print("glyph name doesn't exist")
             return -1
@@ -118,7 +119,13 @@ class Graph:
             print("glyph name doesn't exist")
             return -1
         if bottom is None:
+            print("tried")
+            print("debug:"+str(x)) #debug
+
+            print("debug:"+str(y)) #debug
+
             self.__glyphs[name][1].data.update(x=x, top=y)
+            print(self.__glyphs[name][1].data)
         else:
             self.__glyphs[name][1].data.update(x=x, bottom=bottom, top=y)
 
@@ -127,8 +134,6 @@ class Graph:
     def update(self):
         for glyphName in self.__glyphs:
             model = self.__glyphs[glyphName][2]
-            #print(model.getY())
-            #print(model.getX())
             if "segment" in glyphName:
                 self.changeGlyph(glyphName, model.getX(), model.getY(), model.getBottom())
             elif "barre" in glyphName:
@@ -145,29 +150,20 @@ class Graph:
                 plotXvalues = model.getX()
                 xy = zip(plotYvalues, plotXvalues)
 
-                xy = sorted(xy, key= lambda y: y[0])
-                print()
+                xy = sorted(xy, key=lambda y: y[0])
 
-                self.setXAxis([i[1] for i in xy])#[i[0] for i in xy])
+                self.setXAxis([i[1] for i in xy])
 
-                print("changed values")
-                #self.changeGlyph(glyphName, ['CID', 'DVD', 'Fisher', 'MTX', 'SWBD'], [1424, 670, 163, 116, 229])
-
-            #self.setXAxis(sorted(list(model.getX())))
-
-            #self.setXAxis(list(model.getXAxisSet()))
-
-
-
-
+            self.setXAxis(list(model.getXAxisSet()))
 
 
         if self.__handler is None:
-            print("showing graph")
+
             self.__handler = show(self.__figure, notebook_handle=True)
+            print("debug"+str(self.__handler))  # debug
         else:
-            print("pushing notebook")
+            print("debug"+str(self.__handler))  # debug
             push_notebook(handle=self.__handler)
 
-#-----------------end class------------------
+    # -----------------end class------------------
 

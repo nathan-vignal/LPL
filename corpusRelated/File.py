@@ -1,9 +1,8 @@
 import copy
 import math
 from nltk.probability import FreqDist
-from nltk.tokenize import word_tokenize
-from collections import Counter
 import io
+
 class File:
 
 
@@ -160,7 +159,6 @@ class File:
 
         if self.__corpusType == 1:
             words = content.split(self.delimiter)[3].split('.')  # eg: cid2_AB_- 0034.7741 0036.2541 le.petit.se.gratte
-
             return words
 
         elif self.__corpusType == 2:
@@ -175,18 +173,20 @@ class File:
             raise TypeError("unknown corpusType in file.py")
 
 
+
+
     def distFrequency(self):
         """
         generate a disctribution frequency of words for this file
         :return:
         """
         if self.__distFreq is None:
-            f1 = io.open(self.path, "r", encoding='utf-8')
+            f1 = open(self.path, "r")
             lines = f1.readlines()
             arrayDistFrequency = []
             for line in lines:
 
-                arrayDistFrequency.append(FreqDist(word.lower() for word in self.readIpu(line.encode('utf-8'))))
+                arrayDistFrequency.append(FreqDist(word.lower() for word in self.readIpu(line)))
 
             sum = FreqDist()
             for distFrequency in arrayDistFrequency:

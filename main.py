@@ -16,7 +16,7 @@ import Cell
 import Model
 import Input
 from bokeh.io import show
-#warnings.filterwarnings("ignore")  # to avoid the displaying of a warning caused by the bokeh library...
+warnings.filterwarnings("ignore")  # to avoid the displaying of a warning caused by the bokeh library...
 
 output_notebook()
 
@@ -64,6 +64,8 @@ arrayOfCorpus = initCorpus()
 
 def createFirstCell():
     # radioButton to choose how to analyze the data
+    #global arrayOfCorpus    ##################################### test
+    #arrayOfCorpus = [arrayOfCorpus[0]] ##################################### test
     cell = Cell.Cell()
     graph = Graph()
     options = ['number of IPU by file',
@@ -169,7 +171,7 @@ def createFourthCell():
 
     inputCorpus = Input.Input("radio", "corpusNames", graph, optionsCorpus, "Corpus")
     cell.addInput(" ", inputCorpus)
-    model = Model.Model(testCorpus, monocorpusAnalysis=True)
+    model = Model.Model(testCorpus, monocorpusAnalysis=True, orderXaxis=True)
     model.setTypeOfAnalysis("freqDist")
     model.addAssociatedInput(inputCorpus)
 

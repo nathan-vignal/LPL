@@ -78,7 +78,7 @@ class RadarModel:
 
             temp = []
             temp.append(corpus.getMeanLexicalRichness())
-            nbWords = corpus.getNumberOfWords()
+            nbWords = corpus.getMeanNumberOfWords()
 
             if corpus.getName() in "SWBD Fisher":
                 if nbWords != 0:

@@ -17,21 +17,25 @@ class Corpus():
         """
         Corpus.delimiters = {'CID': ' ', 'DVD': ',', 'MTX': ',', 'SWBD': ' '}
         self.__name = name
+        self.__language = None
+        self.__delimiter = None
+        self.getCorpusInfo()
         self.__type = type
         self.__path = path
         self.__files = []
         self.__nbOfLines = 0
-        self.__numberOfLinesByFile = []
+        self.__numberOfLinesByFile = None
         self.__durationByFile = []
         self.__numberOfWords = None
-        self.__numberOfWordsByFile = []
-        if type in Corpus.delimiters.keys():
-            self.delimiter = Corpus.delimiters[type]
-        else:
-            if type == 'Fisher':
-                self.delimiter = ""
-            else:
-                print("wrong type : " + type)
+        self.__numberOfWordsByFile = None
+        #
+        # if type in Corpus.delimiters.keys():
+        #     self.delimiter = Corpus.delimiters[type]
+        # else:
+        #     if type == 'Fisher':
+        #         self.delimiter = ""
+        #     else:
+        #         print("wrong type : " + type)
 
     def addElements(self, elements):
         """
@@ -59,9 +63,11 @@ class Corpus():
          calculate __numberOfLinesByFile it if it's not already done and return it
         :return: __numberOfLinesByFile
         """
-        if self.__numberOfLinesByFile == []:
+        if self.__numberOfLinesByFile == None:
+            self.__numberOfLinesByFile = []
             for file in self.__files:
                 self.__numberOfLinesByFile.append(file.getNbOfLines())
+
         return copy.copy(self.__numberOfLinesByFile)
 
 
@@ -81,19 +87,25 @@ class Corpus():
         calculate __numberOfWordsByFile it if it's not already done and return it
         :return: __numberOfWordsByFile
         """
-        if self.__numberOfWordsByFile == []:
+        if self.__numberOfWordsByFile is None:
+            self.__numberOfWordsByFile = []
             for file in self.__files:
                 self.__numberOfWordsByFile.append(file.getNbWords())
         return copy.copy(self.__numberOfWordsByFile)
 
-    def getNumberOfWords(self):
+    def getMeanNumberOfWords(self, forEachFile = False):
         if self.__numberOfWords is None:
-            sum = 0
 
-            for file in self.__files:
-                sum += file.getNbWords()
-            self.__numberOfWords = sum / len(self.__files)
-        return self.__numberOfWords
+            if self.__numberOfWordsByFile is None:
+                self.getNumberOfWordsByFile()
+
+            self.__numberOfWords = sum(self.__numberOfWordsByFile)
+
+        if forEachFile:
+            return copy.copy(self.__numberOfWordsByFile)
+        else:
+            return self.__numberOfWords / len(self.__files)
+
 
     def getName(self):
         return copy.copy(self.__name)
@@ -119,7 +131,7 @@ class Corpus():
         temp = []
         for file in self.__files:
             temp.append(file.getRatioSpecialIpu(fct))
-        if forEachFile == False:
+        if not forEachFile:
             return sum(temp) / float(len(self.__files))
         return temp
 
@@ -176,6 +188,29 @@ class Corpus():
         sum = self.__files[0].distFrequency()
         return sum
 
+    def getCorpusInfo(self):
+        f1 = open("./corpusRelated/txt/CorpusInfo", "r")
+        lines = f1.readlines()
+        for line in lines:
+            line = line.split("\ ")
+            if line[0] == self.__name:
+                line = line[1].split('\,')
+                for info in line:
+                    data = info.split('\:')
+                    if data[0] == "language":
+                        self.__language = data[1]
+                    elif data [0] == "delimiter":
+                        self.__delimiter = data[1]
+                    else:
+                        print('unknown corpus info'+ data[0])
+                return
+        print("unknown corpus name"+ self.__name)
+        return
 
 
+    def getDelimiter(self):
+        return copy.copy(self.__delimiter)
+
+    def getLanguage(self):
+        return copy.copy(self.__language)
 

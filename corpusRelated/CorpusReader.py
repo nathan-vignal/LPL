@@ -40,7 +40,7 @@ def createCorpusFromDirectory(type, path, convMap):
                             currentFile = FileWithSpeaker.FileWithSpeaker(
                                 path+ '/' + filename
                                 + '/' + swbdDirectory + '/' + file
-                                , newCorpus.delimiter
+                                , newCorpus.getDelimiter()
                                 , speakerId)
                             files.append(currentFile)
         newCorpus.addElements(files)
@@ -49,7 +49,7 @@ def createCorpusFromDirectory(type, path, convMap):
     for filename in listdir(path):
         # the directory for switchboard has a specific architecture
 
-        currentFile = File.File(path + "/" + filename, newCorpus.delimiter)
+        currentFile = File.File(path + "/" + filename, newCorpus.getDelimiter())
         files.append(currentFile)
 
     newCorpus.addElements(files)
