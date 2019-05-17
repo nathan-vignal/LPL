@@ -94,8 +94,6 @@ class Input:
             print(e)
         # we have to limit onChange to only one activation by because ipywidget.observe trigger multiple time
 
-
-
         if isinstance(widget.new, bool) or isinstance(widget.new, str):
             self.__onChanges()
             self.graph.update()

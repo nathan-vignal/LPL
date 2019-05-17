@@ -22,7 +22,7 @@ class Graph:
     def addGlyph(self, name, glyphType, model, option1=None, option2=None):
         """
         create a new glyph and add it to the figure
-        :param name:
+        :param name: will change behavior in Graph.update
         :param glyphType: determine what type of glyp this function will create
         :param option1: width of the bar
         :param option2: color of the bar
@@ -115,9 +115,10 @@ class Graph:
         """
         if not(isinstance(x, list) and isinstance(y, list)):
             print("x and y must be lists. in :changeGlyph")
+            return
         if name not in self.__glyphs:
             print("glyph name doesn't exist")
-            return -1
+            return
         if bottom is None:
 
             self.__glyphs[name][1].data.update(x=x, top=y)
@@ -133,12 +134,13 @@ class Graph:
                 self.changeGlyph(glyphName, model.getX(), model.getY(), model.getBottom())
             elif "barre" in glyphName:
                 self.changeGlyph(glyphName, model.getX(), model.getQ3(), model.getQ1())
+            elif "column" in glyphName:
+                self.changeGlyph(glyphName, model.getX(), model.getY())
             else:
 
                 self.__figure.add_tools(HoverTool())
                 self.__figure.add_tools(WheelZoomTool())
                 self.__figure.add_tools(PanTool())
-
 
                 self.changeGlyph(glyphName, model.getX(), model.getY())
                 plotYvalues = model.getY()
@@ -151,11 +153,20 @@ class Graph:
 
             self.setXAxis(list(model.getXAxisSet()))
 
-
         if self.__handler is None:
 
             self.__handler = show(self.__figure, notebook_handle=True)
+            # print(self.__figure)
+            # print(self.__glyphs["barres"][1])
+            # print(self.__handler)
+
         else:
+            # print(self.__figure)
+            # print(self.__glyphs["barres"][1])
+            #
+            # print("debug"+str(self.__glyphs["barres"][1].data)) #debug
+            # print("pushed")
+            # print(self.__handler)
             push_notebook(handle=self.__handler)
 
     # -----------------end class------------------
