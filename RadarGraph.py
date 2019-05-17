@@ -43,7 +43,6 @@ class RadarGraph:
         """
         if self.__plot is not None:
             self.__plot.select({'name': 'toDelete'}).visible = False
-            print(flist)
         if flist == []:
             return
         if colors is None:
@@ -84,7 +83,7 @@ class RadarGraph:
             ticSize = 0.01
             for i in range(0, len(x1)):
                 p.segment(x0=origine, y0=origine, x1=x1[i],
-                          y1=y1[i], color="black", line_width=1, name='toDelete')
+                          y1=y1[i], color="black", line_width=1)
                 if x1[i] == origine:
                     x1[i] = origine + 0.001  # prevent deviding by 0
                 if y1[i] == origine:
@@ -115,7 +114,7 @@ class RadarGraph:
                     rulerY0.append(centreY + solution * leadingCoefficientRuler)
                     rulerY1.append(centreY - solution * leadingCoefficientRuler)
 
-                p.segment(x0=rulerX0, y0=rulerY0, x1=rulerX1, y1=rulerY1, color="black", line_width=0.5, name='toDelete')
+                p.segment(x0=rulerX0, y0=rulerY0, x1=rulerX1, y1=rulerY1, color="black", line_width=0.5)
 
         center = 0.5
         text.append("")
@@ -130,8 +129,8 @@ class RadarGraph:
         y = [v[1] for v in verts]
         if self.__plot is None:
             self.__plot = figure(title=self.__title)
+            drawRadar(x, y, self.__plot, 10)
 
-        drawRadar(x, y, self.__plot, 10)
         for i in range(0, len(verts)):
             self.__plot.segment(x0=0.5, y0=0.5, x1=x[i],
                       y1=y[i], color="black", line_width=1, name='toDelete')

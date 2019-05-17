@@ -98,7 +98,6 @@ class Input:
 
         if isinstance(widget.new, bool) or isinstance(widget.new, str):
             self.__onChanges()
-
             self.graph.update()
 
     def getDataType(self):

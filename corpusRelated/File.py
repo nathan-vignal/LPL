@@ -7,14 +7,13 @@ class File:
 
 
 
-    def __init__(self, path, delimiter):
-        self.delimiter = delimiter
+    def __init__(self, path, corpus):
+        self.__corpus = corpus
         self.path = path
         self.__nbOfLines = 0
         self.__duration = 0
         self.__numberOfWords = 0
         self.__numberUniqueWords = 0
-        self.__corpusType = None
         self.initProperties()
 
     def initProperties(self):
@@ -24,17 +23,9 @@ class File:
         f1 = open(self.path, "r")
         lines = f1.readlines()
         self.__duration = math.floor(
-            float(lines[-1].split(self.delimiter)[2]) - float(lines[0].split(self.delimiter)[1]))  # init duration
+            float(lines[-1].split(self.__corpus.getDelimiter())[2]) - float(lines[0].split(self.__corpus.getDelimiter())[1]))  # init duration
 
-        if "/CID/" in self.path:
-            self.__corpusType = 1
-        elif "/SWBD/" in self.path:
-            self.__corpusType = 2
-        elif any(x in self.path for x in (['/MTX/', '/DVD/'])):
-            self.__corpusType = 3
-        else:
-            print("unknown filetype in File.initProperties")
-            return
+
         uniqueWords = set()
         self.__distFreq = None
 
@@ -156,21 +147,17 @@ class File:
             raise TypeError(content)
 
         content = content.replace("\n", "").lower()
+        content = content.split(self.__corpus.getDelimiter())
 
-        if self.__corpusType == 1:
-            words = content.split(self.delimiter)[3].split('.')  # eg: cid2_AB_- 0034.7741 0036.2541 le.petit.se.gratte
-            return words
+        end = self.__corpus.getIndexEndContent()
+        if self.__corpus.getIndexEndContent() == "last":
+            end = len(content)
 
-        elif self.__corpusType == 2:
-            words = content.split(' ')[3:]  # eg: sw2001A-ms98-a-0002 0.977625 11.561375 hi um yeah
-            return words
-
-        elif self.__corpusType == 3:
-            words = content.split(self.delimiter)[3].split(' ')  # eg: DVD_AG_1,0031.5941,0032.9824,euh ouais ouais
-            return words
-
-        else:
-            raise TypeError("unknown corpusType in file.py")
+        content = content[self.__corpus.getIndexStartContent():end]
+        words = []
+        for item in content:
+            words.extend(item.split(self.__corpus.getContentDelimiter()))
+        return words
 
 
 

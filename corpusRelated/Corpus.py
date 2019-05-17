@@ -15,10 +15,12 @@ class Corpus():
         :param path: str path to the file
         :param name: name of the corpus
         """
-        Corpus.delimiters = {'CID': ' ', 'DVD': ',', 'MTX': ',', 'SWBD': ' '}
         self.__name = name
         self.__language = None
         self.__delimiter = None
+        self.__indexStartContent = None
+        self.__indexEndContent = None
+        self.__contentDelimiter = None
         self.getCorpusInfo()
         self.__type = type
         self.__path = path
@@ -28,14 +30,6 @@ class Corpus():
         self.__durationByFile = []
         self.__numberOfWords = None
         self.__numberOfWordsByFile = None
-        #
-        # if type in Corpus.delimiters.keys():
-        #     self.delimiter = Corpus.delimiters[type]
-        # else:
-        #     if type == 'Fisher':
-        #         self.delimiter = ""
-        #     else:
-        #         print("wrong type : " + type)
 
     def addElements(self, elements):
         """
@@ -107,9 +101,6 @@ class Corpus():
             return self.__numberOfWords / len(self.__files)
 
 
-    def getName(self):
-        return copy.copy(self.__name)
-
     def getSpeakerByFile(self):
         if self.__name != "SWBD":
             print("no speakers for"+self.__name)
@@ -147,7 +138,6 @@ class Corpus():
             return sum(temp) / float(len(self.__files))
         return temp
 
-
     def getMeanNbUniqueWords(self, forEachFile = False):
 
         temp = []
@@ -182,10 +172,8 @@ class Corpus():
     def distFrequency(self):
 
         sum = FreqDist()
-        # for file in self.__files:
-        #     sum += file.distFrequency()
-        #     print("one more")
-        sum = self.__files[0].distFrequency()
+        for file in self.__files:
+            sum += file.distFrequency()
         return sum
 
     def getCorpusInfo(self):
@@ -196,21 +184,56 @@ class Corpus():
             if line[0] == self.__name:
                 line = line[1].split('\,')
                 for info in line:
+
                     data = info.split('\:')
                     if data[0] == "language":
                         self.__language = data[1]
                     elif data [0] == "delimiter":
                         self.__delimiter = data[1]
+                    elif data[0] == "contentDelimiter":
+                        self.__contentDelimiter = data[1]
+                    elif data[0] == "indexStartContent":
+                        self.__indexStartContent = int(data[1])
+                    elif data[0] == "indexEndContent":
+                        if data[1].isdigit():
+                            self.__indexEndContent = int(data[1])
+                        else :
+                            self.__indexEndContent = data[1]
                     else:
-                        print('unknown corpus info'+ data[0])
+                        print('unknown corpus info' + data[0])
                 return
-        print("unknown corpus name"+ self.__name)
+        print("unknown corpus name" + self.__name)
         return
 
+    def getName(self):
+        if self.__name == None:
+            print("self.__name not set")
+        return copy.copy(self.__name)
 
     def getDelimiter(self):
+        if self.__delimiter == None:
+            print("self.__delimiter not set")
         return copy.copy(self.__delimiter)
 
     def getLanguage(self):
+        if self.__language == None:
+            print("self.__language not set")
         return copy.copy(self.__language)
+
+    def getContentDelimiter(self):
+        if self.__contentDelimiter == None:
+            print("content delimiter not set")
+        return copy.copy(self.__contentDelimiter)
+
+    def getIndexStartContent(self):
+        if self.__indexStartContent == None:
+            print("self.__indexStartContent not set")
+        return copy.copy(self.__indexStartContent)
+
+    def getIndexEndContent(self):
+        if self.__indexEndContent == None:
+            print("self.__indexEndContent not set")
+        return copy.copy(self.__indexEndContent)
+
+
 

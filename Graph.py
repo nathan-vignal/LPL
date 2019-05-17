@@ -119,13 +119,8 @@ class Graph:
             print("glyph name doesn't exist")
             return -1
         if bottom is None:
-            print("tried")
-            print("debug:"+str(x)) #debug
-
-            print("debug:"+str(y)) #debug
 
             self.__glyphs[name][1].data.update(x=x, top=y)
-            print(self.__glyphs[name][1].data)
         else:
             self.__glyphs[name][1].data.update(x=x, bottom=bottom, top=y)
 
@@ -160,9 +155,7 @@ class Graph:
         if self.__handler is None:
 
             self.__handler = show(self.__figure, notebook_handle=True)
-            print("debug"+str(self.__handler))  # debug
         else:
-            print("debug"+str(self.__handler))  # debug
             push_notebook(handle=self.__handler)
 
     # -----------------end class------------------

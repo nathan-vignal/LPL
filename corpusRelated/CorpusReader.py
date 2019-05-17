@@ -3,7 +3,7 @@ from os import listdir
 
 
 def createCorpusFromDirectory(type, path, convMap):
-    #path = sourceDirectory + directoryName
+
     newCorpus = Corpus.Corpus(type, path, type)
 
     files = []
@@ -40,16 +40,17 @@ def createCorpusFromDirectory(type, path, convMap):
                             currentFile = FileWithSpeaker.FileWithSpeaker(
                                 path+ '/' + filename
                                 + '/' + swbdDirectory + '/' + file
-                                , newCorpus.getDelimiter()
-                                , speakerId)
+                                , speakerId
+                                , newCorpus)
                             files.append(currentFile)
         newCorpus.addElements(files)
         return newCorpus
-    # case the corpus is mtx, cid or dvd
+
+    # case the corpus is something else with all files directly in the directory
     for filename in listdir(path):
         # the directory for switchboard has a specific architecture
 
-        currentFile = File.File(path + "/" + filename, newCorpus.getDelimiter())
+        currentFile = File.File(path + "/" + filename, newCorpus)
         files.append(currentFile)
 
     newCorpus.addElements(files)

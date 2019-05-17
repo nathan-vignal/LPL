@@ -1,5 +1,6 @@
-SWBD\ language\:en\,delimiter\: \:
-Fisher\ language\:en\,delimiter\:\:
-CID\ language\:fr\,delimiter\: \:
-DVD\ language\:fr\,delimiter\:,\:
-MTX\ language\:fr\,delimiter\:,\:
+SWBD\ language\:en\,delimiter\: \,contentDelimiter\: \,indexStartContent\:3\,indexEndContent\:last\:
+Fisher\ language\:en\,delimiter\: \,contentDelimiter\: \,indexStartContent\:0\,indexEndContent\:-2\:
+CID\ language\:fr\,delimiter\: \,contentDelimiter\:.\,indexStartContent\:3\,indexEndContent\:last\:
+DVD\ language\:fr\,delimiter\:,\,contentDelimiter\: \,indexStartContent\:3\,indexEndContent\:last\:
+MTX\ language\:fr\,delimiter\:,\,contentDelimiter\: \,indexStartContent\:3\,indexEndContent\:last\:
+new\ language\:fr\,delimiter\: \,contentDelimiter\:.\,indexStartContent\:3\,indexEndContent\:last\:

@@ -15,7 +15,10 @@ import Cell
 import Model
 import Input
 from bokeh.io import show
-
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
 
 
 metaDataToLoad = ["sex", "age", "geography", "level_study"]
@@ -45,13 +48,15 @@ def initCorpus():
 arrayOfCorpus = initCorpus()
 
 
+# ---------------------------------------------------------
 
 data = []
+arrayOfCorpus = [arrayOfCorpus[0]]  # subarray used for test only
+
 for corpus in arrayOfCorpus:
     corpusData = []
-
     # variable
-    corpusData.append(corpus.getMeanLexicalRichness(forEachFile=True))
+    corpusData.append(corpus.getMeanLexicalRichness(forEachFile=True),)
 
     # variable
     nbWords = corpus.getMeanNumberOfWords(forEachFile=True)
@@ -71,10 +76,10 @@ for corpus in arrayOfCorpus:
     corpusData.append(temp)
 
     # variable
-    corpusData.append(corpus.getRatioSpecialIpu("feedback_"+corpus.getLanguage()))
+    corpusData.append(corpus.getRatioSpecialIpu("feedback_"+corpus.getLanguage(), forEachFile=True))
 
     # variable
-    corpusData.append(corpus.getSpecialIpuMeanSize("not feedback_"+corpus.getLanguage()))
+    corpusData.append(corpus.getSpecialIpuMeanSize("not feedback_"+corpus.getLanguage(), forEachFile=True))
 
     # variable
 
@@ -95,8 +100,77 @@ for corpus in arrayOfCorpus:
         else:
             temp.append(0)
     corpusData.append(temp)
+
+    # label
+    corpusName = corpus.getName()
+    corpusData.append([corpusName] * corpus.getNbOfFiles())
+    ####
     data.append(corpusData)
 
-print(data)
 
-#  end catching data
+
+tempData = []
+for i in range(0, len(data[0])):
+    temp = []
+
+    for corpusData in data:
+        temp.extend(corpusData[i])
+    tempData.append(pd.Series(temp))
+
+data = tempData
+
+dataFrame = pd.DataFrame({'lexical richness': data[0]
+                             , 'ratio fill': data[1]
+                             , 'ratio ipu feedback': data[2]
+                             , 'mean size not feedback IPU': data[3]
+                             , 'formality ratio': data[4]
+                             , 'label': data[5]})
+
+print(dataFrame)
+
+# starting processing
+features = ['lexical richness'
+    , 'ratio fill'
+    , 'ratio ipu feedback'
+    , 'mean size not feedback IPU'
+    , 'formality ratio']
+# Separating out the features
+x = dataFrame.loc[:, features].values
+print(x)
+# Separating out the target
+y = dataFrame.loc[:,['label']].values
+# Standardizing the features
+x = StandardScaler().fit_transform(x)
+
+pca = PCA(n_components=2)
+principalComponents = pca.fit_transform(x)
+principalDf = pd.DataFrame(data = principalComponents
+             , columns=['principal component 1', 'principal component 2'])
+principalDf = principalDf[principalDf['principal component 1'] < 4]
+principalDf = principalDf[principalDf['principal component 2'] < 4]
+
+finalDf = pd.concat([principalDf, dataFrame[['label']]], axis = 1)
+
+fig = plt.figure(figsize = (8,8))
+ax = fig.add_subplot(1,1,1)
+ax.set_xlabel('Principal Component 1', fontsize = 15)
+ax.set_ylabel('Principal Component 2', fontsize = 15)
+ax.set_title('2 component PCA', fontsize = 20)
+
+labels = []
+for corpus in arrayOfCorpus:
+    labels.append(corpus.getName())
+
+colors = ['red', 'green', 'blue', 'pink', 'black']
+for target, color in zip(labels,colors):
+    indicesToKeep = finalDf['label'] == target
+    ax.scatter(finalDf.loc[indicesToKeep, 'principal component 1']
+               , finalDf.loc[indicesToKeep, 'principal component 2']
+               , c = color
+               , s = 5)
+ax.legend(labels)
+ax.grid()
+
+plt.show()
+
+

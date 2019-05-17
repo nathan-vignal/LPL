@@ -7,6 +7,7 @@ from os import listdir
 from corpusRelated.CorpusReader import createCorpusFromDirectory
 from corpusRelated.Speakers import getSpeakers
 import RadarGraph
+from DimensionalityReduction import analysisInManyDimensions, pca, displayPlot
 from bokeh.models.renderers import GlyphRenderer
 from bokeh.io import show, push_notebook
 import RadarModel
@@ -139,7 +140,7 @@ def createThirdCell():
     test = []
     # test.append(arrayOfCorpus[0])
     # test.append(arrayOfCorpus[1])
-    # test.append(arrayOfCorpus[3])
+    # test.append(arrayOfCorpus[4])
     # arrayOfCorpus = test
 
     cell = Cell.Cell()
@@ -178,6 +179,11 @@ def createFourthCell():
     cell.updateDisplay()
     graph.addGlyph("column", "VBar", model, option1=0.1, option2="#3AC0C3")
     graph.update()
+
+dataFrame = analysisInManyDimensions([arrayOfCorpus[4]])
+print("end main.py")
+
+
 
 
 

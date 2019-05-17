@@ -17,13 +17,15 @@ class RadarModel:
         self.__corpusColor = {}
         self.__graph = graph
         colors = ["black", "blue", "red", "yellow", "green"
-                , "purple", "white", "brown", "orange", "pink", "black"]
+                , "purple", "white", "brown", "orange", "pink"]
+        if len(corpus) > len(colors):
+            colors.extend(["black"] * (len(corpus)-len(colors)))
         for i in range(0, len(corpus)):
             self.__corpusColor[corpus[i].getName()] = colors[i]
 
         #  printing each color associated with each corpus
         for i in range(0, len(self.__corpus)):
-            print(self.__corpus[i].getName() + ": " + colors[i])
+            print(self.__corpus[i].getName() + " : " + colors[i])
 
         input.observe(self)
         self.refreshInputInfos()
