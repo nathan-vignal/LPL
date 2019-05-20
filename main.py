@@ -171,7 +171,7 @@ def createFourthCell():
     graph.update()
 
 
-dataFrame = analysisInManyDimensions(arrayOfCorpus)
+#dataFrame = analysisInManyDimensions(arrayOfCorpus)
 print("end main.py")
 
 
