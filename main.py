@@ -120,7 +120,7 @@ def createSecondCell():
     cell.addInput("corpus", inputCorpus)
     cell.updateDisplay()
 
-    graph.addGlyph("column", "VBar", model, option1=0.2, option2="#3AC0C3")
+    graph.addGlyph("name", "VBar", model, option1=0.2, option2="#3AC0C3")
 
     graph.update()
 
