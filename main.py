@@ -1,22 +1,16 @@
-# -*- coding: iso-8859-1 -*-
 from __future__ import print_function
-from bokeh.plotting import figure
-import numpy as np
 from bokeh.io import output_notebook
 from os import listdir
 from corpusRelated.CorpusReader import createCorpusFromDirectory
 from corpusRelated.Speakers import getSpeakers
-import RadarGraph
 from DimensionalityReduction import analysisInManyDimensions, pca, displayPlot
-from bokeh.models.renderers import GlyphRenderer
-from bokeh.io import show, push_notebook
+import RadarGraph
 import RadarModel
 import warnings
 from Graph import Graph
 import Cell
 import Model
 import Input
-from bokeh.io import show
 warnings.filterwarnings("ignore")  # to avoid the displaying of a warning caused by the bokeh library...
 
 output_notebook()
@@ -155,32 +149,29 @@ def createThirdCell():
     RadarModel.RadarModel(arrayOfCorpus, inputCorpus, graphRadar)
 
 
-
 def createFourthCell():
     cell = Cell.Cell()
-
-    testCorpus = [arrayOfCorpus[0]]
-    #testCorpus.append(arrayOfCorpus[1])
-
+    #testCorpus = [arrayOfCorpus[0],arrayOfCorpus[1]]
+    # testCorpus.append(arrayOfCorpus[1])
 
     graph = Graph()
 
-
     optionsCorpus = []
-    for corpus in testCorpus:
+    for corpus in arrayOfCorpus:
         optionsCorpus.append(corpus.getName())
 
     inputCorpus = Input.Input("radio", "corpusNames", graph, optionsCorpus, "Corpus")
     cell.addInput(" ", inputCorpus)
-    model = Model.Model(testCorpus, monocorpusAnalysis=True, orderXaxis=True)
+    model = Model.Model(arrayOfCorpus, monocorpusAnalysis=True, orderXaxis=True)
     model.setTypeOfAnalysis("freqDist")
     model.addAssociatedInput(inputCorpus)
 
     cell.updateDisplay()
-    graph.addGlyph("column", "VBar", model, option1=0.1, option2="#3AC0C3")
+    graph.addGlyph("name", "VBar", model, option1=0.1, option2="#3AC0C3")
     graph.update()
 
-dataFrame = analysisInManyDimensions([arrayOfCorpus[4]])
+
+dataFrame = analysisInManyDimensions(arrayOfCorpus)
 print("end main.py")
 
 

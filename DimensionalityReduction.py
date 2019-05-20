@@ -25,6 +25,7 @@ def analysisInManyDimensions(arrayOfCorpus):
     data = []
     #arrayOfCorpus = [arrayOfCorpus[0],arrayOfCorpus[1]] subarray used for test only
 
+    # search for each corpus the infos we want
     for corpus in arrayOfCorpus:
         corpusData = []
         # variable
@@ -54,7 +55,6 @@ def analysisInManyDimensions(arrayOfCorpus):
         corpusData.append(corpus.getSpecialIpuMeanSize("not feedback_"+corpus.getLanguage(), forEachFile=True))
 
         # variable
-
         formality = corpus.countSpecialWords(open("./corpusRelated/txt/formality_"+corpus.getLanguage(), "r")
                                              .readlines()[0]
                                              .split(','), forEachFile=True
@@ -78,13 +78,10 @@ def analysisInManyDimensions(arrayOfCorpus):
         corpusData.append([corpusName] * corpus.getNbOfFiles())
         ####
         data.append(corpusData)
-
-
-
+    #  changing format to create a pandas dataFrame
     tempData = []
     for i in range(0, len(data[0])):
         temp = []
-
         for corpusData in data:
             temp.extend(corpusData[i])
         tempData.append(pd.Series(temp))
@@ -111,7 +108,6 @@ def pca(dataFrame):
 
     pca = PCA(n_components=2)
     principalComponents = pca.fit_transform(x)
-    print(pca.explained_variance_ratio_)
 
     principalDf = pd.DataFrame(data = principalComponents
                  , columns=['principal component 1', 'principal component 2'])
@@ -126,15 +122,20 @@ def pca(dataFrame):
 def displayPlot(dataFrame):
 
     fig = plt.figure(figsize=(8, 8))
+    #creating the axes
     ax = fig.add_subplot(1, 1, 1)
     ax.set_xlabel('Principal Component 1', fontsize=15)
     ax.set_ylabel('Principal Component 2', fontsize=15)
     ax.set_title('2 component PCA', fontsize=20)
-
+    #getting the labels inside the dataframe
     labels = dataFrame['label'].unique()
 
-    colors = ['red', 'green', 'blue', 'pink', 'black'][0:len(dataFrame)]
-    for target, color in zip(labels,colors):
+    colors = ['red', 'green', 'blue', 'pink', 'yellow']
+    # if there's more labels than colors fill the rest with black
+    colors.extend(['black'] * (  len( dataFrame.groupby(['label']) )-len(colors)  ))
+
+    # for each label display all the conversations associated
+    for target, color in zip(labels, colors):
         indicesToKeep = dataFrame['label'] == target
         ax.scatter(dataFrame.loc[indicesToKeep, 'principal component 1']
                    , dataFrame.loc[indicesToKeep, 'principal component 2']

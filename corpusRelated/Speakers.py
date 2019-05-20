@@ -1,4 +1,10 @@
 def getSpeakers(pathToMetadata, speakerDataToRead):
+    """
+    only handle SWBD metadata for now
+    :param pathToMetadata: 
+    :param speakerDataToRead: 
+    :return: 
+    """
     # associating each conversation with two speakers and a topic
     f1 = open(pathToMetadata + "conv_tab.csv", "r")
     lines = f1.readlines()

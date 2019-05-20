@@ -20,8 +20,7 @@ class File:
 
         file = open("./corpusRelated/txt/bannedWords", "r")
         notInterrestingWords = file.readline(1)[0].split(' ')
-        f1 = open(self.path, "r")
-        lines = f1.readlines()
+        lines = self.getLines()
         self.__duration = math.floor(
             float(lines[-1].split(self.__corpus.getDelimiter())[2]) - float(lines[0].split(self.__corpus.getDelimiter())[1]))  # init duration
 
@@ -71,8 +70,7 @@ class File:
         :param fctAnalyseIpu: function that will check if a IPU is special
         :return:
         """
-        f1 = open(self.path, "r")
-        lines = f1.readlines()
+        lines = self.getLines()
 
         nbSpecialIpu = 0
         for line in lines:
@@ -88,8 +86,7 @@ class File:
                 :param fctAnalyseIpu: function that will check if a IPU is special
                 :return:
                 """
-        f1 = open(self.path, "r")
-        lines = f1.readlines()
+        lines = self.getLines()
 
         nbSpecialIpu = 0
         for line in lines:
@@ -104,8 +101,7 @@ class File:
         :param fctAnalyseIpu: function that will check if a IPU is special
         :return:
         """
-        f1 = open(self.path, "r")
-        lines = f1.readlines()
+        lines = self.getLines()
 
         specialIpuMeanSize = 0
         nbSpecialIpu = 0
@@ -131,8 +127,7 @@ class File:
         if not isinstance(specialWords[0], str):
             print("expected a list of string in File.py countSpecialWords")
 
-        f1 = open(self.path, "r")
-        lines = f1.readlines()
+        lines = self.getLines()
         nbOfOccurrence = 0
         for line in lines:
             words = self.readIpu(line)
@@ -168,8 +163,7 @@ class File:
         :return:
         """
         if self.__distFreq is None:
-            f1 = open(self.path, "r")
-            lines = f1.readlines()
+            lines = self.getLines()
             arrayDistFrequency = []
             for line in lines:
 
@@ -182,6 +176,12 @@ class File:
             self.__distFreq = sum
 
         return self.__distFreq
+
+    def getLines(self):
+        file = open(self.path, "r")
+        lines = file.readlines()
+        file.close()
+        return lines
 
 
 

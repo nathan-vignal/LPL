@@ -137,18 +137,34 @@ class Graph:
             elif "column" in glyphName:
                 self.changeGlyph(glyphName, model.getX(), model.getY())
             else:
+                tools = self.__figure.tools
+                hasOverTool = False
+                hasWheelZoomTool = False
+                hasPanTool = False
+                for tool in tools:
+                    if isinstance(tool, HoverTool):
+                        hasOverTool = True
 
-                self.__figure.add_tools(HoverTool())
-                self.__figure.add_tools(WheelZoomTool())
-                self.__figure.add_tools(PanTool())
+                    elif isinstance(tool, WheelZoomTool):
+                        hasWheelZoomTool = True
+
+                    elif isinstance(tool, PanTool):
+                        hasPanTool = True
+
+                if not hasOverTool:
+                    self.__figure.add_tools(HoverTool())
+                if not hasWheelZoomTool:
+                    self.__figure.add_tools(WheelZoomTool())
+                if not hasPanTool:
+                    self.__figure.add_tools(PanTool())
 
                 self.changeGlyph(glyphName, model.getX(), model.getY())
+
+                # sorting the x Axis by increasing value
                 plotYvalues = model.getY()
                 plotXvalues = model.getX()
                 xy = zip(plotYvalues, plotXvalues)
-
                 xy = sorted(xy, key=lambda y: y[0])
-
                 self.setXAxis([i[1] for i in xy])
 
             self.setXAxis(list(model.getXAxisSet()))

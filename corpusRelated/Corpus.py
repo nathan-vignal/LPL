@@ -1,7 +1,6 @@
 import copy
 from corpusRelated.Ipu import *
 from nltk.probability import FreqDist
-from nltk.tokenize import word_tokenize
 
 class Corpus():
     """
@@ -21,6 +20,7 @@ class Corpus():
         self.__indexStartContent = None
         self.__indexEndContent = None
         self.__contentDelimiter = None
+        self.__hasSpeaker = None
         self.getCorpusInfo()
         self.__type = type
         self.__path = path
@@ -30,6 +30,8 @@ class Corpus():
         self.__durationByFile = []
         self.__numberOfWords = None
         self.__numberOfWordsByFile = None
+        self.__distFrequency = None
+
 
     def addElements(self, elements):
         """
@@ -87,7 +89,12 @@ class Corpus():
                 self.__numberOfWordsByFile.append(file.getNbWords())
         return copy.copy(self.__numberOfWordsByFile)
 
-    def getMeanNumberOfWords(self, forEachFile = False):
+    def getMeanNumberOfWords(self, forEachFile=False):
+        """
+        get the number of words in files
+        :param forEachFile: if False mean the result else return a value for each file in an array
+        :return:
+        """
         if self.__numberOfWords is None:
 
             if self.__numberOfWordsByFile is None:
@@ -100,11 +107,13 @@ class Corpus():
         else:
             return self.__numberOfWords / len(self.__files)
 
-
     def getSpeakerByFile(self):
-        if self.__name != "SWBD":
-            print("no speakers for"+self.__name)
-            return
+        """
+        get the speaker id for each file and return it in an array
+        :return: [string]
+        """
+        if not self.__hasSpeaker:
+            print("this corpus has no speaker according to corpus info")
         speakers = []
         for file in self.__files:
             speakers.append(file.getSpeaker())
@@ -114,7 +123,12 @@ class Corpus():
         return len(self.__files)
 
     def getRatioSpecialIpu(self, ipuType, forEachFile = False):
-
+        """
+        search a function to read the ipuType
+        :param ipuType: string
+        :param forEachFile: bool
+        :return: ratio of special IPU by file or in total
+        """
         fct = stringToIpuFct(ipuType)
         if fct is None:
             print("unknow ipuType in Corpus.py getNbSpecialIPu")
@@ -127,6 +141,12 @@ class Corpus():
         return temp
 
     def getSpecialIpuMeanSize(self, ipuType, forEachFile = False):
+        """
+        get a special kind of IPU mean size(in number of words)
+        :param ipuType: str see stringToIpuFct for more info
+        :param forEachFile: if you want a value fo each file or a mean
+        :return:
+        """
         fct = stringToIpuFct(ipuType)
         if fct is None:
             print("unknow ipuType in Corpus.py getNbSpecialIPu")
@@ -139,6 +159,11 @@ class Corpus():
         return temp
 
     def getMeanNbUniqueWords(self, forEachFile = False):
+        """
+        get number of unique words in the files, by distinct value or by mean
+        :param forEachFile:if you want a value fo each file or a mean
+        :return:
+        """
 
         temp = []
         for file in self.__files:
@@ -148,6 +173,12 @@ class Corpus():
         return temp
 
     def getMeanLexicalRichness(self, forEachFile = False):
+        """
+        get lexical richness by file or a mean over the corpus
+        def lexical richness : number of unique words / number of total words
+        :param forEachFile: if you want a value fo each file or a mean
+        :return:
+        """
 
         temp = []
         for file in self.__files:
@@ -161,6 +192,12 @@ class Corpus():
         return temp
 
     def countSpecialWords(self, specialWords, forEachFile = False):
+        """
+        count number of special words inside files
+        :param specialWords:
+        :param forEachFile:
+        :return:
+        """
         temp = []
         for file in self.__files:
             temp.append(file.countSpecialWords(specialWords))
@@ -170,13 +207,22 @@ class Corpus():
         return temp
 
     def distFrequency(self):
+        """
+        create a dictionary with the number of time each word appear in the corpus
+        :return: dict
+        """
+        if self.__distFrequency == None:
+            self.__distFrequency = FreqDist()
 
-        sum = FreqDist()
-        for file in self.__files:
-            sum += file.distFrequency()
-        return sum
+            for file in self.__files:
+                self.__distFrequency += file.distFrequency()
+        return self.__distFrequency
 
     def getCorpusInfo(self):
+        """
+        search the corpus info file in order to get info on how to read the corpus it's files
+        :return:
+        """
         f1 = open("./corpusRelated/txt/CorpusInfo", "r")
         lines = f1.readlines()
         for line in lines:
@@ -199,6 +245,14 @@ class Corpus():
                             self.__indexEndContent = int(data[1])
                         else :
                             self.__indexEndContent = data[1]
+                    elif data[0] == "speaker":
+                        if data[1] == "on":
+                            self.__hasSpeaker = True
+                        elif data[1] == "off":
+                            self.__hasSpeaker = False
+                        else:
+                            print("unknow speaker info")
+
                     else:
                         print('unknown corpus info' + data[0])
                 return
@@ -234,6 +288,12 @@ class Corpus():
         if self.__indexEndContent == None:
             print("self.__indexEndContent not set")
         return copy.copy(self.__indexEndContent)
+
+    def getHasSpeaker(self):
+        if self.__hasSpeaker == None:
+            print("self.__hasSpeaker not set")
+        return copy.copy(self.__hasSpeaker)
+
 
 
 

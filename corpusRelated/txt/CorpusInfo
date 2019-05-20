@@ -1,6 +1,7 @@
-SWBD\ language\:en\,delimiter\: \,contentDelimiter\: \,indexStartContent\:3\,indexEndContent\:last\:
-Fisher\ language\:en\,delimiter\: \,contentDelimiter\: \,indexStartContent\:0\,indexEndContent\:-2\:
-CID\ language\:fr\,delimiter\: \,contentDelimiter\:.\,indexStartContent\:3\,indexEndContent\:last\:
-DVD\ language\:fr\,delimiter\:,\,contentDelimiter\: \,indexStartContent\:3\,indexEndContent\:last\:
-MTX\ language\:fr\,delimiter\:,\,contentDelimiter\: \,indexStartContent\:3\,indexEndContent\:last\:
-new\ language\:fr\,delimiter\: \,contentDelimiter\:.\,indexStartContent\:3\,indexEndContent\:last\:
+SWBD\ language\:en\,delimiter\: \,contentDelimiter\: \,indexStartContent\:3\,indexEndContent\:last\,speaker\:on\:
+Fisher\ language\:en\,delimiter\: \,contentDelimiter\: \,indexStartContent\:0\,indexEndContent\:-2\,speaker\:off\:
+CID\ language\:fr\,delimiter\: \,contentDelimiter\:.\,indexStartContent\:3\,indexEndContent\:last\,speaker\:off\:
+DVD\ language\:fr\,delimiter\:,\,contentDelimiter\: \,indexStartContent\:3\,indexEndContent\:last\,speaker\:off\:
+MTX\ language\:fr\,delimiter\:,\,contentDelimiter\: \,indexStartContent\:3\,indexEndContent\:last\,speaker\:off\:
+new\ language\:fr\,delimiter\: \,contentDelimiter\:.\,indexStartContent\:3\,indexEndContent\:last\,speaker\:off\:
+toto\ language\:fr\,delimiter\:,\,contentDelimiter\: \,indexStartContent\:3\,indexEndContent\:last\,speaker\:off\:

@@ -47,11 +47,19 @@ def createCorpusFromDirectory(type, path, convMap):
         return newCorpus
 
     # case the corpus is something else with all files directly in the directory
+    constructor = None
+    if not newCorpus.getHasSpeaker():
+        constructor = File.File
+    else :
+        constructor = FileWithSpeaker.FileWithSpeaker
+
     for filename in listdir(path):
         # the directory for switchboard has a specific architecture
 
-        currentFile = File.File(path + "/" + filename, newCorpus)
+        currentFile = constructor(path + "/" + filename, newCorpus)
         files.append(currentFile)
+
+
 
     newCorpus.addElements(files)
     return newCorpus
