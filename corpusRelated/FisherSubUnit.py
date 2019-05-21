@@ -1,5 +1,7 @@
 import copy
 from nltk.probability import FreqDist
+import math
+import os
 
 class FisherSubUnit:
 
@@ -10,20 +12,23 @@ class FisherSubUnit:
         self.__speakerId = speakerId
         self.__nbUniqueWords = None
         self.__distFrequency = None
+        self.__duration = None
 
         # all the getters are in charge for initilazing a vairable if it's not yet initialized yet and then return it
 
     def getNbOfLines(self):
 
-        if self.__nbOfLines == None:
+        if self.__nbOfLines is None:
             self.initVariables()
         return copy.copy(self.__nbOfLines)
 
     def getDuration(self):
-        return 0 #no duraton for fisher yet !
+        if self.__duration is None:
+            self.initVariables()
+        return copy.copy(self.__duration)
 
     def getNbWords(self):
-        if self.__numberOfWords == None:
+        if self.__numberOfWords is None:
             self.initVariables()
         return copy.copy(self.__numberOfWords)
 
@@ -37,6 +42,19 @@ class FisherSubUnit:
                 wordsSet.add(word)
         self.__nbOfLines = len(lines)
         self.__nbUniqueWords = len(wordsSet)
+
+        #get time
+        anaPath = self.__father.getpath() + self.__father.getidFile() + ".ANA"
+        #if there is no time info for the file
+        if (not os.path.isfile(anaPath) ):
+            self.__duration = 6000  # we put a value not to disturb the mean too much
+            return
+        f = open(anaPath, "r")
+        lines = f.readlines()
+        self.__duration = math.floor(
+            float(lines[-1].split(' ')[6].split('-')[0]) -
+            float(lines[0].split(' ')[6].split('-')[1]))/float(1000)
+
 
 
 
@@ -126,6 +144,7 @@ class FisherSubUnit:
             for distFrequency in arrayDistFrequency:
                 self.__distFrequency += distFrequency
         return copy.copy(self.__distFrequency)
+
 
 
 

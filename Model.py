@@ -6,7 +6,14 @@ import math
 import operator
 class Model:
 
-    def __init__(self, corpus, speakersInfos=None, monocorpusAnalysis= False, orderXaxis=False):
+    def __init__(self, corpus, speakersInfos=None, monocorpusAnalysis= False, orderXaxis="no"):
+        """
+
+        :param corpus:
+        :param speakersInfos:
+        :param monocorpusAnalysis:
+        :param orderXaxis: possible values {no,byX ,byY}
+        """
         self.__corpus = corpus
         self.__associatedInputs = []
         self.__corpusToAnalyzeNames = "*"
@@ -151,7 +158,6 @@ class Model:
                 print("unrecognized speaker discrimination" + str(self.__discriminationCriterion))
                 return -1
 
-
         dataBySpeakerType = {} # at the end will look like {"male": 123, "female" : 456}
         for speakerNb in range(0, len(eachCorpusSpeakers)):
             speakerType = eachCorpusSpeakers[speakerNb][self.__discriminationCriterion]  # eg: male or female
@@ -166,7 +172,6 @@ class Model:
             if not key.isdigit():
                 isDigitType = False
                 break
-
 
         xAxis = set()
         y = []
@@ -266,13 +271,34 @@ class Model:
         self.refreshInputInfos()
 
     def defXAxisSet(self):
-        if self.__x is None:
+        if self.__x is None or self.__x == []:
             return
-        if not self.__orderXaxis:
+        if "no" == self.__orderXaxis:
             self.__xAxisSet = set(self.__x)
-        else:
+        elif "byY" == self.__orderXaxis:  # order by increasing y
             xy = zip(self.__y, self.__x)
 
             xy = sorted(xy, key=lambda y: y[0])
 
             self.__xAxisSet = [i[1] for i in xy]
+        elif "byX" == self.__orderXaxis:  # order by increasing x
+
+            if self.__x[0].isdigit() or isinstance(self.__x[0], str):
+                xy = zip(self.__y, self.__x)
+
+                xy = sorted(xy, key=lambda y: y[1])
+
+                self.__xAxisSet = [i[1] for i in xy]
+
+            elif "_" in self.__x[0]:  # in case of a range (eg 1_3)
+                temp = []
+                for x in self.__x:
+                    temp.extend(x.split('_')[0])
+
+                xtemp = zip(self.__x, temp)
+
+                xtemp = sorted(xtemp, key=lambda y: y[1])
+
+                self.__xAxisSet = [i[1] for i in xtemp]
+            else:
+                print("can't order by x")

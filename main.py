@@ -98,7 +98,7 @@ def createSecondCell():
     :return:
     """
     cell = Cell.Cell()
-    graph = Graph()
+    graph = Graph(tools="wheel_zoom")
 
     optionsAnalyse = ['number of IPU', 'number of words', 'time', 'number of files']
     inputAnalyse = Input.Input("radio", "analysisFunction", graph, optionsAnalyse, "analysis functions")
@@ -111,7 +111,7 @@ def createSecondCell():
         optionsCorpus.append(corpus)
     inputCorpus = Input.Input("radio", "corpusNames", graph, optionsCorpus, "Corpus")
 
-    model = Model.Model(arrayOfCorpus, speakers)
+    model = Model.Model(arrayOfCorpus, speakers, orderXaxis="byX")
     model.addAssociatedInput(inputAnalyse)
     model.addAssociatedInput(inputDiscr)
     model.addAssociatedInput(inputCorpus)
@@ -154,7 +154,7 @@ def createFourthCell():
     #testCorpus = [arrayOfCorpus[0],arrayOfCorpus[1]]
     # testCorpus.append(arrayOfCorpus[1])
 
-    graph = Graph()
+    graph = Graph(tools="pan,wheel_zoom,box_zoom,reset,hover")
 
     optionsCorpus = []
     for corpus in arrayOfCorpus:
@@ -162,7 +162,7 @@ def createFourthCell():
 
     inputCorpus = Input.Input("radio", "corpusNames", graph, optionsCorpus, "Corpus")
     cell.addInput(" ", inputCorpus)
-    model = Model.Model(arrayOfCorpus, monocorpusAnalysis=True, orderXaxis=True)
+    model = Model.Model(arrayOfCorpus, monocorpusAnalysis=True, orderXaxis="byY")
     model.setTypeOfAnalysis("freqDist")
     model.addAssociatedInput(inputCorpus)
 

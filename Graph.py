@@ -9,15 +9,23 @@ import math
 
 class Graph:
 
-    def __init__(self, title=None):
+    def __init__(self, title=None, tools=""):
         """
         create an instance of Graph that contain a empty figure
         :param title:
         """
-
-        self.__figure = figure(x_range=[], title=title, tools="")
+        if "hover" in tools:
+            tools = tools.replace(",hover", "")
+            tools = tools.replace("hover,", "")
+            tools = tools.replace("hover", "")
+        self.__figure = figure(x_range=[], title=title, tools=tools)
+        hover = HoverTool(tooltips=[
+            ("(x,y)", "($x,@top)")
+        ])
+        self.__figure.add_tools(hover)
         self.__handler = None  # wil host the handler to push the notebook
         self.__glyphs = {}
+        self.__tools = tools
 
     def addGlyph(self, name, glyphType, model, option1=None, option2=None):
         """
@@ -120,10 +128,10 @@ class Graph:
             print("glyph name doesn't exist")
             return
         if bottom is None:
-
-            self.__glyphs[name][1].data.update(x=x, top=y)
+            self.__glyphs[name][1].data.update(x=x, top=y, hover=y)
         else:
-            self.__glyphs[name][1].data.update(x=x, bottom=bottom, top=y)
+            self.__glyphs[name][1].data.update(x=x, bottom=bottom, top=y, hover=y)
+
 
     # ---------------------------------------------------------------------------------
 
@@ -137,26 +145,26 @@ class Graph:
             elif "column" in glyphName:
                 self.changeGlyph(glyphName, model.getX(), model.getY())
             else:
-                tools = self.__figure.tools
-                hasOverTool = False
-                hasWheelZoomTool = False
-                hasPanTool = False
-                for tool in tools:
-                    if isinstance(tool, HoverTool):
-                        hasOverTool = True
-
-                    elif isinstance(tool, WheelZoomTool):
-                        hasWheelZoomTool = True
-
-                    elif isinstance(tool, PanTool):
-                        hasPanTool = True
-
-                if not hasOverTool:
-                    self.__figure.add_tools(HoverTool())
-                if not hasWheelZoomTool:
-                    self.__figure.add_tools(WheelZoomTool())
-                if not hasPanTool:
-                    self.__figure.add_tools(PanTool())
+                # tools = self.__figure.tools
+                # hasOverTool = False
+                # hasWheelZoomTool = False
+                # hasPanTool = False
+                # for tool in tools:
+                #     if isinstance(tool, HoverTool):
+                #         hasOverTool = True
+                #
+                #     elif isinstance(tool, WheelZoomTool):
+                #         hasWheelZoomTool = True
+                #
+                #     elif isinstance(tool, PanTool):
+                #         hasPanTool = True
+                #
+                # if not hasOverTool:
+                #     self.__figure.add_tools(HoverTool())
+                # if not hasWheelZoomTool:
+                #     self.__figure.add_tools(WheelZoomTool())
+                # if not hasPanTool:
+                #     self.__figure.add_tools(PanTool())
 
                 self.changeGlyph(glyphName, model.getX(), model.getY())
 
@@ -168,6 +176,7 @@ class Graph:
                 self.setXAxis([i[1] for i in xy])
 
             self.setXAxis(list(model.getXAxisSet()))
+
 
         if self.__handler is None:
 
