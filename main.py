@@ -56,11 +56,31 @@ arrayOfCorpus = initCorpus()
 
 
 # --------------------------------------------------------------------------------------------------------
+def globalView():
+
+    cell = Cell.Cell()
+    graph = Graph()
+    model = Model.Model(arrayOfCorpus)
+
+    options = []
+    for corpus in arrayOfCorpus:
+        options.append(corpus.getName())
+    inputCorpus = Input.Input("checkboxGroup", "corpusNames", graph, options, "Corpus")
+    model.addAssociatedInput(inputCorpus)
+    cell.addInput("corpus", inputCorpus)
+
+    options = ["time",
+               "numer of words"
+               ]
+    input = Input.Input("radio", "analysisFunction", graph, options, "analysis functions")
+    model.addAssociatedInput(input)
+    cell.addInput("analyse", input)
+
 
 def createFirstCell():
     # radioButton to choose how to analyze the data
-    #global arrayOfCorpus    ##################################### test
-    #arrayOfCorpus = [arrayOfCorpus[0]] ##################################### test
+    # global arrayOfCorpus    ##################################### test
+    # arrayOfCorpus = [arrayOfCorpus[0]] ##################################### test
     cell = Cell.Cell()
     graph = Graph()
     options = ['number of IPU by file',
@@ -100,7 +120,7 @@ def createSecondCell():
     cell = Cell.Cell()
     graph = Graph(tools="wheel_zoom")
 
-    optionsAnalyse = ['number of IPU', 'number of words', 'time', 'number of files']
+    optionsAnalyse = ['number of IPU by file', 'number of words', 'time', 'number of files']
     inputAnalyse = Input.Input("radio", "analysisFunction", graph, optionsAnalyse, "analysis functions")
 
     optionsDiscr = ["sex", "age", "geography", "level_study"]
@@ -154,7 +174,7 @@ def createFourthCell():
     #testCorpus = [arrayOfCorpus[0],arrayOfCorpus[1]]
     # testCorpus.append(arrayOfCorpus[1])
 
-    graph = Graph(tools="pan,wheel_zoom,box_zoom,reset,hover")
+    graph = Graph(tools="pan,wheel_zoom,box_zoom,reset,hover", y_axis_type="log")#
 
     optionsCorpus = []
     for corpus in arrayOfCorpus:

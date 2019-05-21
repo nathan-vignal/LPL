@@ -60,32 +60,34 @@ class Model:
         if not isinstance(self.__typeOfAnalysis, str):
             print("typeOfAnalysis must be a string")
             return -1
-        if 'number of IPU' in self.__typeOfAnalysis:
-            data = pd.Series(corpus.getNbOfLinesByFile())
+        if 'number of IPU by file' == self.__typeOfAnalysis:
+            data = pd.Series(corpus.getNbOfLines(forEachFile=True))
+        elif 'number of IPU' == self.__typeOfAnalysis:
+            data = corpus.getNbOfLines()
 
-        elif 'number of words' in self.__typeOfAnalysis:
-            data = pd.Series(corpus.getNumberOfWordsByFile())
+        elif 'number of words by file' == self.__typeOfAnalysis:
+            data = pd.Series(corpus.getNumberOfWords())
 
-        elif "time" in self.__typeOfAnalysis:
-            data = pd.Series(corpus.getDurationByFile())
+        elif 'time by file' == self.__typeOfAnalysis:
+            data = pd.Series(corpus.getDuration(forEachFile=True))
             data /= 60
 
-        elif "words/IPU" in self.__typeOfAnalysis:
-            data = pd.Series(corpus.getNumberOfWordsByFile())
-            ipuParFichier = corpus.getNbOfLinesByFile()
+        elif 'words/IPU by file' == self.__typeOfAnalysis:
+            data = pd.Series(corpus.getNumberOfWords())
+            ipuParFichier = corpus.getNbOfLines(forEachFile=True)
 
             for i in range(0, len(data)):
                 data[i] /= ipuParFichier[i]
 
-        elif "seconds/IPU" in self.__typeOfAnalysis:
-            data = pd.Series(corpus.getDurationByFile())
-            nbOfLines = corpus.getNbOfLinesByFile()
+        elif 'seconds/IPU by file' == self.__typeOfAnalysis:
+            data = pd.Series(corpus.getDuration(forEachFile=True))
+            nbOfLines = corpus.getNbOfLines(forEachFile=True)
             for i in range(0, len(data)):
                 data[i] /= nbOfLines[i]
 
-        elif "words/seconds" in self.__typeOfAnalysis:
-            data = corpus.getNumberOfWordsByFile()
-            durationByFile = corpus.getDurationByFile()
+        elif "words/seconds" == self.__typeOfAnalysis:
+            data = corpus.getNumberOfWords()
+            durationByFile = corpus.getDuration(forEachFile=True)
             for i in range(0, len(data)):
                 if durationByFile[i] == 0:
                     data[i] = 0
@@ -100,8 +102,14 @@ class Model:
         elif self.__typeOfAnalysis == "freqDist":
             data = corpus.distFrequency()
 
+        elif self.__typeOfAnalysis == "time":
+            data = corpus.getDuration()
+
+        elif self.__typeOfAnalysis == "numer of words":
+            data = corpus.getNbWords()
+
         else:
-            print("invalid analyze function ")
+            print("invalid analyze function " + str(self.__typeOfAnalysis))
             return
         return data
 
@@ -117,11 +125,15 @@ class Model:
                 self.__xAxisSet.add(corpus.getName())
                 self.__x.append(corpus.getName())
                 data = self.analyseCorpus(corpus)
-                self.__bottom.append(data.min())
+                if isinstance(data, pd.Series):
+                    self.__bottom.append(data.min())
 
-                self.__y.append(data.max())
-                self.__q1.append(data.quantile(0.25))
-                self.__q3.append(data.quantile(0.75))
+                    self.__y.append(data.max())
+                    self.__q1.append(data.quantile(0.25))
+                    self.__q3.append(data.quantile(0.75))
+                else:
+                    self.__bottom.append(0)
+                    self.__y.append(data)
 
         if self.__xAxisSet == set():
             print("no data available with this corpus name")
@@ -161,6 +173,7 @@ class Model:
         dataBySpeakerType = {} # at the end will look like {"male": 123, "female" : 456}
         for speakerNb in range(0, len(eachCorpusSpeakers)):
             speakerType = eachCorpusSpeakers[speakerNb][self.__discriminationCriterion]  # eg: male or female
+
             if speakerType in dataBySpeakerType:
                 dataBySpeakerType[speakerType] += data[speakerNb]
             else:

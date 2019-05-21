@@ -12,25 +12,25 @@ def analyseCorpus(typeOfAnalysis, corpus):
         print("typeOfAnalysis must be a string")
         return -1
     if 'nombre d\'IPU' in typeOfAnalysis:
-        data = pd.Series(corpus.getNbOfLinesByFile())
+        data = pd.Series(corpus.getNbOfLines())
     elif 'nombre de mots' in typeOfAnalysis:
-        data = pd.Series(corpus.getNumberOfWordsByFile())
+        data = pd.Series(corpus.getNumberOfWords())
     elif "temps" in typeOfAnalysis:
-        data = pd.Series(corpus.getDurationByFile())
+        data = pd.Series(corpus.getDuration())
         data /= 60
     elif "mots/ipu" in typeOfAnalysis:
-        data = pd.Series(corpus.getNumberOfWordsByFile())
-        ipuParFichier = corpus.getNbOfLinesByFile()
+        data = pd.Series(corpus.getNumberOfWords())
+        ipuParFichier = corpus.getNbOfLines()
         for i in range(0, len(data)):
             data[i] /= ipuParFichier[i]
     elif "secondes/ipu" in typeOfAnalysis:
-        data = pd.Series(corpus.getDurationByFile())
-        nbOfLines = corpus.getNbOfLinesByFile()
+        data = pd.Series(corpus.getDuration())
+        nbOfLines = corpus.getNbOfLines()
         for i in range(0, len(data)):
             data[i] /= nbOfLines[i]
     elif "mots/secondes" in typeOfAnalysis:
-        data = corpus.getNumberOfWordsByFile()
-        durationByFile = corpus.getDurationByFile()
+        data = corpus.getNumberOfWords()
+        durationByFile = corpus.getDuration()
         for i in range(0, len(data)):
             if durationByFile[i] == 0:
                 data[i] = 0

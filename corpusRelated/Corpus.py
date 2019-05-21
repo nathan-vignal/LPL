@@ -25,11 +25,10 @@ class Corpus():
         self.__type = type
         self.__path = path
         self.__files = []
-        self.__nbOfLines = 0
+        self.__nbOfLines = None
         self.__numberOfLinesByFile = None
         self.__durationByFile = []
         self.__numberOfWords = None
-        self.__numberOfWordsByFile = None
         self.__distFrequency = None
 
 
@@ -44,31 +43,26 @@ class Corpus():
     def getNumberOfFiles(self):
         return len(self.__files)
 
-    def getNbOfLines(self):
-        """
-         calculate __nbOfLines it if it's not already done and return it
-        :return: __nbOfLines
-        """
-        if self.__nbOfLines == 0:
-            for file in self.__files:
-                self.__nbOfLines += file.getNbOfLines()
-        return copy.copy(self.__nbOfLines)
 
-    def getNbOfLinesByFile(self):
+    def getNbOfLines(self, forEachFile=False):
         """
          calculate __numberOfLinesByFile it if it's not already done and return it
         :return: __numberOfLinesByFile
         """
-        if self.__numberOfLinesByFile == None:
+        if self.__numberOfLinesByFile == None or self.__nbOfLines is None:
             self.__numberOfLinesByFile = []
             for file in self.__files:
                 self.__numberOfLinesByFile.append(file.getNbOfLines())
+            self.__nbOfLines = sum(self.__numberOfLinesByFile)
+        if forEachFile:
+            return copy.copy(self.__numberOfLinesByFile)
+        else:
+            return copy.copy(self.__nbOfLines)
 
-        return copy.copy(self.__numberOfLinesByFile)
 
 
 
-    def getDurationByFile(self):
+    def getDuration(self, forEachFile=False):
         """
          calculate __durationByFile it if it's not already done and return it
         :return: __durationByFile
@@ -76,9 +70,12 @@ class Corpus():
         if self.__durationByFile == []:
             for file in self.__files:
                 self.__durationByFile.append(file.getDuration())
-        return copy.copy(self.__durationByFile)
+        if not forEachFile:
+            return copy.copy(self.__durationByFile)
+        else:
+            return sum(self.__durationByFile)
 
-    def getNumberOfWordsByFile(self):
+    def getNumberOfWords(self,forEachFile=False):
         """
         calculate __numberOfWordsByFile it if it's not already done and return it
         :return: __numberOfWordsByFile
@@ -87,25 +84,21 @@ class Corpus():
             self.__numberOfWordsByFile = []
             for file in self.__files:
                 self.__numberOfWordsByFile.append(file.getNbWords())
-        return copy.copy(self.__numberOfWordsByFile)
-
-    def getMeanNumberOfWords(self, forEachFile=False):
+            self.__numberOfWords = sum(self.__numberOfLinesByFile)
+        if not forEachFile :
+            return copy.copy(self.__numberOfWordsByFile)
+        else:
+            return self.__numberOfWords
+    def getMeanNumberOfWords(self):
         """
         get the number of words in files
         :param forEachFile: if False mean the result else return a value for each file in an array
         :return:
         """
         if self.__numberOfWords is None:
+            self.getNumberOfWords()
 
-            if self.__numberOfWordsByFile is None:
-                self.getNumberOfWordsByFile()
-
-            self.__numberOfWords = sum(self.__numberOfWordsByFile)
-
-        if forEachFile:
-            return copy.copy(self.__numberOfWordsByFile)
-        else:
-            return self.__numberOfWords / len(self.__files)
+        return self.__numberOfWords / len(self.__files)
 
     def getSpeakerByFile(self):
         """

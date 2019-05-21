@@ -9,7 +9,7 @@ import math
 
 class Graph:
 
-    def __init__(self, title=None, tools=""):
+    def __init__(self, title=None, tools="", y_axis_type="auto"):
         """
         create an instance of Graph that contain a empty figure
         :param title:
@@ -18,7 +18,8 @@ class Graph:
             tools = tools.replace(",hover", "")
             tools = tools.replace("hover,", "")
             tools = tools.replace("hover", "")
-        self.__figure = figure(x_range=[], title=title, tools=tools)
+
+        self.__figure = figure(x_range=[],y_axis_type=y_axis_type, title=title, tools=tools)
         hover = HoverTool(tooltips=[
             ("(x,y)", "($x,@top)")
         ])
@@ -145,27 +146,6 @@ class Graph:
             elif "column" in glyphName:
                 self.changeGlyph(glyphName, model.getX(), model.getY())
             else:
-                # tools = self.__figure.tools
-                # hasOverTool = False
-                # hasWheelZoomTool = False
-                # hasPanTool = False
-                # for tool in tools:
-                #     if isinstance(tool, HoverTool):
-                #         hasOverTool = True
-                #
-                #     elif isinstance(tool, WheelZoomTool):
-                #         hasWheelZoomTool = True
-                #
-                #     elif isinstance(tool, PanTool):
-                #         hasPanTool = True
-                #
-                # if not hasOverTool:
-                #     self.__figure.add_tools(HoverTool())
-                # if not hasWheelZoomTool:
-                #     self.__figure.add_tools(WheelZoomTool())
-                # if not hasPanTool:
-                #     self.__figure.add_tools(PanTool())
-
                 self.changeGlyph(glyphName, model.getX(), model.getY())
 
                 # sorting the x Axis by increasing value
@@ -181,17 +161,8 @@ class Graph:
         if self.__handler is None:
 
             self.__handler = show(self.__figure, notebook_handle=True)
-            # print(self.__figure)
-            # print(self.__glyphs["barres"][1])
-            # print(self.__handler)
 
         else:
-            # print(self.__figure)
-            # print(self.__glyphs["barres"][1])
-            #
-            # print("debug"+str(self.__glyphs["barres"][1].data)) #debug
-            # print("pushed")
-            # print(self.__handler)
             push_notebook(handle=self.__handler)
 
     # -----------------end class------------------

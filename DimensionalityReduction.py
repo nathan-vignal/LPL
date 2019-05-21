@@ -32,7 +32,7 @@ def analysisInManyDimensions(arrayOfCorpus):
         corpusData.append(corpus.getMeanLexicalRichness(forEachFile=True),)
 
         # variable
-        nbWords = corpus.getMeanNumberOfWords(forEachFile=True)
+        nbWords = corpus.getNumberOfWords(forEachFile=True)
         nbFill = corpus.countSpecialWords(
             open("./corpusRelated/txt/fill_"+corpus.getLanguage(), "r")
                 .readlines()[0]
