@@ -18,10 +18,10 @@ class Graph:
             tools = tools.replace(",hover", "")
             tools = tools.replace("hover,", "")
             tools = tools.replace("hover", "")
-
-        self.__figure = figure(x_range=[],y_axis_type=y_axis_type, title=title, tools=tools)
+        #, y_axis_type = y_axis_type   # use this to try and set
+        self.__figure = figure(x_range=[], title=title, tools=tools)
         hover = HoverTool(tooltips=[
-            ("(x,y)", "($x,@top)")
+            ("(x,y)", "(@x,@top)")
         ])
         self.__figure.add_tools(hover)
         self.__handler = None  # wil host the handler to push the notebook
@@ -133,7 +133,6 @@ class Graph:
         else:
             self.__glyphs[name][1].data.update(x=x, bottom=bottom, top=y, hover=y)
 
-
     # ---------------------------------------------------------------------------------
 
     def update(self):
@@ -146,16 +145,9 @@ class Graph:
             elif "column" in glyphName:
                 self.changeGlyph(glyphName, model.getX(), model.getY())
             else:
-                self.changeGlyph(glyphName, model.getX(), model.getY())
+                print("graph.py unkown glyphtype")
 
-                # sorting the x Axis by increasing value
-                plotYvalues = model.getY()
-                plotXvalues = model.getX()
-                xy = zip(plotYvalues, plotXvalues)
-                xy = sorted(xy, key=lambda y: y[0])
-                self.setXAxis([i[1] for i in xy])
-
-            self.setXAxis(list(model.getXAxisSet()))
+            self.setXAxis(list(model.getXAxis()))
 
 
         if self.__handler is None:

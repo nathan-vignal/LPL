@@ -53,14 +53,18 @@ def initCorpus():
 
 
 arrayOfCorpus = initCorpus()
+# to test arrayOfCorpus = [arrayOfCorpus[0], arrayOfCorpus[1]]
 
 
 # --------------------------------------------------------------------------------------------------------
+
 def globalView():
 
     cell = Cell.Cell()
-    graph = Graph()
+
     model = Model.Model(arrayOfCorpus)
+    graph = Graph()
+    graph.addGlyph("column", "VBar", model, option1=0.2, option2="#3AC0C3")
 
     options = []
     for corpus in arrayOfCorpus:
@@ -70,14 +74,22 @@ def globalView():
     cell.addInput("corpus", inputCorpus)
 
     options = ["time",
-               "numer of words"
+               "number of words"
                ]
-    input = Input.Input("radio", "analysisFunction", graph, options, "analysis functions")
+
+    strToAnalysisFct = {"time": "time"
+        , "number of words": "number of words"}
+
+    input = Input.Input("radio", "analysisFunction", graph, options, "analysis functions"
+                        ,strToAnalysisFct=strToAnalysisFct)
+
     model.addAssociatedInput(input)
     cell.addInput("analyse", input)
+    cell.addGraph("unused", graph)
+    cell.updateDisplay()
 
 
-def createFirstCell():
+def AnalysisByFiles():
     # radioButton to choose how to analyze the data
     # global arrayOfCorpus    ##################################### test
     # arrayOfCorpus = [arrayOfCorpus[0]] ##################################### test
@@ -88,9 +100,17 @@ def createFirstCell():
                'time by file',
                'words/IPU by file',
                'seconds/IPU by file',
-               'words/seconds'
+               'words/seconds by file'
                ]
-    input = Input.Input("radio", "analysisFunction", graph, options, "analysis functions")
+    strToAnalysisFct = {'number of IPU by file' : 'number of IPU by file',
+               'number of words by file' : 'number of words by file',
+               'time by file' : 'time by file',
+               'words/IPU by file' : 'words/IPU by file',
+               'seconds/IPU by file' : 'seconds/IPU by file',
+               'words/seconds by file' : 'words/seconds'}
+
+    input = Input.Input("radio", "analysisFunction", graph, options, "analysis functions",
+                        strToAnalysisFct=strToAnalysisFct)
 
     options = []
     for corpus in arrayOfCorpus:
@@ -102,17 +122,14 @@ def createFirstCell():
     model.addAssociatedInput(inputCorpus)
     cell.addInput("analyse", input)
     cell.addInput("corpus", inputCorpus)
-    cell.updateDisplay()
-
     graph.addGlyph("segment", "VBarQuartile", model, option1=0.01, option2="#000000")
     graph.addGlyph("barres", "VBarQuartile", model, option1=0.2, option2="#3AC0C3")
-
-    graph.update()
-
+    cell.addGraph("unused", graph)
+    cell.updateDisplay()
 
 # --------------------------------------------------------------------------------------------------------
 
-def createSecondCell():
+def speakerAnalysis():
     """
     analysis menu regarding corpus with speakers
     :return:
@@ -120,7 +137,7 @@ def createSecondCell():
     cell = Cell.Cell()
     graph = Graph(tools="wheel_zoom")
 
-    optionsAnalyse = ['number of IPU by file', 'number of words', 'time', 'number of files']
+    optionsAnalyse = ['number of IPU by file', 'number of words by file', 'time by file', 'number of files']
     inputAnalyse = Input.Input("radio", "analysisFunction", graph, optionsAnalyse, "analysis functions")
 
     optionsDiscr = ["sex", "age", "geography", "level_study"]
@@ -135,27 +152,24 @@ def createSecondCell():
     model.addAssociatedInput(inputAnalyse)
     model.addAssociatedInput(inputDiscr)
     model.addAssociatedInput(inputCorpus)
+    graph.addGlyph("column", "VBar", model, option1=0.2, option2="#3AC0C3")
     cell.addInput("analyse", inputAnalyse)
     cell.addInput("discrimination", inputDiscr)
     cell.addInput("corpus", inputCorpus)
+    cell.addGraph("unused", graph)
     cell.updateDisplay()
-
-    graph.addGlyph("name", "VBar", model, option1=0.2, option2="#3AC0C3")
-
-    graph.update()
-
 
 # end createSecondCell
 
 
-def createThirdCell():
+def mutliCriterionAnalysis():
     global arrayOfCorpus
-    #  array with no every corpus to test code
+    #  array with not every corpus to test code
     test = []
-    # test.append(arrayOfCorpus[0])
-    # test.append(arrayOfCorpus[1])
+    test.append(arrayOfCorpus[0])
+    test.append(arrayOfCorpus[1])
     # test.append(arrayOfCorpus[4])
-    # arrayOfCorpus = test
+    arrayOfCorpus = test
 
     cell = Cell.Cell()
 
@@ -165,16 +179,19 @@ def createThirdCell():
     graphRadar = RadarGraph.RadarGraph()
     inputCorpus = Input.Input("checkboxGroup", "corpusNames", graphRadar, optionsCorpus, "Corpus")
     cell.addInput("inputCorpus", inputCorpus)
-    cell.updateDisplay()
     RadarModel.RadarModel(arrayOfCorpus, inputCorpus, graphRadar)
+    cell.addGraph("unused", graphRadar)
+    cell.updateDisplay()
 
 
-def createFourthCell():
+
+def wordDistribution():
     cell = Cell.Cell()
-    #testCorpus = [arrayOfCorpus[0],arrayOfCorpus[1]]
+
+    # testCorpus = [arrayOfCorpus[0],arrayOfCorpus[1]]
     # testCorpus.append(arrayOfCorpus[1])
 
-    graph = Graph(tools="pan,wheel_zoom,box_zoom,reset,hover", y_axis_type="log")#
+    graph = Graph(tools="pan,wheel_zoom,box_zoom,reset,hover", y_axis_type="log")
 
     optionsCorpus = []
     for corpus in arrayOfCorpus:
@@ -185,13 +202,13 @@ def createFourthCell():
     model = Model.Model(arrayOfCorpus, monocorpusAnalysis=True, orderXaxis="byY")
     model.setTypeOfAnalysis("freqDist")
     model.addAssociatedInput(inputCorpus)
-
+    graph.addGlyph("column", "VBar", model, option1=0.1, option2="#3AC0C3")
+    cell.addGraph("unused", graph)
     cell.updateDisplay()
-    graph.addGlyph("name", "VBar", model, option1=0.1, option2="#3AC0C3")
-    graph.update()
 
 
-#dataFrame = analysisInManyDimensions(arrayOfCorpus)
+
+
 print("end main.py")
 
 

@@ -7,7 +7,7 @@ import copy
 
 class Input:
 
-    def __init__(self, inputType, dataType, graph, options,title):
+    def __init__(self, inputType, dataType, graph, options,title, strToAnalysisFct=None):
         """
         :param inputType:
         :param dataType: can either be "discrimination", "corpusNames" or "analysisFunction"
@@ -56,6 +56,7 @@ class Input:
         self.__onChanges = None
         self.__dataType = dataType
         self.graph = graph
+        self.__strToAnalysisFct = strToAnalysisFct
 
 # --------------------------------------------------------------------------------------------------------
 
@@ -79,13 +80,14 @@ class Input:
 
 # --------------------------------------------------------------------------------------------------------
 
-    def _callOnChange(self, widget):
+    def _callOnChange(self, change):
         """
         will be called when the widget changes
         :param widget: parameter given by the function from ipywidgets observe, the parameter allow us to
             know what is tthe new value of the changed widget
         :return:
         """
+
         try:
             if self.__onChanges is None:
                 message = "onChanges function is not initialiazed"
@@ -94,7 +96,7 @@ class Input:
             print(e)
         # we have to limit onChange to only one activation by because ipywidget.observe trigger multiple time
 
-        if isinstance(widget.new, bool) or isinstance(widget.new, str):
+        if change['type'] == 'change' and change['name'] == 'value':
             self.__onChanges()
             self.graph.update()
 
@@ -107,12 +109,13 @@ class Input:
 
         result = []
         for widget in self.__widget.children:
-            if widget.value == True:
+            if widget.value:
                 result.append(widget.description)
         return result
 
     def getWidget(self):
         return self.__widget
+
 
 
 

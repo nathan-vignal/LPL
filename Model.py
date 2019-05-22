@@ -18,7 +18,7 @@ class Model:
         self.__associatedInputs = []
         self.__corpusToAnalyzeNames = "*"
         self.__monocorpusAnalysis = monocorpusAnalysis
-        self.__xAxisSet = set()  # will contain the possible values of x
+        self.__xAxis = set()  # will contain the possible values of x
         self.__x = None  # will contain the values on x axis
         self.__y = None  # will contain the values on y axis
         self.__bottom = None  # will be used for the value of a vbar bottom (regarding the x axis)
@@ -30,8 +30,8 @@ class Model:
         self.__orderXaxis = orderXaxis
 
 
-    def getXAxisSet(self):
-        return copy.copy(self.__xAxisSet)
+    def getXAxis(self):
+        return copy.copy(self.__xAxis)
 
     def getX(self):
         return copy.copy(self.__x)
@@ -66,14 +66,14 @@ class Model:
             data = corpus.getNbOfLines()
 
         elif 'number of words by file' == self.__typeOfAnalysis:
-            data = pd.Series(corpus.getNumberOfWords())
+            data = pd.Series(corpus.getNumberOfWords(forEachFile=True))
 
         elif 'time by file' == self.__typeOfAnalysis:
             data = pd.Series(corpus.getDuration(forEachFile=True))
             data /= 60
 
         elif 'words/IPU by file' == self.__typeOfAnalysis:
-            data = pd.Series(corpus.getNumberOfWords())
+            data = pd.Series(corpus.getNumberOfWords(forEachFile=True))
             ipuParFichier = corpus.getNbOfLines(forEachFile=True)
 
             for i in range(0, len(data)):
@@ -85,8 +85,8 @@ class Model:
             for i in range(0, len(data)):
                 data[i] /= nbOfLines[i]
 
-        elif "words/seconds" == self.__typeOfAnalysis:
-            data = corpus.getNumberOfWords()
+        elif "words/seconds by file" == self.__typeOfAnalysis:
+            data = corpus.getNumberOfWords(forEachFile=True)
             durationByFile = corpus.getDuration(forEachFile=True)
             for i in range(0, len(data)):
                 if durationByFile[i] == 0:
@@ -105,8 +105,10 @@ class Model:
         elif self.__typeOfAnalysis == "time":
             data = corpus.getDuration()
 
-        elif self.__typeOfAnalysis == "numer of words":
-            data = corpus.getNbWords()
+        elif self.__typeOfAnalysis == "number of words by file":
+            data = corpus.getNumberOfWords(forEachFile=True)
+        elif self.__typeOfAnalysis == "number of words":
+            data = corpus.getNumberOfWords()
 
         else:
             print("invalid analyze function " + str(self.__typeOfAnalysis))
@@ -119,23 +121,25 @@ class Model:
         set the data that the analysis return in the object attributes
         :return:
         """
-
+        if self.__typeOfAnalysis is None: # it means that other input are changing before the input of analysis
+            return
         for corpus in self.__corpus:
             if (corpus.getName() in self.__corpusToAnalyzeNames) or (self.__corpusToAnalyzeNames == "*"):
-                self.__xAxisSet.add(corpus.getName())
+                self.__xAxis.add(corpus.getName())
                 self.__x.append(corpus.getName())
                 data = self.analyseCorpus(corpus)
+
                 if isinstance(data, pd.Series):
                     self.__bottom.append(data.min())
-
                     self.__y.append(data.max())
                     self.__q1.append(data.quantile(0.25))
                     self.__q3.append(data.quantile(0.75))
+
                 else:
                     self.__bottom.append(0)
                     self.__y.append(data)
 
-        if self.__xAxisSet == set():
+        if self.__xAxis == set():
             print("no data available with this corpus name")
 
     def createDataSpeakerAnalysis(self, corpusName, speakers):
@@ -194,7 +198,7 @@ class Model:
         if isDigitType and len(dataBySpeakerType.keys()) > 10:
             sortedData = sorted(dataBySpeakerType.items(), key=operator.itemgetter(0))
 
-            arr = np.array_split(np.array(sortedData),10)
+            arr = np.array_split(np.array(sortedData), 10)
             for element in arr:
                 xAxis.add(str(element[0][0])+"_"+str(element[-1][0]))
                 value = 0
@@ -212,7 +216,7 @@ class Model:
             for key in dataBySpeakerType:
                 y.append(dataBySpeakerType[key])
 
-        self.__xAxisSet = xAxis
+        self.__xAxis = xAxis
         self.__y = y
         self.__x = xData
 
@@ -225,7 +229,7 @@ class Model:
         :return:
         """
         self.__x = []
-        self.__xAxisSet = set()
+        self.__xAxis = set()
         self.__y = []
         self.__bottom = []
         self.__q1 = []
@@ -247,7 +251,7 @@ class Model:
                     self.__x = list(data.keys())
                     self.__y = list(data.values())
 
-        self.defXAxisSet()
+        self.defXAxis()
 
     # ---------------------------------------------------------------------------------
 
@@ -283,17 +287,17 @@ class Model:
         input.observe(self)
         self.refreshInputInfos()
 
-    def defXAxisSet(self):
+    def defXAxis(self):
         if self.__x is None or self.__x == []:
             return
         if "no" == self.__orderXaxis:
-            self.__xAxisSet = set(self.__x)
+            self.__xAxis = set(self.__x)
         elif "byY" == self.__orderXaxis:  # order by increasing y
             xy = zip(self.__y, self.__x)
 
             xy = sorted(xy, key=lambda y: y[0])
 
-            self.__xAxisSet = [i[1] for i in xy]
+            self.__xAxis = [i[1] for i in xy]
         elif "byX" == self.__orderXaxis:  # order by increasing x
 
             if self.__x[0].isdigit() or isinstance(self.__x[0], str):
@@ -301,7 +305,7 @@ class Model:
 
                 xy = sorted(xy, key=lambda y: y[1])
 
-                self.__xAxisSet = [i[1] for i in xy]
+                self.__xAxis = [i[1] for i in xy]
 
             elif "_" in self.__x[0]:  # in case of a range (eg 1_3)
                 temp = []
@@ -312,6 +316,6 @@ class Model:
 
                 xtemp = sorted(xtemp, key=lambda y: y[1])
 
-                self.__xAxisSet = [i[1] for i in xtemp]
+                self.__xAxis = [i[1] for i in xtemp]
             else:
                 print("can't order by x")

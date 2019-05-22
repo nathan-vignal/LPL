@@ -152,16 +152,15 @@ class RadarModel:
 
 
         #  creating the title of each axis onn the graph
-        text = ["richesse lexicale",
-                "ratio fill",
+        text = ["lexical richness",
+                "ratio filling pause",
                 "ratio feedback",
                 "taille moyenne Ipu non feedback",
-                "yeah/yes"]
+                "familiar language"]
         for i in range(0, len(text)):
             text[i] += " max :" + '%.3f' % (maxUniqueNbWords[i])
 
         self.__graph.createRadarGraph(text, npData, colors=colors)
-        self.__graph.update()
 
 
 

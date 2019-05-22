@@ -3,9 +3,8 @@ import math
 from nltk.probability import FreqDist
 import io
 
+
 class File:
-
-
 
     def __init__(self, path, corpus):
         self.__corpus = corpus
@@ -151,11 +150,11 @@ class File:
         content = content[self.__corpus.getIndexStartContent():end]
         words = []
         for item in content:
-            words.extend(item.split(self.__corpus.getContentDelimiter()))
+            splitted = item.split(self.__corpus.getContentDelimiter())  # this should be enough
+                                                                        # but CID contains 2 delimiters
+            for word in splitted:
+                words.extend(word.split("_"))  # specific to CID
         return words
-
-
-
 
     def distFrequency(self):
         """

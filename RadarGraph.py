@@ -5,16 +5,17 @@ from bokeh.models.annotations import Title
 from bokeh.plotting import figure
 from bokeh.io import show, push_notebook
 import math
+import time
 
 class RadarGraph:
 
-    def __init__(self, colors = None, title = None):
+    def __init__(self, colors=None, title=None):
         self.__plot = None
         self.__handler = None
         self.model = None
         if colors is None:
-            self.__colors  = ["black", "blue", "red", "yellow", "green",
-              "purple", "white", "brown", "orange", "pink", "black"]
+            self.__colors = ["black", "blue", "red", "yellow", "green",
+                             "purple", "white", "brown", "orange", "pink", "black"]
         else:
             self.__colors = colors
 
@@ -23,12 +24,11 @@ class RadarGraph:
         else:
             self.__title = title
 
-
-
     def update(self):
         if self.__handler == None:
             self.__handler = show(self.__plot, notebook_handle=True)
         else:
+            show(self.__plot)
             push_notebook(handle=self.__handler)
 
     def createRadarGraph(self, text, flist, title=None, colors=None):
@@ -41,9 +41,20 @@ class RadarGraph:
         :param colors:[str]color for each data family
         :return:
         """
-        if self.__plot is not None:
-            self.__plot.select({'name': 'toDelete'}).visible = False
+
+        if self.__plot is not None:  # if the plot has already been displayed
+            toDelete = self.__plot.select({'name': 'toDelete'})
+            for glyph in toDelete:
+                if glyph.visible == True:
+                    glyph.visible = False
+
+
+
+
+        # else:
+        #     print("firs time in graph radar")
         if flist == []:
+            print("empty data in crearteRadarGraph")
             return
         if colors is None:
             colors = self.__colors
@@ -116,6 +127,7 @@ class RadarGraph:
 
                 p.segment(x0=rulerX0, y0=rulerY0, x1=rulerX1, y1=rulerY1, color="black", line_width=0.5)
 
+        #if self.__plot is None :  # DELETE LINEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
         center = 0.5
         text.append("")
         nbVar = len(flist[0])
@@ -128,12 +140,12 @@ class RadarGraph:
         x = [v[0] for v in verts]
         y = [v[1] for v in verts]
         if self.__plot is None:
-            self.__plot = figure(title=self.__title)
+            self.__plot = figure(title=title, tools="")
             drawRadar(x, y, self.__plot, 10)
 
         for i in range(0, len(verts)):
             self.__plot.segment(x0=0.5, y0=0.5, x1=x[i],
-                      y1=y[i], color="black", line_width=1, name='toDelete')
+                                y1=y[i], color="black", line_width=1, name='toDelete')
         source = ColumnDataSource({'x': x + [center], 'y': y + [1], 'text': text})
 
         labels = LabelSet(x="x", y="y", text="text", source=source, name='toDelete')
@@ -144,4 +156,5 @@ class RadarGraph:
             xt, yt = radar_patch(flist[i], theta, center)
 
             self.__plot.patch(x=xt, y=yt, fill_alpha=0.15, fill_color=colors[i], name='toDelete')
+
 

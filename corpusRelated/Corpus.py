@@ -26,6 +26,7 @@ class Corpus():
         self.__path = path
         self.__files = []
         self.__nbOfLines = None
+        self.__numberOfWordsByFile = None
         self.__numberOfLinesByFile = None
         self.__durationByFile = []
         self.__numberOfWords = None
@@ -70,7 +71,7 @@ class Corpus():
         if self.__durationByFile == []:
             for file in self.__files:
                 self.__durationByFile.append(file.getDuration())
-        if not forEachFile:
+        if forEachFile:
             return copy.copy(self.__durationByFile)
         else:
             return sum(self.__durationByFile)
@@ -82,13 +83,18 @@ class Corpus():
         """
         if self.__numberOfWordsByFile is None:
             self.__numberOfWordsByFile = []
+
             for file in self.__files:
                 self.__numberOfWordsByFile.append(file.getNbWords())
-            self.__numberOfWords = sum(self.__numberOfLinesByFile)
-        if not forEachFile :
+
+        if self.__numberOfWords is None:
+            self.__numberOfWords = sum(self.__numberOfWordsByFile)
+
+        if forEachFile:
             return copy.copy(self.__numberOfWordsByFile)
         else:
             return self.__numberOfWords
+
     def getMeanNumberOfWords(self):
         """
         get the number of words in files
