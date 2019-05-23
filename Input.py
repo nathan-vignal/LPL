@@ -7,11 +7,19 @@ import copy
 
 class Input:
 
-    def __init__(self, inputType, dataType, graph, options,title, strToAnalysisFct=None):
+    def __init__(self, inputType, dataType, graph, options,title):
         """
-        :param inputType:
+
+        :param inputType: on of these values: "radio", "checkboxGroup"
         :param dataType: can either be "discrimination", "corpusNames" or "analysisFunction"
-        :param options:
+                        this will be used by the models to know what kind of control is handled by this input
+        :param graph:   graph to update when this input is updated
+        :param options: can either be a list or a dictionary
+                        - a list if you want the data displayed for the user to be directly sent to the model
+                        - a dict if you want to your own words on something and translate it before sending it to
+                          the model. {click here to select SwitchBoard: SWBD, click here to select mTx: MTX }
+
+        :param title: title to be given to the input
         """
 
         # checking the types
@@ -19,8 +27,8 @@ class Input:
             if not isinstance(inputType, str):
                 message = "expected string as inputType, got " + str(type(inputType))
                 raise TypeError(message)
-            if not isinstance(options, list):
-                message = "expected array as options, got " + str(type(options))
+            if not (isinstance(options, list) or isinstance(options, dict)):
+                message = "expected array or dict as options, got " + str(type(options))
                 raise TypeError(message)
             for item in options:
                 if not isinstance(item, str):
@@ -29,17 +37,25 @@ class Input:
         except TypeError:
             traceback.print_exc()
 
+        self.__optionToProgramMeaning = None
+        inputOptions = None
+        if isinstance(options, list):
+            inputOptions = options
+        else :
+            inputOptions = [command for command in options]
+            self.__optionToProgramMeaning = options
+
         if inputType == "radio":
             self.__widget = widgets.RadioButtons(
-                options=options,
-                value=options[0],
+                options=inputOptions,
+                value=inputOptions[0],
                 description=title,
                 disabled=False
             )
         elif inputType == "checkboxGroup":
 
             inputs = []
-            for option in options:
+            for option in inputOptions:
                 temp = widgets.Checkbox(
                     value=True,
                     description=option
@@ -56,7 +72,7 @@ class Input:
         self.__onChanges = None
         self.__dataType = dataType
         self.graph = graph
-        self.__strToAnalysisFct = strToAnalysisFct
+
 
 # --------------------------------------------------------------------------------------------------------
 
@@ -105,14 +121,27 @@ class Input:
 
     def getValue(self):
         if not isinstance(self.__widget, widgets.VBox):
-            if self.__dataType == "analysisFunction":
-                return self.__strToAnalysisFct[self.__widget.value]
+            if self.__optionToProgramMeaning is not None:
+                value = self.__widget.value
+                if value not in self.__optionToProgramMeaning:
+                    print("can't link input text to something")
+                    sys.exit("fatal error : input.py in getValue")
+                return self.__optionToProgramMeaning[value]
             return self.__widget.value
 
         result = []
         for widget in self.__widget.children:
             if widget.value:
-                result.append(widget.description)
+                if self.__optionToProgramMeaning is not None:
+                    chosenInput = widget.description
+                    if chosenInput not in self.__optionToProgramMeaning:
+                        print("can't link input text to something")
+                        continue
+                    result.append(self.__optionToProgramMeaning[chosenInput])
+
+                else:
+                    result.append(widget.description)
+
         return result
 
     def getWidget(self):

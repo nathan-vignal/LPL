@@ -72,7 +72,7 @@ def choosingCorpora(corpusNames):
     if corpusNames == "all":
         interestingCorpus.extend(arrayOfCorpus)
     else:
-        corporaNames = corpusNames.replace(" ","").lower().split(',')
+        corporaNames = corpusNames.replace(" ", "").lower().split(',')
 
         for name in corporaNames:  # for each given names
             for corpus in arrayOfCorpus:  # for each corpus we have
@@ -96,6 +96,7 @@ def globalView(corpusNames):
     options = []
     for corpus in corpora:
         options.append(corpus.getName())
+
     inputCorpus = Input.Input("checkboxGroup", "corpusNames", graph, options, "Corpus")
     model.addAssociatedInput(inputCorpus)
     cell.addInput("corpus", inputCorpus)
@@ -103,9 +104,8 @@ def globalView(corpusNames):
     strToAnalysisFct = {"time": "time"
         , "number of words": "number of words"}
 
-    input = Input.Input("radio", "analysisFunction", graph, [command for command in strToAnalysisFct]
-                        , "analysis functions"
-                        , strToAnalysisFct=strToAnalysisFct)
+    input = Input.Input("radio", "analysisFunction", graph, strToAnalysisFct
+                        , "analysis functions")
 
     model.addAssociatedInput(input)
     cell.addInput("analyse", input)
@@ -126,9 +126,9 @@ def AnalysisByFiles(corpusNames):
                          'seconds / ipu by file': 'seconds/IPU by file',
                          'words/seconds by file': 'words/seconds by file'}
 
-    input = Input.Input("radio", "analysisFunction", graph, [command for command in analysisFunctions]
+    input = Input.Input("radio", "analysisFunction", graph, analysisFunctions
                         , "analysis functions"
-                        , strToAnalysisFct=analysisFunctions)
+                        )
 
     options = []
     for corpus in corpora:
@@ -165,9 +165,9 @@ def speakerAnalysis(corpusNames):
         , 'number of files': 'number of files'
     }
 
-    inputAnalyse = Input.Input("radio", "analysisFunction", graph, [command for command in analysisFunctions]
+    inputAnalyse = Input.Input("radio", "analysisFunction", graph, analysisFunctions
                                , "analysis functions"
-                               , strToAnalysisFct=analysisFunctions)
+                               )
 
     optionsDiscr = ["sex", "age", "geography", "level_study"]
     inputDiscr = Input.Input("radio", "discrimination", graph, optionsDiscr, "Discrimination")
