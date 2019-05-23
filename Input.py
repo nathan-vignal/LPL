@@ -105,6 +105,8 @@ class Input:
 
     def getValue(self):
         if not isinstance(self.__widget, widgets.VBox):
+            if self.__dataType == "analysisFunction":
+                return self.__strToAnalysisFct[self.__widget.value]
             return self.__widget.value
 
         result = []

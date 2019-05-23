@@ -43,17 +43,19 @@ class FisherSubUnit:
         self.__nbOfLines = len(lines)
         self.__nbUniqueWords = len(wordsSet)
 
-        #get time
+        #  get time
         anaPath = self.__father.getpath() + self.__father.getidFile() + ".ANA"
-        #if there is no time info for the file
-        if (not os.path.isfile(anaPath) ):
-            self.__duration = 6000  # we put a value not to disturb the mean too much
+        #  if there is no time info for the file
+        if not os.path.isfile(anaPath):
+            self.__duration = 500  # we put a value not to disturb the mean too much
             return
         f = open(anaPath, "r")
         lines = f.readlines()
         self.__duration = math.floor(
             float(lines[-1].split(' ')[6].split('-')[0]) -
-            float(lines[0].split(' ')[6].split('-')[1]))/float(1000)
+            float(lines[0].split(' ')[6].split('-')[1]))/float(10000)
+
+
 
 
 

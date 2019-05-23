@@ -104,6 +104,8 @@ class Model:
 
         elif self.__typeOfAnalysis == "time":
             data = corpus.getDuration()
+            data /= 3600
+
 
         elif self.__typeOfAnalysis == "number of words by file":
             data = corpus.getNumberOfWords(forEachFile=True)

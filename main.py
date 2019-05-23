@@ -53,13 +53,40 @@ def initCorpus():
 
 
 arrayOfCorpus = initCorpus()
-# to test arrayOfCorpus = [arrayOfCorpus[0], arrayOfCorpus[1]]
+
+message = "available corpora : "
+for corpus in arrayOfCorpus:
+    message += "\n  - " + corpus.getName()
+print(message)
 
 
 # --------------------------------------------------------------------------------------------------------
 
-def globalView():
+def choosingCorpora(corpusNames):
+    """
 
+    :param corporaNames: should look like this "SWBD, cid, fisher"
+    :return:
+    """
+    interestingCorpus = []
+    if corpusNames == "all":
+        interestingCorpus.extend(arrayOfCorpus)
+    else:
+        corporaNames = corpusNames.replace(" ","").lower().split(',')
+
+        for name in corporaNames:  # for each given names
+            for corpus in arrayOfCorpus:  # for each corpus we have
+                if name == corpus.getName().lower():
+                    interestingCorpus.append(corpus)
+                    break
+
+    return interestingCorpus
+
+
+# --------------------------------------------------------------------------------------------------------
+
+def globalView(corpusNames):
+    corpora = choosingCorpora(corpusNames)
     cell = Cell.Cell()
 
     model = Model.Model(arrayOfCorpus)
@@ -67,21 +94,18 @@ def globalView():
     graph.addGlyph("column", "VBar", model, option1=0.2, option2="#3AC0C3")
 
     options = []
-    for corpus in arrayOfCorpus:
+    for corpus in corpora:
         options.append(corpus.getName())
     inputCorpus = Input.Input("checkboxGroup", "corpusNames", graph, options, "Corpus")
     model.addAssociatedInput(inputCorpus)
     cell.addInput("corpus", inputCorpus)
 
-    options = ["time",
-               "number of words"
-               ]
-
     strToAnalysisFct = {"time": "time"
         , "number of words": "number of words"}
 
-    input = Input.Input("radio", "analysisFunction", graph, options, "analysis functions"
-                        ,strToAnalysisFct=strToAnalysisFct)
+    input = Input.Input("radio", "analysisFunction", graph, [command for command in strToAnalysisFct]
+                        , "analysis functions"
+                        , strToAnalysisFct=strToAnalysisFct)
 
     model.addAssociatedInput(input)
     cell.addInput("analyse", input)
@@ -89,35 +113,29 @@ def globalView():
     cell.updateDisplay()
 
 
-def AnalysisByFiles():
-    # radioButton to choose how to analyze the data
-    # global arrayOfCorpus    ##################################### test
-    # arrayOfCorpus = [arrayOfCorpus[0]] ##################################### test
+def AnalysisByFiles(corpusNames):
+    corpora = choosingCorpora(corpusNames)
     cell = Cell.Cell()
     graph = Graph()
-    options = ['number of IPU by file',
-               'number of words by file',
-               'time by file',
-               'words/IPU by file',
-               'seconds/IPU by file',
-               'words/seconds by file'
-               ]
-    strToAnalysisFct = {'number of IPU by file' : 'number of IPU by file',
-               'number of words by file' : 'number of words by file',
-               'time by file' : 'time by file',
-               'words/IPU by file' : 'words/IPU by file',
-               'seconds/IPU by file' : 'seconds/IPU by file',
-               'words/seconds by file' : 'words/seconds'}
+    # In this dictionnary you can link an analysis function with a keyword of your choice that will
+    # be diplayed in a input
+    analysisFunctions = {'number of IPU by file': 'number of IPU by file',
+                         'number of words by file': 'number of words by file',
+                         'time by file': 'time by file',
+                         'words/IPU by file': 'words/IPU by file',
+                         'seconds / ipu by file': 'seconds/IPU by file',
+                         'words/seconds by file': 'words/seconds by file'}
 
-    input = Input.Input("radio", "analysisFunction", graph, options, "analysis functions",
-                        strToAnalysisFct=strToAnalysisFct)
+    input = Input.Input("radio", "analysisFunction", graph, [command for command in analysisFunctions]
+                        , "analysis functions"
+                        , strToAnalysisFct=analysisFunctions)
 
     options = []
-    for corpus in arrayOfCorpus:
+    for corpus in corpora:
         options.append(corpus.getName())
     inputCorpus = Input.Input("checkboxGroup", "corpusNames", graph, options, "Corpus")
 
-    model = Model.Model(arrayOfCorpus)
+    model = Model.Model(corpora)
     model.addAssociatedInput(input)
     model.addAssociatedInput(inputCorpus)
     cell.addInput("analyse", input)
@@ -129,16 +147,27 @@ def AnalysisByFiles():
 
 # --------------------------------------------------------------------------------------------------------
 
-def speakerAnalysis():
+def speakerAnalysis(corpusNames):
     """
     analysis menu regarding corpus with speakers
     :return:
     """
+    corpora = choosingCorpora(corpusNames)
     cell = Cell.Cell()
     graph = Graph(tools="wheel_zoom")
 
-    optionsAnalyse = ['number of IPU by file', 'number of words by file', 'time by file', 'number of files']
-    inputAnalyse = Input.Input("radio", "analysisFunction", graph, optionsAnalyse, "analysis functions")
+    # In this dictionnary you can link an analysis function with a keyword of your choice that will
+    # be diplayed in a input
+    analysisFunctions = {
+        'number of IPU by file': 'number of IPU by file'
+        , 'number of words by file': 'number of words by file'
+        , 'time by file': 'time by file'
+        , 'number of files': 'number of files'
+    }
+
+    inputAnalyse = Input.Input("radio", "analysisFunction", graph, [command for command in analysisFunctions]
+                               , "analysis functions"
+                               , strToAnalysisFct=analysisFunctions)
 
     optionsDiscr = ["sex", "age", "geography", "level_study"]
     inputDiscr = Input.Input("radio", "discrimination", graph, optionsDiscr, "Discrimination")
@@ -148,7 +177,7 @@ def speakerAnalysis():
         optionsCorpus.append(corpus)
     inputCorpus = Input.Input("radio", "corpusNames", graph, optionsCorpus, "Corpus")
 
-    model = Model.Model(arrayOfCorpus, speakers, orderXaxis="byX")
+    model = Model.Model(corpora, speakers, orderXaxis="byX")
     model.addAssociatedInput(inputAnalyse)
     model.addAssociatedInput(inputDiscr)
     model.addAssociatedInput(inputCorpus)
@@ -162,30 +191,25 @@ def speakerAnalysis():
 # end createSecondCell
 
 
-def mutliCriterionAnalysis():
-    global arrayOfCorpus
-    #  array with not every corpus to test code
-    test = []
-    test.append(arrayOfCorpus[0])
-    test.append(arrayOfCorpus[1])
-    # test.append(arrayOfCorpus[4])
-    arrayOfCorpus = test
+def mutliCriterionAnalysis(corpusNames):
+    corpora = choosingCorpora(corpusNames)
 
     cell = Cell.Cell()
 
     optionsCorpus = []
-    for corpus in arrayOfCorpus:
+    for corpus in corpora:
         optionsCorpus.append(corpus.getName())
     graphRadar = RadarGraph.RadarGraph()
     inputCorpus = Input.Input("checkboxGroup", "corpusNames", graphRadar, optionsCorpus, "Corpus")
     cell.addInput("inputCorpus", inputCorpus)
-    RadarModel.RadarModel(arrayOfCorpus, inputCorpus, graphRadar)
+    RadarModel.RadarModel(corpora, inputCorpus, graphRadar)
     cell.addGraph("unused", graphRadar)
     cell.updateDisplay()
 
 
 
-def wordDistribution():
+def wordDistribution(corpusNames):
+    corpora = choosingCorpora(corpusNames)
     cell = Cell.Cell()
 
     # testCorpus = [arrayOfCorpus[0],arrayOfCorpus[1]]
@@ -194,12 +218,12 @@ def wordDistribution():
     graph = Graph(tools="pan,wheel_zoom,box_zoom,reset,hover", y_axis_type="log")
 
     optionsCorpus = []
-    for corpus in arrayOfCorpus:
+    for corpus in corpora:
         optionsCorpus.append(corpus.getName())
 
     inputCorpus = Input.Input("radio", "corpusNames", graph, optionsCorpus, "Corpus")
     cell.addInput(" ", inputCorpus)
-    model = Model.Model(arrayOfCorpus, monocorpusAnalysis=True, orderXaxis="byY")
+    model = Model.Model(corpora, monocorpusAnalysis=True, orderXaxis="byY")
     model.setTypeOfAnalysis("freqDist")
     model.addAssociatedInput(inputCorpus)
     graph.addGlyph("column", "VBar", model, option1=0.1, option2="#3AC0C3")
@@ -207,9 +231,6 @@ def wordDistribution():
     cell.updateDisplay()
 
 
-
-
-print("end main.py")
 
 
 
