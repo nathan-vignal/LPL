@@ -45,7 +45,7 @@ class RadarGraph:
         if self.__plot is not None:  # if the plot has already been displayed
             toDelete = self.__plot.select({'name': 'toDelete'})
             for glyph in toDelete:
-                if glyph.visible == True:
+                if glyph.visible:
                     glyph.visible = False
 
 

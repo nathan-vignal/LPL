@@ -18,7 +18,8 @@ class Graph:
             tools = tools.replace(",hover", "")
             tools = tools.replace("hover,", "")
             tools = tools.replace("hover", "")
-        #, y_axis_type = y_axis_type   # use this to try and set
+
+        # , y_axis_type = y_axis_type   # use this to try and set
         self.__figure = figure(x_range=[], title=title, tools=tools)
         hover = HoverTool(tooltips=[
             ("(x,y)", "(@x,@top)")
@@ -130,6 +131,7 @@ class Graph:
             return
         if bottom is None:
             self.__glyphs[name][1].data.update(x=x, top=y, hover=y)
+
         else:
             self.__glyphs[name][1].data.update(x=x, bottom=bottom, top=y, hover=y)
 
@@ -140,6 +142,7 @@ class Graph:
             model = self.__glyphs[glyphName][2]
             if "segment" in glyphName:
                 self.changeGlyph(glyphName, model.getX(), model.getY(), model.getBottom())
+
             elif "barre" in glyphName:
                 self.changeGlyph(glyphName, model.getX(), model.getQ3(), model.getQ1())
             elif "column" in glyphName:
