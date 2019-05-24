@@ -17,7 +17,7 @@ class File:
 
     def initProperties(self):
 
-        file = open("./corpusRelated/txt/bannedWords", "r")
+        file = open("./txt/bannedWords", "r")
         notInterrestingWords = file.readline(1)[0].split(' ')
         lines = self.getLines()
         self.__duration = math.floor(

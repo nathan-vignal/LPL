@@ -1,4 +1,5 @@
-from corpusRelated import Fisher, File, FileWithSpeaker, Corpus
+from source.corpusRelated import FileWithSpeaker, Corpus
+from source.corpusRelated import File, Fisher
 from os import listdir
 
 

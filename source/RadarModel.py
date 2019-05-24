@@ -1,11 +1,5 @@
-from bokeh.models import ColumnDataSource, LabelSet
-from bokeh.models.glyphs import VBar
 import numpy as np
-import RadarGraph
-from bokeh.models.annotations import Title
-from bokeh.plotting import figure
-from bokeh.io import show, push_notebook
-import math
+import source.RadarGraph
 import copy
 class RadarModel:
 
@@ -85,7 +79,7 @@ class RadarModel:
             if corpus.getName() in "SWBD Fisher":
                 if nbWords != 0:
                     temp.append(
-                        corpus.countSpecialWords(open("./corpusRelated/txt/fill_en", "r").readlines()[0].split(',')
+                        corpus.countSpecialWords(open("./txt/fill_en", "r").readlines()[0].split(',')
                                                  ) / float(nbWords))
                 else:
                     temp.append(0)
@@ -102,7 +96,7 @@ class RadarModel:
             else:
                 if nbWords != 0:
 
-                    nbSpecialWords = corpus.countSpecialWords(open("./corpusRelated/txt/fill_fr", "r").readlines()[0].split(',')
+                    nbSpecialWords = corpus.countSpecialWords(open("./txt/fill_fr", "r").readlines()[0].split(',')
                                                  )
                     temp.append(nbSpecialWords / float(nbWords))
 

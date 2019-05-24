@@ -1,4 +1,4 @@
-from corpusRelated.FisherSubUnit import FisherSubUnit
+from source.corpusRelated.FisherSubUnit import FisherSubUnit
 import copy
 
 class Fisher:

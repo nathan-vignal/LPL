@@ -1,20 +1,4 @@
 from __future__ import print_function
-from bokeh.plotting import figure
-import numpy as np
-from bokeh.io import output_notebook
-from os import listdir
-from corpusRelated.CorpusReader import createCorpusFromDirectory
-from corpusRelated.Speakers import getSpeakers
-import RadarGraph
-from bokeh.models.renderers import GlyphRenderer
-from bokeh.io import show, push_notebook
-import RadarModel
-import warnings
-from Graph import Graph
-import Cell
-import Model
-import Input
-from bokeh.io import show
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
@@ -34,7 +18,7 @@ def analysisInManyDimensions(arrayOfCorpus):
         # variable
         nbWords = corpus.getNumberOfWords(forEachFile=True)
         nbFill = corpus.countSpecialWords(
-            open("./corpusRelated/txt/fill_"+corpus.getLanguage(), "r")
+            open("./txt/fill_"+corpus.getLanguage(), "r")
                 .readlines()[0]
                 .split(',')
             , forEachFile=True
@@ -55,12 +39,12 @@ def analysisInManyDimensions(arrayOfCorpus):
         corpusData.append(corpus.getSpecialIpuMeanSize("not feedback_"+corpus.getLanguage(), forEachFile=True))
 
         # variable
-        formality = corpus.countSpecialWords(open("./corpusRelated/txt/formality_"+corpus.getLanguage(), "r")
+        formality = corpus.countSpecialWords(open("./txt/formality_"+corpus.getLanguage(), "r")
                                              .readlines()[0]
                                              .split(','), forEachFile=True
                                              )
 
-        lowFormality = corpus.countSpecialWords(open("./corpusRelated/txt/lowFormality_"+corpus.getLanguage(), "r")
+        lowFormality = corpus.countSpecialWords(open("./txt/lowFormality_"+corpus.getLanguage(), "r")
                                                 .readlines()[0]
                                                 .split(','), forEachFile=True
                                                 )

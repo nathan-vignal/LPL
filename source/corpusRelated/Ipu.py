@@ -1,17 +1,17 @@
 def isFeedBackIpu_en(ipuContent):
-    return isSpecialIpu(ipuContent, 0.5, "./corpusRelated/txt/feedback_en", "./corpusRelated/txt/neutral_en", 3)
+    return isSpecialIpu(ipuContent, 0.5, "./txt/feedback_en", "./txt/neutral_en", 3)
 
 def isFeedBackIpu_fr(ipuContent):
-    return isSpecialIpu(ipuContent, 0.5, "./corpusRelated/txt/feedback_fr", "./corpusRelated/txt/neutral_fr", 3)
+    return isSpecialIpu(ipuContent, 0.5, "./txt/feedback_fr", "./txt/neutral_fr", 3)
 
 def isFill(ipuContent):
-    return isSpecialIpu(ipuContent, 1, "./corpusRelated/txt/fill_fr")
+    return isSpecialIpu(ipuContent, 1, "./txt/fill_fr")
 
 def isntFeedBackIpu_en(ipuContent):
-    return not isSpecialIpu(ipuContent, 0.5, "./corpusRelated/txt/feedback_en", "./corpusRelated/txt/neutral_en", 3)
+    return not isSpecialIpu(ipuContent, 0.5, "./txt/feedback_en", "./txt/neutral_en", 3)
 
 def isntFeedBackIpu_fr(ipuContent):
-    return not isSpecialIpu(ipuContent, 0.5, "./corpusRelated/txt/feedback_fr", "./corpusRelated/txt/neutral_fr", 3)
+    return not isSpecialIpu(ipuContent, 0.5, "./txt/feedback_fr", "./txt/neutral_fr", 3)
 
 
 
@@ -41,6 +41,7 @@ def isSpecialIpu(ipuContent, minRatio, fileWithKeyWords, fileWithNeutralKeywords
 
     f1 = open(fileWithKeyWords, "r")
     specialWords = f1.readlines()[0].split(',')
+    neutralWords = []
     if fileWithNeutralKeywords is not None:
         f1 = open(fileWithNeutralKeywords, "r")
         neutralWords = f1.readlines()[0].split(',')

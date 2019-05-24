@@ -1,7 +1,7 @@
-from Graph import Graph
+from source.Graph import Graph
 import ipywidgets as widgets
 from IPython.display import display
-from RadarGraph import RadarGraph
+from source.RadarGraph import RadarGraph
 class Cell:
 
     def __init__(self):

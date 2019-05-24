@@ -1,4 +1,4 @@
-from corpusRelated.File import File
+from source.corpusRelated.File import File
 import copy
 
 
