@@ -35,7 +35,7 @@ dataBySpeaker_data_source = None
 
 metaDataToLoad = ["sex", "age", "geography", "level_study"]
 
-metaDataFiles = {"SWBD": os.path.join(getOriginePath(),"data","metadata")}
+metaDataFiles = {"SWBD": os.path.join(getOriginePath(), "data", "metadata")}
 conversationInfo = {}
 speakers = {}
 for corpusName in metaDataFiles:

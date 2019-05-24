@@ -2,7 +2,8 @@ import copy
 import math
 from nltk.probability import FreqDist
 import io
-
+from os import path
+from source.pathManagment import getTextPath
 
 class File:
 
@@ -17,7 +18,7 @@ class File:
 
     def initProperties(self):
 
-        file = open("./txt/bannedWords", "r")
+        file = open(path.join(getTextPath(),"bannedWords"), "r")
         notInterrestingWords = file.readline(1)[0].split(' ')
         lines = self.getLines()
         self.__duration = math.floor(

@@ -1,20 +1,25 @@
 from os import path
-from source.pathManagment import getOriginePath
+from source.pathManagment import getTextPath
 
 def isFeedBackIpu_en(ipuContent):
-    return isSpecialIpu(ipuContent, 0.5, "./txt/feedback_en", "./txt/neutral_en", 3)
+    return isSpecialIpu(ipuContent, 0.5, path.join(getTextPath(),"feedback_en")
+                        , path.join(getTextPath(),"neutral_en"),3)
 
 def isFeedBackIpu_fr(ipuContent):
-    return isSpecialIpu(ipuContent, 0.5, "./txt/feedback_fr", "./txt/neutral_fr", 3)
+    return isSpecialIpu(ipuContent, 0.5, path.join(getTextPath(),"feedback_fr")
+                        , path.join(getTextPath(),"neutral_fr"),3)
 
 def isFill(ipuContent):
-    return isSpecialIpu(ipuContent, 1, "./txt/fill_fr")
+    return isSpecialIpu(ipuContent, 1, path.join(getTextPath(),"fill_fr"))
 
 def isntFeedBackIpu_en(ipuContent):
-    return not isSpecialIpu(ipuContent, 0.5, "./txt/feedback_en", "./txt/neutral_en", 3)
+    return not isSpecialIpu(ipuContent, 0.5, path.join(getTextPath(),"feedback_en")
+                            ,path.join(getTextPath(),"neutral_en"), 3)
 
 def isntFeedBackIpu_fr(ipuContent):
-    return not isSpecialIpu(ipuContent, 0.5, "./txt/feedback_fr", "./txt/neutral_fr", 3)
+    return not isSpecialIpu(ipuContent, 0.5
+                            ,path.join(getTextPath(),"feedback_fr")
+                            ,path.join(getTextPath(),"neutral_fr"), 3)
 
 
 
@@ -52,7 +57,7 @@ def isSpecialIpu(ipuContent, minRatio, fileWithKeyWords, fileWithNeutralKeywords
     nbSpecialWords = 0
     nbNeutralWords = 0
     for word in ipuContent:
-        word = word.replace("\n","").lower()
+        word = word.replace("\n", "").lower()
 
         if word in specialWords:
             nbSpecialWords += 1
