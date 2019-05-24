@@ -1,6 +1,19 @@
-a = [[1,2,3],[4,5,6]]
-for b in a:
-    for c in b:
-        if c == 2:
-            continue
-        print(c)
+import pickle
+from source.Cell import Cell
+
+# cell = Cell()
+# print(cell)
+# f = open("./tests/pickling", "wb")
+#
+# pickle.dump(cell, f)
+#
+# f.close()
+
+f = open("./tests/pickling", "rb")
+
+
+array = pickle.load(f)
+
+print(array)
+
+f.close()

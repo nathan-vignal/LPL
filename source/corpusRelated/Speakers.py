@@ -1,3 +1,4 @@
+import os
 def getSpeakers(pathToMetadata, speakerDataToRead):
     """
     only handle SWBD metadata for now
@@ -6,7 +7,7 @@ def getSpeakers(pathToMetadata, speakerDataToRead):
     :return: 
     """
     # associating each conversation with two speakers and a topic
-    f1 = open(pathToMetadata + "conv_tab.csv", "r")
+    f1 = open(os.path.join(pathToMetadata, "conv_tab.csv"), "r")
     lines = f1.readlines()
     convMap = {}
     for i in range(1, len(lines)):
@@ -15,7 +16,7 @@ def getSpeakers(pathToMetadata, speakerDataToRead):
     f1.close()
 
     # creating each speaker from the speakers file
-    f1 = open(pathToMetadata + "caller_tab.csv", "r")
+    f1 = open(os.path.join(pathToMetadata, "caller_tab.csv"), "r")
     lines = f1.readlines()
     indexToRead = {}
     words = lines[0].split(',')

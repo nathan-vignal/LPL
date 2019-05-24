@@ -1,3 +1,6 @@
+from os import path
+from source.pathManagment import getOriginePath
+
 def isFeedBackIpu_en(ipuContent):
     return isSpecialIpu(ipuContent, 0.5, "./txt/feedback_en", "./txt/neutral_en", 3)
 

@@ -1,18 +1,14 @@
 from bokeh.models import ColumnDataSource, LabelSet
-from bokeh.models.glyphs import VBar
 import numpy as np
-from bokeh.models.annotations import Title
 from bokeh.plotting import figure
 from bokeh.io import show, push_notebook
 import math
-import time
 
 class RadarGraph:
 
     def __init__(self, colors=None, title=None):
         self.__plot = None
         self.__handler = None
-        self.model = None
         if colors is None:
             self.__colors = ["black", "blue", "red", "yellow", "green",
                              "purple", "white", "brown", "orange", "pink", "black"]
@@ -42,17 +38,14 @@ class RadarGraph:
         :return:
         """
 
-        if self.__plot is not None:  # if the plot has already been displayed
+        # if the plot has already been displayed
+        if self.__plot is not None:
             toDelete = self.__plot.select({'name': 'toDelete'})
             for glyph in toDelete:
                 if glyph.visible:
                     glyph.visible = False
 
 
-
-
-        # else:
-        #     print("firs time in graph radar")
         if flist == []:
             print("empty data in crearteRadarGraph")
             return
@@ -127,7 +120,6 @@ class RadarGraph:
 
                 p.segment(x0=rulerX0, y0=rulerY0, x1=rulerX1, y1=rulerY1, color="black", line_width=0.5)
 
-        #if self.__plot is None :  # DELETE LINEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
         center = 0.5
         text.append("")
         nbVar = len(flist[0])

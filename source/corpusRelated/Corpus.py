@@ -1,7 +1,8 @@
 import copy
 from source.corpusRelated.Ipu import *
 from nltk.probability import FreqDist
-
+from source.pathManagment import getOriginePath
+from os import path
 class Corpus():
     """
     represent a corpus in the program
@@ -222,7 +223,7 @@ class Corpus():
         search the corpus info file in order to get info on how to read the corpus it's files
         :return:
         """
-        f1 = open("./txt/CorpusInfo", "r")
+        f1 = open(path.join(getOriginePath(), "txt", "CorpusInfo"), "r")
         lines = f1.readlines()
         for line in lines:
             line = line.split("\ ")

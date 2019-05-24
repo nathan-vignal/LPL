@@ -1,14 +1,9 @@
 from __future__ import print_function
 from bokeh.io import output_notebook
-from os import listdir
-
+import os
+from source.pathManagment import getOriginePath
 from source.corpusRelated.CorpusReader import createCorpusFromDirectory
 from source.corpusRelated.Speakers import getSpeakers
-from source.DimensionalityReduction import analysisInManyDimensions, pca, displayPlot
-
-# from source.corpusRelated import  # getSpeakers
-
-
 from source import RadarGraph
 from source import RadarModel
 import warnings
@@ -16,10 +11,15 @@ from source.Graph import Graph
 from source import Cell
 from source import Model
 from source import Input
+import pickle
+
+# !!!!!!!!!! import for notebook !!!!!!!!!!
+from source.DimensionalityReduction import analysisInManyDimensions, pca, displayPlot
+# !!!!!!!!!! import for notebook !!!!!!!!!!
+
 warnings.filterwarnings("ignore")  # to avoid the displaying of a warning caused by the bokeh library...
 
 output_notebook()
-
 # global variable for first plot
 boxplotGraph = None
 # end global variable for first plot
@@ -34,22 +34,23 @@ dataBySpeaker_data_source = None
 
 
 metaDataToLoad = ["sex", "age", "geography", "level_study"]
-metaDataFiles = {"SWBD": "./data/metadata/"}
+
+metaDataFiles = {"SWBD": os.path.join(getOriginePath(),"data","metadata")}
 conversationInfo = {}
 speakers = {}
-for metadata in metaDataFiles:
-    tempConversationInfo, tempspeakers = getSpeakers(metaDataFiles[metadata], metaDataToLoad)
-    conversationInfo[metadata] = tempConversationInfo
-    speakers[metadata] = tempspeakers
+for corpusName in metaDataFiles:
+    tempConversationInfo, tempspeakers = getSpeakers(metaDataFiles[corpusName], metaDataToLoad)
+    conversationInfo[corpusName] = tempConversationInfo
+    speakers[corpusName] = tempspeakers
 
 
 def initCorpus():
     global conversationInfo
     arrayOfCorpus = []
-    sourceDirectory = "./data/corpus/"
+    sourceDirectory = os.path.join(getOriginePath(),"data","corpus")
     # search source directory for corpus and fill corpus object with files inside array corpuses
-    for directoryName in listdir(sourceDirectory):
-        newCorpus = createCorpusFromDirectory(directoryName, sourceDirectory + '/' + directoryName, conversationInfo)
+    for directoryName in os.listdir(sourceDirectory):
+        newCorpus = createCorpusFromDirectory(directoryName, os.path.join(sourceDirectory, directoryName), conversationInfo)
 
         arrayOfCorpus.append(newCorpus)
     return arrayOfCorpus
@@ -58,6 +59,11 @@ def initCorpus():
 
 
 arrayOfCorpus = initCorpus()
+# f = open("./tests/pickling", "wb")
+#
+# pickle.dump(arrayOfCorpus, f)
+#
+# f.close()
 
 message = "available corpora : "
 for corpus in arrayOfCorpus:
