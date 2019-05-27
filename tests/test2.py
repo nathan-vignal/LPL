@@ -1,4 +1,6 @@
 import pickle
+from os import path
+from source.pathManagment import getPathToSerialized
 from source.Cell import Cell
 
 # cell = Cell()
@@ -9,11 +11,11 @@ from source.Cell import Cell
 #
 # f.close()
 
-f = open("./tests/pickling", "rb")
+f = open(path.join(getPathToSerialized(), "arrayOfCorpus"), "rb")
 
 
 array = pickle.load(f)
-
-print(array)
-
 f.close()
+
+
+

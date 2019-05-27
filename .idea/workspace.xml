@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2f171b3e-63e4-4aa3-bbe3-b4be9f07ef52" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/source/pathManagment.py" afterDir="false" />
+    <list default="true" id="2f171b3e-63e4-4aa3-bbe3-b4be9f07ef52" name="Default Changelist" comment="adding fisher second part, avoiding .DF_Store parasyte files, test on pickling">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/firstNotebook.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/firstNotebook.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/RadarGraph.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/RadarGraph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/corpusRelated/Corpus.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/corpusRelated/Corpus.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/corpusRelated/Ipu.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/corpusRelated/Ipu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/corpusRelated/Speakers.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/corpusRelated/Speakers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/corpusRelated/CorpusReader.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/corpusRelated/CorpusReader.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/pathManagment.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/pathManagment.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test2.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test2.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -35,23 +31,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/source/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="9" lean-forward="true" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="9" />
+            <state relative-caret-position="545">
+              <caret line="58" selection-start-line="58" selection-end-line="58" />
+              <folding>
+                <element signature="e#0#37#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/source/corpusRelated/Ipu.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/source/corpusRelated/CorpusReader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="31" column="15" lean-forward="true" selection-start-line="31" selection-start-column="15" selection-end-line="31" selection-end-column="15" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="850">
+              <caret line="65" column="35" selection-start-line="65" selection-start-column="35" selection-end-line="65" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -59,29 +55,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/source/pathManagment.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="56" lean-forward="true" selection-start-line="3" selection-start-column="56" selection-end-line="3" selection-end-column="56" />
+            <state relative-caret-position="120">
+              <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/source/corpusRelated/Corpus.py">
+        <entry file="file://$PROJECT_DIR$/source/RadarGraph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="35">
-              <caret line="198" column="16" lean-forward="true" selection-start-line="198" selection-start-column="16" selection-end-line="198" selection-end-column="16" />
+            <state relative-caret-position="240">
+              <caret line="48" column="23" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
               <folding>
-                <element signature="e#0#11#0" expanded="true" />
+                <element signature="e#0#51#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/source/corpusRelated/Speakers.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="215">
-              <caret line="18" column="60" selection-start-line="18" selection-start-column="60" selection-end-line="18" selection-end-column="60" />
             </state>
           </provider>
         </entry>
@@ -89,8 +76,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" selection-start-line="12" selection-end-line="12" />
+            <state relative-caret-position="150">
+              <caret line="13" selection-start-line="13" selection-end-line="18" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -152,7 +139,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/corpusRelated/txt/neutral_fr" />
         <option value="$PROJECT_DIR$/corpusRelated/txt/neutral_en" />
         <option value="$PROJECT_DIR$/Ipu.py" />
         <option value="$PROJECT_DIR$/corpusRelated/FisherSubUni.py" />
@@ -189,26 +175,27 @@
         <option value="$PROJECT_DIR$/corpusRelated/CorpusReader.py" />
         <option value="$PROJECT_DIR$/source/corpusRelated/AnalyseStat.py" />
         <option value="$PROJECT_DIR$/source/corpusRelated/Deleteme" />
-        <option value="$PROJECT_DIR$/source/corpusRelated/File.py" />
         <option value="$PROJECT_DIR$/source/corpusRelated/Fisher.py" />
         <option value="$PROJECT_DIR$/source/RadarModel.py" />
         <option value="$PROJECT_DIR$/source/Cell.py" />
         <option value="$PROJECT_DIR$/source/DimensionalityReduction.py" />
         <option value="$PROJECT_DIR$/tests/test.py" />
-        <option value="$PROJECT_DIR$/source/RadarGraph.py" />
-        <option value="$PROJECT_DIR$/tests/test2.py" />
         <option value="$PROJECT_DIR$/source/pathManagment" />
-        <option value="$PROJECT_DIR$/source/pathManagment.py" />
         <option value="$PROJECT_DIR$/source/corpusRelated/Speakers.py" />
-        <option value="$PROJECT_DIR$/source/main.py" />
         <option value="$PROJECT_DIR$/source/corpusRelated/Corpus.py" />
         <option value="$PROJECT_DIR$/source/corpusRelated/Ipu.py" />
+        <option value="$PROJECT_DIR$/source/corpusRelated/File.py" />
+        <option value="$PROJECT_DIR$/source/pathManagment.py" />
+        <option value="$PROJECT_DIR$/tests/test2.py" />
+        <option value="$PROJECT_DIR$/source/RadarGraph.py" />
+        <option value="$PROJECT_DIR$/source/corpusRelated/CorpusReader.py" />
+        <option value="$PROJECT_DIR$/source/main.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="953" />
-    <option name="width" value="974" />
+    <option name="x" value="950" />
+    <option name="width" value="977" />
     <option name="height" value="1167" />
   </component>
   <component name="ProjectView">
@@ -216,6 +203,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -242,19 +230,12 @@
             <path>
               <item name="LPL-realOne" type="b2602c69:ProjectViewProjectNode" />
               <item name="LPL-realOne" type="462c0819:PsiDirectoryNode" />
-              <item name="source" type="462c0819:PsiDirectoryNode" />
-              <item name="corpusRelated" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="LPL-realOne" type="b2602c69:ProjectViewProjectNode" />
-              <item name="LPL-realOne" type="462c0819:PsiDirectoryNode" />
               <item name="tests" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -293,7 +274,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main (1)">
+  <component name="RunManager" selected="Python.main">
     <configuration name="main (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="LPL-realOne" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -428,8 +409,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main (1)" />
         <item itemvalue="Python.test2" />
+        <item itemvalue="Python.main (1)" />
         <item itemvalue="Python.test (1)" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.test3" />
@@ -474,7 +455,8 @@
       <workItem from="1558590715937" duration="20500000" />
       <workItem from="1558618957589" duration="393000" />
       <workItem from="1558677885098" duration="3020000" />
-      <workItem from="1558680950055" duration="5827000" />
+      <workItem from="1558680950055" duration="8405000" />
+      <workItem from="1558949798215" duration="1480000" />
     </task>
     <task id="LOCAL-00001" summary="création du fichier Speakers le traitement nécessaire pour obtenir les données sur les speakers et les convaersation. Analyse stat sortie du main est passé dans un fichier à part">
       <created>1555505237142</created>
@@ -574,22 +556,36 @@
       <option name="project" value="LOCAL" />
       <updated>1558681617266</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="better managed path on corpus reader and speakers">
+      <created>1558686919677</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1558686919677</updated>
+    </task>
+    <task id="LOCAL-00016" summary="better managed path reagrdeing txt file">
+      <created>1558687785356</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1558687785356</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="439565000" />
+    <option name="totallyTimeSpent" value="443623000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="953" y="0" width="974" height="1167" extended-state="0" />
+    <frame x="950" y="0" width="977" height="1167" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.71820176" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2885246" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3255814" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32848838" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32848838" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3988495" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -648,12 +644,14 @@
     <MESSAGE value="amélioration lien entre les choix d'input et les effets réels,&#10;commentary on the notebook" />
     <MESSAGE value="ajout deuxième partie de Fisher" />
     <MESSAGE value="new directory architecture" />
-    <option name="LAST_COMMIT_MESSAGE" value="new directory architecture" />
+    <MESSAGE value="better managed path on corpus reader and speakers" />
+    <MESSAGE value="better managed path reagrdeing txt file" />
+    <option name="LAST_COMMIT_MESSAGE" value="better managed path reagrdeing txt file" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/LPL_realOne$test2.coverage" NAME="test2 Coverage Results" MODIFIED="1558684175625" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LPL_realOne$test2.coverage" NAME="test2 Coverage Results" MODIFIED="1558688345209" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/LPL_realOne$test.coverage" NAME="test Coverage Results" MODIFIED="1558341522918" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/LPL_realOne$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1558686417670" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/source" />
+    <SUITE FILE_PATH="coverage/LPL_realOne$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1558688004932" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/source" />
     <SUITE FILE_PATH="coverage/LPL_realOne$test3.coverage" NAME="test3 Coverage Results" MODIFIED="1558099662869" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/LPL_realOne$main.coverage" NAME="main Coverage Results" MODIFIED="1558679096183" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/LPL_realOne$test__1_.coverage" NAME="test (1) Coverage Results" MODIFIED="1558611417689" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/testServerBokeh/t2" />
@@ -865,16 +863,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/corpusRelated/File.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/corpusRelated/AnalyseStat.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -885,16 +873,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/corpusRelated/CorpusReader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="7" column="47" selection-start-line="7" selection-start-column="47" selection-end-line="7" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/updateGraph.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/source/updateGraph.py" />
     <entry file="file://$PROJECT_DIR$/source/RadarModel.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -908,16 +887,6 @@
           <caret line="23" column="30" selection-start-line="23" selection-start-column="30" selection-end-line="23" selection-end-column="30" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/RadarGraph.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-418">
-          <caret line="87" column="39" lean-forward="true" selection-start-line="87" selection-start-column="39" selection-end-line="87" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -942,60 +911,84 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test2.py">
+    <entry file="file://$PROJECT_DIR$/source/pathManagment" />
+    <entry file="file://$PROJECT_DIR$/source/corpusRelated/Speakers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
+        <state>
+          <caret column="9" selection-start-column="9" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/corpusRelated/Ipu.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="83" selection-start-line="15" selection-start-column="45" selection-end-line="15" selection-end-column="83" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/pathManagment">
+    <entry file="file://$PROJECT_DIR$/source/corpusRelated/File.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="8" lean-forward="true" selection-end-line="3" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/pathManagment.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="56" lean-forward="true" selection-start-line="3" selection-start-column="56" selection-end-line="3" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/corpusRelated/Speakers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="18" column="60" selection-start-line="18" selection-start-column="60" selection-end-line="18" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/corpusRelated/Corpus.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="35">
-          <caret line="198" column="16" lean-forward="true" selection-start-line="198" selection-start-column="16" selection-end-line="198" selection-end-column="16" />
+        <state relative-caret-position="-2175">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/main.py">
+    <entry file="file://$PROJECT_DIR$/source/corpusRelated/Corpus.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="9" lean-forward="true" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="9" />
+        <state relative-caret-position="-730">
+          <caret line="198" column="16" selection-start-line="198" selection-start-column="16" selection-end-line="198" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/corpusRelated/Ipu.py">
+    <entry file="file://$PROJECT_DIR$/tests/test2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="31" column="15" lean-forward="true" selection-start-line="31" selection-start-column="15" selection-end-line="31" selection-end-column="15" />
+        <state relative-caret-position="150">
+          <caret line="13" selection-start-line="13" selection-end-line="18" />
           <folding>
-            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/pathManagment.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/RadarGraph.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="48" column="23" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/corpusRelated/CorpusReader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="850">
+          <caret line="65" column="35" selection-start-line="65" selection-start-column="35" selection-end-line="65" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="545">
+          <caret line="58" selection-start-line="58" selection-end-line="58" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
           </folding>
         </state>
       </provider>

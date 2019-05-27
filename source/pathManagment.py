@@ -5,3 +5,6 @@ def getOriginePath():
 
 def getTextPath():
     return os.path.join(getOriginePath(), "txt")
+
+def getPathToSerialized():
+    return os.path.join(getOriginePath(), "serialized")

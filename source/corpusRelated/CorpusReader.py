@@ -13,10 +13,12 @@ def createCorpusFromDirectory(type, path, convMap):
     if type == "Fisher":
         savePath = path
         for fisherHalf in listdir(path):
+            if fisherHalf == ".DS_Store":
+                continue
 
             path = savePath + "/"+fisherHalf +"/data/bbn_orig/"
             for directory in listdir(path):
-                if len(listdir(path + directory)) != 0:
+                if len(listdir(path + directory)) != 0 and directory != ".DS_Store":
                     if "auto-segmented" in listdir(path + directory):
                         for file in listdir(path + directory + "/auto-segmented"):
                             if ".trn" in file:  # we just want one object by conversation
@@ -25,17 +27,17 @@ def createCorpusFromDirectory(type, path, convMap):
                                 files.append(speakerFile[1])
             newCorpus.addElements(files)
 
-
         return newCorpus
 
     # case the corpus is switchboard
     if type == 'SWBD':
         for filename in listdir(path):
 
-            if len(filename) != 3:
+            if len(filename) != 3 or filename == ".DS_Store":
                 continue  # filtrage des fichiers inutiles
             for swbdDirectory in listdir(path + '/' + filename):
-
+                if swbdDirectory == ".DS_Store":
+                    continue
                 for file in listdir(path + '/' + filename + '/' + swbdDirectory):
                     if "trans" in file:
                         if type in convMap:
@@ -61,6 +63,8 @@ def createCorpusFromDirectory(type, path, convMap):
         constructor = FileWithSpeaker.FileWithSpeaker
 
     for filename in listdir(path):
+        if filename == ".DS_Store":
+            continue
         # the directory for switchboard has a specific architecture
 
         currentFile = constructor(path + "/" + filename, newCorpus)

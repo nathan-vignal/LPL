@@ -1,7 +1,7 @@
 from __future__ import print_function
 from bokeh.io import output_notebook
 import os
-from source.pathManagment import getOriginePath
+from source.pathManagment import getOriginePath, getPathToSerialized
 from source.corpusRelated.CorpusReader import createCorpusFromDirectory
 from source.corpusRelated.Speakers import getSpeakers
 from source import RadarGraph
@@ -59,11 +59,17 @@ def initCorpus():
 
 
 arrayOfCorpus = initCorpus()
-# f = open("./tests/pickling", "wb")
+
+f = open(os.path.join(getPathToSerialized(), "arrayOfCorpus"), "wb")
+pickle.dump(arrayOfCorpus, f)
+f.close()
+
+# f = open(os.path.join(getPathToSerialized(), "arrayOfCorpus"), "rb")
 #
-# pickle.dump(arrayOfCorpus, f)
 #
+# arrayOfCorpus = pickle.load(f)
 # f.close()
+
 
 message = "available corpora : "
 for corpus in arrayOfCorpus:
