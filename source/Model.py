@@ -79,11 +79,14 @@ class Model:
             for i in range(0, len(data)):
                 data[i] /= ipuParFichier[i]
 
+
         elif 'seconds/IPU by file' == self.__typeOfAnalysis:
             data = pd.Series(corpus.getDuration(forEachFile=True))
             nbOfLines = corpus.getNbOfLines(forEachFile=True)
             for i in range(0, len(data)):
-                data[i] /= nbOfLines[i]
+                if nbOfLines[i] != 0:
+                    data[i] /= nbOfLines[i]
+
 
         elif "words/seconds by file" == self.__typeOfAnalysis:
             data = corpus.getNumberOfWords(forEachFile=True)
@@ -93,6 +96,7 @@ class Model:
                     data[i] = 0
                     continue
                 data[i] = data[i] / durationByFile[i]
+
             data = pd.Series(data)
 
         elif "number of files" in self.__typeOfAnalysis:
@@ -133,6 +137,7 @@ class Model:
                 if isinstance(data, pd.Series):
                     self.__bottom.append(data.min())
                     self.__y.append(data.max())
+                    print(data.max())
                     self.__q1.append(data.quantile(0.25))
                     self.__q3.append(data.quantile(0.75))
 
