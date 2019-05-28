@@ -14,7 +14,11 @@ from source import Input
 import pickle
 
 # !!!!!!!!!! import for notebook !!!!!!!!!!
-from source.DimensionalityReduction import analysisInManyDimensions, pca, displayPlot
+from source.DimensionalityReduction import analysisInManyDimensions\
+    , pca\
+    , displayPlot\
+    , SWBDAnalysisSpeakers\
+    , freqAnalysis
 # !!!!!!!!!! import for notebook !!!!!!!!!!
 
 warnings.filterwarnings("ignore")  # to avoid the displaying of a warning caused by the bokeh library...
@@ -47,7 +51,7 @@ for corpusName in metaDataFiles:
 def initCorpus():
     global conversationInfo
     arrayOfCorpus = []
-    sourceDirectory = os.path.join(getOriginePath(),"data","corpus")
+    sourceDirectory = os.path.join(getOriginePath(), "data", "corpus")
     # search source directory for corpus and fill corpus object with files inside array corpuses
     for directoryName in os.listdir(sourceDirectory):
         newCorpus = createCorpusFromDirectory(directoryName, os.path.join(sourceDirectory, directoryName), conversationInfo)
@@ -136,12 +140,12 @@ def AnalysisByFiles(corpusNames):
     graph = Graph()
     # In this dictionnary you can link an analysis function with a keyword of your choice that will
     # be diplayed in a input
-    analysisFunctions = {'number of IPU by file': 'number of IPU by file',
-                         'number of words by file': 'number of words by file',
-                         'time by file': 'time by file',
-                         'words/IPU by file': 'words/IPU by file',
-                         'seconds / ipu by file': 'seconds/IPU by file',
-                         'words/seconds by file': 'words/seconds by file'}
+    analysisFunctions = {'number of IPU by speaker in conversation': 'number of IPU by file',
+                         'number of words by speaker in conversation': 'number of words by file',
+                         'time by speaker in conversation': 'time by file',
+                         'words/IPU by speaker in conversation': 'words/IPU by file',
+                         'seconds / ipu by speaker in conversation': 'seconds/IPU by file',
+                         'words/seconds by speaker in conversation': 'words/seconds by file'}
 
     input = Input.Input("radio", "analysisFunction", graph, analysisFunctions
                         , "analysis functions"
@@ -176,10 +180,10 @@ def speakerAnalysis(corpusNames):
     # In this dictionnary you can link an analysis function with a keyword of your choice that will
     # be diplayed in a input
     analysisFunctions = {
-        'number of IPU by file': 'number of IPU by file'
-        , 'number of words by file': 'number of words by file'
-        , 'time by file': 'time by file'
-        , 'number of files': 'number of files'
+        'number of IPU': 'number of IPU by file'
+        , 'number of words': 'number of words by file'
+        , 'time': 'time by file'
+        , 'number of conversations': 'number of files'
     }
 
     inputAnalyse = Input.Input("radio", "analysisFunction", graph, analysisFunctions
@@ -224,7 +228,6 @@ def mutliCriterionAnalysis(corpusNames):
     cell.updateDisplay()
 
 
-
 def wordDistribution(corpusNames):
     corpora = choosingCorpora(corpusNames)
     cell = Cell.Cell()
@@ -247,6 +250,12 @@ def wordDistribution(corpusNames):
     cell.addGraph("unused", graph)
     cell.updateDisplay()
 
+
+
+#
+# df = SWBDAnalysisSpeakers(arrayOfCorpus[4], speakers["SWBD"], "level_study", isFreqAnalysis=True)
+# dataframe, pcaObject = pca(df)
+# displayPlot(dataframe, groupByLabel=True)
 
 
 

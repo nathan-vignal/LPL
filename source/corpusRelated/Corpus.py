@@ -15,6 +15,8 @@ class Corpus():
         :param path: str path to the file
         :param name: name of the corpus
         """
+
+        # corpus reading variables
         self.__name = name
         self.__language = None
         self.__delimiter = None
@@ -25,6 +27,7 @@ class Corpus():
         self.getCorpusInfo()
         self.__type = type
         self.__path = path
+        # corpus analysis variables
         self.__files = []
         self.__nbOfLines = None
         self.__numberOfWordsByFile = None
@@ -32,6 +35,8 @@ class Corpus():
         self.__durationByFile = []
         self.__numberOfWords = None
         self.__distFrequency = None
+        self.__ipuType = {}  # used to store previous function calls related to IPU
+        self.__specialDistFrequencies = {}
 
 
     def addElements(self, elements):
@@ -125,6 +130,7 @@ class Corpus():
     def getRatioSpecialIpu(self, ipuType, forEachFile = False):
         """
         search a function to read the ipuType
+        We use self.__ratioIpuType to store the request not to process it again
         :param ipuType: string
         :param forEachFile: bool
         :return: ratio of special IPU by file or in total
@@ -133,12 +139,17 @@ class Corpus():
         if fct is None:
             print("unknow ipuType in Corpus.py getNbSpecialIPu")
             return -1
-        temp = []
-        for file in self.__files:
-            temp.append(file.getRatioSpecialIpu(fct))
+
+        if ipuType+"ratio" not in self.__ipuType:
+            temp = []
+            for file in self.__files:
+                temp.append(file.getRatioSpecialIpu(fct))
+
+            self.__ipuType[ipuType + "ratio"] = temp
+
         if not forEachFile:
-            return sum(temp) / float(len(self.__files))
-        return temp
+            return sum(self.__ipuType[ipuType + "ratio"]) / float(len(self.__files))
+        return self.__ipuType[ipuType + "ratio"]
 
     def getSpecialIpuMeanSize(self, ipuType, forEachFile = False):
         """
@@ -151,12 +162,15 @@ class Corpus():
         if fct is None:
             print("unknow ipuType in Corpus.py getNbSpecialIPu")
             return -1
-        temp = []
-        for file in self.__files:
-            temp.append(file.getMeanSizeSpecialIpu(fct))
+        if ipuType + "MeanSize" not in self.__ipuType:
+            temp = []
+            for file in self.__files:
+                temp.append(file.getMeanSizeSpecialIpu(fct))
+            self.__ipuType[ipuType + "MeanSize"] = temp
+
         if forEachFile == False:
-            return sum(temp) / float(len(self.__files))
-        return temp
+            return sum(self.__ipuType[ipuType + "MeanSize"]) / float(len(self.__files))
+        return self.__ipuType[ipuType + "MeanSize"]
 
     def getMeanNbUniqueWords(self, forEachFile = False):
         """
@@ -259,6 +273,111 @@ class Corpus():
         print("unknown corpus name" + self.__name)
         return
 
+    def getShortIpuDistFreq(self, forEachFile = False):
+        """
+        get most prevent words in the short IPU(less than 4 words) on the entire corpus
+        :return:
+        """
+        if ("short" not in self.__specialDistFrequencies and not forEachFile) or("short ForEachFile" not in self.__specialDistFrequencies and forEachFile):
+
+            frequencies = []
+            for file in self.__files:
+                frequencies.append(file.getShortIpuDistFreq())
+            self.__specialDistFrequencies["short ForEachFile"] = frequencies
+
+            temp = FreqDist()
+            for  fileFreq in frequencies:
+                temp += fileFreq
+            self.__specialDistFrequencies["short"] = temp
+        if forEachFile:
+            return self.__specialDistFrequencies["short ForEachFile"]
+        return self.__specialDistFrequencies["short"]
+
+
+    def getLongIpuDistFreq(self, forEachFile = False):
+        """
+        get most present words as first word and as last word in long IPU
+
+        :return:
+        """
+        if (("longStart" not in self.__specialDistFrequencies or "longEnd" not in self.__specialDistFrequencies)
+                and not forEachFile)\
+                or (("longStart ForEachFile" not in self.__specialDistFrequencies
+             or "longEnd ForEachFile" not in self.__specialDistFrequencies)
+            and forEachFile):
+
+            freqStartWords = []
+            freqEndWords = []
+            # first calculating for eahc file
+            for file in self.__files:
+                startWords, endWords = file.getLongIpuDistFreq()
+                freqStartWords.append(startWords)  # for start words in long IPU
+                freqEndWords.append(endWords)  # for the end word in long IPU
+            self.__specialDistFrequencies["longStart ForEachFile"] = freqStartWords
+            self.__specialDistFrequencies["longEnd ForEachFile"] = freqEndWords
+
+            # then calculating the sum of the frequencies
+            start = FreqDist()  # merging all files distribution frequencies together ofr s
+            for fileStartWord in freqStartWords:
+                start += fileStartWord
+            self.__specialDistFrequencies["longStart"] = start
+
+
+            end = FreqDist()
+            for fileEndWord in freqEndWords:
+                end += fileEndWord
+            self.__specialDistFrequencies["longEnd"] = end
+
+        if forEachFile:
+            return self.__specialDistFrequencies["longStart ForEachFile"] \
+                , self.__specialDistFrequencies["longEnd ForEachFile"]
+        return self.__specialDistFrequencies["longStart"], self.__specialDistFrequencies["longEnd"]
+
+    def getWordFreqLongIpu(self, word, isStart= True):
+        """
+
+        :param word:
+        :param isStart: set to true if we want the starting word of a long IPU, set to false if you want the end
+        :return:
+        """
+        fileFrequencies = None
+        if isStart:
+            fileFrequencies = self.getLongIpuDistFreq(forEachFile=True)
+            fileFrequencies= fileFrequencies[0]
+        else:
+            fileFrequencies = self.getLongIpuDistFreq(forEachFile=True)
+            fileFrequencies = fileFrequencies[1]
+
+        freqForEachFile = []
+        for fileFreq in fileFrequencies:
+            if word in fileFreq:
+                freqForEachFile.append(fileFreq[word])
+            else:
+                freqForEachFile.append(0)
+        return freqForEachFile
+
+    def getWordFreqShortIPU(self, word):
+
+        fileFrequencies = self.getShortIpuDistFreq(forEachFile=True)
+
+        freqForEachFile = []
+        for fileFreq in fileFrequencies:
+            if word in fileFreq:
+                freqForEachFile.append(fileFreq[word])
+            else:
+                freqForEachFile.append(0)
+        return freqForEachFile
+
+
+
+
+
+
+
+
+
+
+
     def getName(self):
         if self.__name == None:
             print("self.__name not set")
@@ -293,6 +412,7 @@ class Corpus():
         if self.__hasSpeaker == None:
             print("self.__hasSpeaker not set")
         return copy.copy(self.__hasSpeaker)
+
 
 
 

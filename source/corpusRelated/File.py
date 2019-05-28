@@ -14,6 +14,8 @@ class File:
         self.__duration = 0
         self.__numberOfWords = 0
         self.__numberUniqueWords = 0
+        self.__distFreq = None
+        self.__specialDistrFreq = {}
         self.initProperties()
 
     def initProperties(self):
@@ -26,7 +28,6 @@ class File:
 
 
         uniqueWords = set()
-        self.__distFreq = None
 
         for line in lines:
             self.__nbOfLines += 1
@@ -155,6 +156,8 @@ class File:
                                                                         # but CID contains 2 delimiters
             for word in splitted:
                 words.extend(word.split("_"))  # specific to CID
+        if "" in words:
+            words.remove("")  # debug some corpus
         return words
 
     def distFrequency(self):
@@ -166,7 +169,6 @@ class File:
             lines = self.getLines()
             arrayDistFrequency = []
             for line in lines:
-
                 arrayDistFrequency.append(FreqDist(word.lower() for word in self.readIpu(line)))
 
             sum = FreqDist()
@@ -176,6 +178,51 @@ class File:
             self.__distFreq = sum
 
         return self.__distFreq
+
+    def getShortIpuDistFreq(self):
+
+        if "shortIpu" not in self.__specialDistrFreq:
+            lines = self.getLines()
+            arrayDistFrequency = []
+
+            for line in lines:
+                words = self.readIpu(line)
+                if len(words) < 4:
+                    arrayDistFrequency.append(FreqDist(word.lower() for word in words))
+
+            sum = FreqDist()
+            for distFrequency in arrayDistFrequency:
+                sum += distFrequency
+
+            self.__specialDistrFreq["shortIpu"] = sum
+        return self.__specialDistrFreq["shortIpu"]
+
+
+
+    def getLongIpuDistFreq(self):
+        """
+        get all the first and the last word of long(more than 3 words) IPU and return them as a frequency distribution
+        :return:
+        """
+        if "longIpuStart" not in self.__specialDistrFreq or "longIpuEnd" not in self.__specialDistrFreq:
+            lines = self.getLines()
+            arrayStartWords = []
+            arrayEndWords = []
+
+
+            for line in lines:
+                words = self.readIpu(line)
+                if len(words) > 3:
+                    arrayStartWords.append(words[0])
+                    arrayEndWords.append(words[-1])
+
+            freqStart = FreqDist(arrayStartWords)
+            freqEnd = FreqDist(arrayEndWords)
+
+            self.__specialDistrFreq["longIpuStart"] = freqStart
+            self.__specialDistrFreq["longIpuEnd"] = freqEnd
+
+        return self.__specialDistrFreq["longIpuStart"], self.__specialDistrFreq["longIpuEnd"]
 
     def getLines(self):
         file = open(self.path, "r")

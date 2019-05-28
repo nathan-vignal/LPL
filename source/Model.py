@@ -130,7 +130,6 @@ class Model:
                 self.__xAxis.add(corpus.getName())
                 self.__x.append(corpus.getName())
                 data = self.analyseCorpus(corpus)
-
                 if isinstance(data, pd.Series):
                     self.__bottom.append(data.min())
                     self.__y.append(data.max())
@@ -246,10 +245,12 @@ class Model:
 
         elif self.__monocorpusAnalysis == False:
             self.analyseMultipleCorpus()
-        else:
+
+        else:  #it's a frequency distribution
             for corpus in self.__corpus:
                 if (corpus.getName() in self.__corpusToAnalyzeNames):
                     data = self.analyseCorpus(corpus)
+
                     self.__x = list(data.keys())
                     self.__y = list(data.values())
 
