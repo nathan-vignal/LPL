@@ -134,18 +134,18 @@ def globalView(corpusNames):
     cell.updateDisplay()
 
 
-def AnalysisByFiles(corpusNames):
+def analysisByConversation(corpusNames):
     corpora = choosingCorpora(corpusNames)
     cell = Cell.Cell()
     graph = Graph()
     # In this dictionnary you can link an analysis function with a keyword of your choice that will
     # be diplayed in a input
-    analysisFunctions = {'number of IPU by speaker in conversation': 'number of IPU by file',
-                         'number of words by speaker in conversation': 'number of words by file',
-                         'time by speaker in conversation': 'time by file',
-                         'words/IPU by speaker in conversation': 'words/IPU by file',
-                         'seconds / ipu by speaker in conversation': 'seconds/IPU by file',
-                         'words/seconds by speaker in conversation': 'words/seconds by file'}
+    analysisFunctions = {'number of IPU': 'number of IPU by file',
+                         'number of words': 'number of words by file',
+                         'time': 'time by file',
+                         'words/IPU': 'words/IPU by file',
+                         'seconds/ipu': 'seconds/IPU by file',
+                         'words/seconds': 'words/seconds by file'}
 
     input = Input.Input("radio", "analysisFunction", graph, analysisFunctions
                         , "analysis functions"
@@ -252,7 +252,7 @@ def wordDistribution(corpusNames):
 
 
 
-#
+
 # df = SWBDAnalysisSpeakers(arrayOfCorpus[4], speakers["SWBD"], "level_study", isFreqAnalysis=True)
 # dataframe, pcaObject = pca(df)
 # displayPlot(dataframe, groupByLabel=True)

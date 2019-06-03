@@ -4,15 +4,17 @@ from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from os import path
+from sklearn.cluster import KMeans
 from source.pathManagment import getTextPath, getPathToSerialized
+import numpy as np
 import pickle
+import math
 
 pd.options.display.max_columns = 10
 
 
 def analysisInManyDimensions(arrayOfCorpus):
     data = []
-    #arrayOfCorpus = [arrayOfCorpus[0],arrayOfCorpus[1]] subarray used for test only
 
     # search for each corpus the infos we want
     for corpus in arrayOfCorpus:
@@ -87,20 +89,22 @@ def analysisInManyDimensions(arrayOfCorpus):
     return dataFrame
 
 
-def freqAnalysis(corpus):
+def freqAnalysis(corpus, numberOfWords, printMostCommon=False):
 
     short = corpus.getShortIpuDistFreq()
 
     longStart, longEnd = corpus.getLongIpuDistFreq()
 
-    mostCommonShort = [x[0] for x in short.most_common(5)]
-    print(mostCommonShort)
-    mostCommonLongStart = [x[0] for x in longStart.most_common(5)]
-    print(mostCommonLongStart)
-    mostCommonLongEnd = [x[0] for x in longEnd.most_common(5)]
-    print(mostCommonLongEnd)
+    mostCommonShort = [x[0] for x in short.most_common(numberOfWords)]
+    mostCommonLongStart = [x[0] for x in longStart.most_common(numberOfWords)]
+    mostCommonLongEnd = [x[0] for x in longEnd.most_common(numberOfWords)]
 
-    # storing the most common words inside a dictionnary
+    if printMostCommon:
+        print("most common in short IPUs : " + str(mostCommonShort))
+        print("most common as first word in Long IPU : " + str(mostCommonLongStart))
+        print("most common as last word in Long IPU : " + str(mostCommonLongEnd))
+
+    # storing the most common words inside a dictionary
     # We are also adding a postfix to the word because we don't want categories to mix
     mostCommonWords = {}
     for word in mostCommonShort:
@@ -116,45 +120,74 @@ def freqAnalysis(corpus):
     return dataFrame
 
 
-def SWBDAnalysisSpeakers(swbdCorpus, speakerData, labelWanted, isFreqAnalysis =False):
+def SWBDAnalysisSpeakers(swbdCorpus, speakerData, labelWanted = None, numberOfWords=5, clusterKMean=0):
+    """
 
-    if isFreqAnalysis:
-        dataframe = freqAnalysis(swbdCorpus)
-    else:
-        dataframe = analysisInManyDimensions([swbdCorpus])
+    :param swbdCorpus:
+    :param speakerData:
+    :param labelWanted:
+    :param numberOfWords:
+    :param clusterKMean: if 0 we will use label
+    :return:
+    """
 
-    f = open(path.join(getPathToSerialized(), "swbdDataframe"), "wb")
-    pickle.dump(dataframe, f)
-    f.close()
-
-    # f = open(path.join(getPathToSerialized(), "swbdDataframe"), "rb")
-    # dataframe = pickle.load(f)
+    # frequencyAnalysis = freqAnalysis(swbdCorpus, numberOfWords=numberOfWords, printMostCommon=True)
+    #
+    #
+    # dimensionAnalysis = analysisInManyDimensions([swbdCorpus])
+    # dataframe = pd.concat([frequencyAnalysis, dimensionAnalysis], axis=1, sort=False)
+    #
+    #
+    # f = open(path.join(getPathToSerialized(), "swbdDataframe"), "wb")
+    # pickle.dump(dataframe, f)
     # f.close()
 
+    f = open(path.join(getPathToSerialized(), "swbdDataframe"), "rb")
+    dataframe = pickle.load(f)
+    f.close()
+
+    # grouping files by speaker
     eachFilespeakerID = swbdCorpus.getSpeakerByFile()
     dataframe["idSpeaker"] = eachFilespeakerID
-
-    # filtering the info in speakerData and keeping only labelWanted
-    # speakerDAta look like {'1000': {'sex': 'FEMALE', 'age': '36', 'geography': 'SOUTH MIDLAND', 'level_study': '1'}..
-    # filteredSpeaker will look like {'1000': '1', '1001': '3',...} if labelWanted is level_study
-    filteredSpeaker = {}
-    for speaker in speakerData:
-        for info in speakerData[speaker]:
-            if info == labelWanted:
-                filteredSpeaker[speaker] = speakerData[speaker][info]
-
     dataframe = dataframe.groupby(['idSpeaker']).mean()
-    dataframe["label"] = pd.Series(filteredSpeaker)
-    dataframe.index = pd.RangeIndex(len(dataframe.index))
+
+
+
+
+    if clusterKMean == 0 and labelWanted is not None:
+        # we cluster by labelWanted
+        filteredSpeaker = {}
+        for speaker in speakerData:
+            for info in speakerData[speaker]:
+                if info == labelWanted:
+                    filteredSpeaker[speaker] = speakerData[speaker][info]
+        dataframe["label"] = pd.Series(filteredSpeaker)
+
+        #dataframe.index = pd.RangeIndex(len(dataframe.index)) does not work
+        dataframe.index = np.arange(len(dataframe))
+    elif clusterKMean > 0:
+
+        dataframe.index = pd.RangeIndex(len(dataframe.index))  # restarting the indexes is important
+        # because the current indices are speakers's identification number
+
+        kmeanModel = KMeans(n_clusters=clusterKMean).fit(dataframe)
+        clusters = kmeanModel.predict(dataframe)  # associate a cluster to each speaker
+        dataframe["label"] = pd.Series(dict(enumerate(clusters)))  # going from a list to a dict and assigning
+    else:
+        print("need either label wanted or clusterKMean in function SWBDAnalysisSpeakers")
+
+    f = open(path.join(getPathToSerialized(), "swbdDataframeBySpeaker"), "wb")
+    pickle.dump(dataframe, f)
+    f.close()
 
     return dataframe
 
 
 def pca(dataFrame):
-    print(dataFrame.columns)
     features = list(dataFrame.columns)
-
     features.remove('label')
+
+
     # Separating out the features
     x = dataFrame.loc[:, features].values
     # Standardizing the features
@@ -165,10 +198,13 @@ def pca(dataFrame):
 
     principalDf = pd.DataFrame(data = principalComponents
                  , columns=['principal component 1', 'principal component 2'])
+
     principalDf = principalDf[principalDf['principal component 1'] < 4]
     principalDf = principalDf[principalDf['principal component 2'] < 4]
 
     finalDf = pd.concat([principalDf, dataFrame[['label']]], axis=1)
+    finalDf = finalDf[np.invert(finalDf['principal component 2'].isna())]  # when we delete extreme values we delete
+    # rows that are still in dataFrame, so we obtain NaN when we merge dataframe and principalDf, here we delete the Nan
 
     return finalDf, pca
 
@@ -179,24 +215,20 @@ def displayPlot(dataFrame, groupByLabel=False):
         dataFrame = dataFrame.groupby(["label"]).mean()
         dataFrame = dataFrame.reset_index()
         dotSize *= 10
-    print(dataFrame.columns)
-
-
-
-
+    print(dataFrame)
 
     fig = plt.figure(figsize=(8, 8))
-    #creating the axes
+    # creating the axes
     ax = fig.add_subplot(1, 1, 1)
     ax.set_xlabel('Principal Component 1', fontsize=15)
     ax.set_ylabel('Principal Component 2', fontsize=15)
     ax.set_title('2 component PCA', fontsize=20)
-    #getting the labels inside the dataframe
+    # getting the labels inside the dataframe
     labels = dataFrame['label'].unique()
 
     colors = ['red', 'green', 'blue', 'brown', 'black']
     # if there's more labels than colors fill the rest with black
-    colors.extend(['black'] * (  len( dataFrame.groupby(['label']) )-len(colors)  ))
+    colors.extend(['black'] * (len(labels)-len(colors)))
 
     # for each label display all the conversations associated
     for target, color in zip(labels, colors):

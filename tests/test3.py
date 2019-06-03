@@ -1,32 +1,40 @@
-import numpy as np
-from bokeh.io import show
-from bokeh.layouts import column
-from bokeh.models import ColumnDataSource, RangeTool
-from bokeh.plotting import figure
-from bokeh.sampledata.stocks import AAPL
+from random import random
+from bokeh.models import CustomJS, ColumnDataSource
+from bokeh.plotting import figure, output_file, show
 
-dates = np.array(AAPL['date'], dtype=np.datetime64)
-source = ColumnDataSource(data=dict(date=dates, close=AAPL['adj_close']))
+output_file("callback.html")
 
-p = figure(plot_height=300, plot_width=800, tools="xpan", toolbar_location=None,
-           x_axis_type="datetime", x_axis_location="above",
-           background_fill_color="#efefef", x_range=(dates[1500], dates[2500]))
+x = [random() for x in range(500)]
+y = [random() for y in range(500)]
+color = ["navy"] * len(x)
 
-p.line('date', 'close', source=source)
-p.yaxis.axis_label = 'Price'
+s = ColumnDataSource(data=dict(x=x, y=y, color=color))
+p = figure(plot_width=400, plot_height=400, tools="lasso_select", title="Select Here")
+p.circle('x', 'y', color='color', size=8, source=s, alpha=0.4)
 
-select = figure(title="Drag the middle and edges of the selection box to change the range above",
-                plot_height=130, plot_width=800, y_range=p.y_range,
-                x_axis_type="datetime", y_axis_type=None,
-                tools="", toolbar_location=None, background_fill_color="#efefef")
+s2 = ColumnDataSource(data=dict(ym=[0.5, 0.5]))
+p.line(x=[0, 1], y='ym', color="orange", line_width=5, alpha=0.6, source=s2)
 
-range_tool = RangeTool(x_range=p.x_range)
-range_tool.overlay.fill_color = "navy"
-range_tool.overlay.fill_alpha = 0.2
+s.callback = CustomJS(args=dict(s2=s2), code="""
+        var inds = cb_obj.get('selected')['1d'].indices;
+        var d = cb_obj.get('data');
+        var ym = 0
 
-select.line('date', 'close', source=source)
-select.ygrid.grid_line_color = None
-select.add_tools(range_tool)
-select.toolbar.active_multi = range_tool
+        if (inds.length == 0) { return; }
 
-show(column(p, select))
+        for (i = 0; i < d['color'].length; i++) {
+            d['color'][i] = "navy"
+        }
+        for (i = 0; i < inds.length; i++) {
+            d['color'][inds[i]] = "firebrick"
+            ym += d['y'][inds[i]]
+        }
+
+        ym /= inds.length
+        s2.get('data')['ym'] = [ym, ym]
+
+        cb_obj.trigger('change');
+        s2.trigger('change');
+    """)
+
+show(p)

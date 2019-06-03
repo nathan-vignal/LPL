@@ -2,7 +2,10 @@ import copy
 from source.corpusRelated.Ipu import *
 from nltk.probability import FreqDist
 from source.pathManagment import getOriginePath
+from .UselessWords import UselessWords
 from os import path
+
+
 class Corpus():
     """
     represent a corpus in the program
@@ -24,6 +27,7 @@ class Corpus():
         self.__indexEndContent = None
         self.__contentDelimiter = None
         self.__hasSpeaker = None
+        self.__uselessWords = UselessWords().get()
         self.getCorpusInfo()
         self.__type = type
         self.__path = path
@@ -286,13 +290,12 @@ class Corpus():
             self.__specialDistFrequencies["short ForEachFile"] = frequencies
 
             temp = FreqDist()
-            for  fileFreq in frequencies:
+            for fileFreq in frequencies:
                 temp += fileFreq
             self.__specialDistFrequencies["short"] = temp
         if forEachFile:
             return self.__specialDistFrequencies["short ForEachFile"]
         return self.__specialDistFrequencies["short"]
-
 
     def getLongIpuDistFreq(self, forEachFile = False):
         """
@@ -317,11 +320,10 @@ class Corpus():
             self.__specialDistFrequencies["longEnd ForEachFile"] = freqEndWords
 
             # then calculating the sum of the frequencies
-            start = FreqDist()  # merging all files distribution frequencies together ofr s
+            start = FreqDist()  # merging all files distribution frequencies together
             for fileStartWord in freqStartWords:
                 start += fileStartWord
             self.__specialDistFrequencies["longStart"] = start
-
 
             end = FreqDist()
             for fileEndWord in freqEndWords:
@@ -333,7 +335,7 @@ class Corpus():
                 , self.__specialDistFrequencies["longEnd ForEachFile"]
         return self.__specialDistFrequencies["longStart"], self.__specialDistFrequencies["longEnd"]
 
-    def getWordFreqLongIpu(self, word, isStart= True):
+    def getWordFreqLongIpu(self, word, isStart=True):
         """
 
         :param word:
@@ -413,7 +415,6 @@ class Corpus():
             print("self.__hasSpeaker not set")
         return copy.copy(self.__hasSpeaker)
 
-
-
-
+    def getUselessWords(self):
+        return copy.copy(self.__uselessWords)
 

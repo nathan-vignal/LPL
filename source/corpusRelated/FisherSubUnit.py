@@ -33,6 +33,10 @@ class FisherSubUnit:
         return copy.copy(self.__numberOfWords)
 
     def initVariables(self):
+        """
+        init most variables, this functions helps no going through each files too many times
+        :return:
+        """
         lines = self.getLines()
         self.__numberOfWords = 0
         wordsSet = set()
@@ -54,6 +58,8 @@ class FisherSubUnit:
         self.__duration = math.floor(
             float(lines[-1].split(' ')[6].split('-')[0]) -
             float(lines[0].split(' ')[6].split('-')[1]))/float(10000)
+        if self.__duration < 0:
+            print(self.__father.getpath() + self.__father.getidFile())
 
 
 

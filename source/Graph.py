@@ -140,9 +140,15 @@ class Graph:
     def update(self):
         for glyphName in self.__glyphs:
             model = self.__glyphs[glyphName][2]
+            # print(model.getY())
+            # print(model.getX())
+            # print(model.getQ3())
+            # print(model.getQ1())
+            # print(model.getBottom())
+
+            model.getX()
             if "segment" in glyphName:
                 self.changeGlyph(glyphName, model.getX(), model.getY(), model.getBottom())
-
             elif "barre" in glyphName:
                 self.changeGlyph(glyphName, model.getX(), model.getQ3(), model.getQ1())
             elif "column" in glyphName:
@@ -158,6 +164,9 @@ class Graph:
             self.__handler = show(self.__figure, notebook_handle=True)
 
         else:
+
+
+
             push_notebook(handle=self.__handler)
 
     # -----------------end class------------------

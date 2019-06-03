@@ -158,18 +158,34 @@ class File:
                 words.extend(word.split("_"))  # specific to CID
         if "" in words:
             words.remove("")  # debug some corpus
+
+        uselesWords = self.__corpus.getUselessWords()
+        #print(uselesWords) # debug
+        for uselessWord in uselesWords:
+            for contentWord in words:
+                if contentWord == uselessWord:
+
+                    words.remove(contentWord)
+
         return words
 
     def distFrequency(self):
         """
-        generate a disctribution frequency of words for this file
+        generate a distribution frequency of words for this file
         :return:
         """
+        file = open(path.join(getTextPath(), "bannedWords"), "r")
+        notInterrestingWords = file.readline(1)[0].split(' ')
         if self.__distFreq is None:
             lines = self.getLines()
             arrayDistFrequency = []
             for line in lines:
-                arrayDistFrequency.append(FreqDist(word.lower() for word in self.readIpu(line)))
+                words = [word.lower() for word in self.readIpu(line)]
+                for word in notInterrestingWords:
+                    if word in words:
+                        words.remove(word)
+
+                arrayDistFrequency.append(FreqDist(words))
 
             sum = FreqDist()
             for distFrequency in arrayDistFrequency:
@@ -180,6 +196,10 @@ class File:
         return self.__distFreq
 
     def getShortIpuDistFreq(self):
+        """
+        get the distribution frequency of words used in all short IPUs
+        :return:
+        """
 
         if "shortIpu" not in self.__specialDistrFreq:
             lines = self.getLines()
@@ -208,7 +228,6 @@ class File:
             lines = self.getLines()
             arrayStartWords = []
             arrayEndWords = []
-
 
             for line in lines:
                 words = self.readIpu(line)

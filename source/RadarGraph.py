@@ -24,7 +24,6 @@ class RadarGraph:
         if self.__handler == None:
             self.__handler = show(self.__plot, notebook_handle=True)
         else:
-            show(self.__plot)
             push_notebook(handle=self.__handler)
 
     def createRadarGraph(self, text, flist, title=None, colors=None):

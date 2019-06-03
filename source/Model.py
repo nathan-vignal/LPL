@@ -110,7 +110,6 @@ class Model:
             data = corpus.getDuration()
             data /= 3600
 
-
         elif self.__typeOfAnalysis == "number of words by file":
             data = corpus.getNumberOfWords(forEachFile=True)
         elif self.__typeOfAnalysis == "number of words":
@@ -127,7 +126,7 @@ class Model:
         set the data that the analysis return in the object attributes
         :return:
         """
-        if self.__typeOfAnalysis is None: # it means that other input are changing before the input of analysis
+        if self.__typeOfAnalysis is None:  # it means that other input are changing before the input of analysis
             return
         for corpus in self.__corpus:
             if (corpus.getName() in self.__corpusToAnalyzeNames) or (self.__corpusToAnalyzeNames == "*"):
@@ -137,7 +136,6 @@ class Model:
                 if isinstance(data, pd.Series):
                     self.__bottom.append(data.min())
                     self.__y.append(data.max())
-                    print(data.max())
                     self.__q1.append(data.quantile(0.25))
                     self.__q3.append(data.quantile(0.75))
 
