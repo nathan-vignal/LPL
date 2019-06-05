@@ -2,24 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2f171b3e-63e4-4aa3-bbe3-b4be9f07ef52" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/source/corpusRelated/UselessWords.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/source/Simone/discover.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/source/Simone/functions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/debug.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/debug.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/firstNotebook.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/firstNotebook.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.spec" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/serialized/arrayOfCorpus" beforeDir="false" afterPath="$PROJECT_DIR$/serialized/arrayOfCorpus" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serialized/swbdDataframeBySpeaker" beforeDir="false" afterPath="$PROJECT_DIR$/serialized/swbdDataframeBySpeaker" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/DimensionalityReduction.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/DimensionalityReduction.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/Graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/Graph.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/Model.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/Model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/RadarGraph.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/RadarGraph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/corpusRelated/Corpus.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/corpusRelated/Corpus.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/corpusRelated/File.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/corpusRelated/File.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/source/corpusRelated/FisherSubUnit.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/corpusRelated/FisherSubUnit.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test2.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test3.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test3.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/txt/bannedWords" beforeDir="false" afterPath="$PROJECT_DIR$/txt/bannedWords" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,13 +38,49 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/source/DimensionalityReduction.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/source/Simone/functions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="631">
-              <caret line="206" column="23" lean-forward="true" selection-start-line="206" selection-start-column="23" selection-end-line="206" selection-end-column="23" />
+            <state relative-caret-position="98">
+              <caret line="849" column="16" lean-forward="true" selection-start-line="849" selection-start-column="16" selection-end-line="849" selection-end-column="16" />
               <folding>
-                <element signature="e#0#37#0" expanded="true" />
+                <element signature="e#0#31#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tests/test2.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="202">
+              <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/test.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="375">
+              <caret line="25" column="14" lean-forward="true" selection-start-line="25" selection-start-column="14" selection-end-line="25" selection-end-column="14" />
+              <folding>
+                <element signature="e#1#19#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/test3.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="630">
+              <caret line="42" column="30" lean-forward="true" selection-start-line="42" selection-start-column="30" selection-end-line="42" selection-end-column="30" />
+              <folding>
+                <element signature="e#1#19#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -66,9 +97,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>print(x)</find>
-      <find>ratio</find>
-      <find>print(&quot;de</find>
       <find>c</find>
       <find>indexEndContent</find>
       <find>unknow</find>
@@ -96,6 +124,9 @@
       <find>freq</find>
       <find>]</find>
       <find>banned</find>
+      <find>graph</find>
+      <find>self.setXAxis(list(model.getXAxis()))</find>
+      <find>x and y must be lists. in :changeGlyph</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -109,8 +140,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/corpusRelated/txt/ouais_fr" />
-        <option value="$PROJECT_DIR$/corpusRelated/Fisher.py" />
         <option value="$PROJECT_DIR$/corpusRelated/Ipu.py" />
         <option value="$PROJECT_DIR$/RadarGraph" />
         <option value="$PROJECT_DIR$/corpusRelated/txt/yes_en" />
@@ -145,9 +174,7 @@
         <option value="$PROJECT_DIR$/source/corpusRelated/Ipu.py" />
         <option value="$PROJECT_DIR$/source/pathManagment.py" />
         <option value="$PROJECT_DIR$/source/corpusRelated/CorpusReader.py" />
-        <option value="$PROJECT_DIR$/source/Graph.py" />
         <option value="$PROJECT_DIR$/source/corpusRelated/FisherSubUnit.py" />
-        <option value="$PROJECT_DIR$/source/Model.py" />
         <option value="$PROJECT_DIR$/source/RadarGraph.py" />
         <option value="$PROJECT_DIR$/source/corpusRelated/forbidenWords" />
         <option value="$PROJECT_DIR$/source/corpusRelated/uselessWords.py" />
@@ -155,11 +182,15 @@
         <option value="$PROJECT_DIR$/source/corpusRelated/File.py" />
         <option value="$PROJECT_DIR$/txt/bannedWords" />
         <option value="$PROJECT_DIR$/source/corpusRelated/UselessWords.py" />
-        <option value="$PROJECT_DIR$/tests/test.py" />
-        <option value="$PROJECT_DIR$/tests/test3.py" />
-        <option value="$PROJECT_DIR$/tests/test2.py" />
-        <option value="$PROJECT_DIR$/source/main.py" />
         <option value="$PROJECT_DIR$/source/DimensionalityReduction.py" />
+        <option value="$PROJECT_DIR$/source/Model.py" />
+        <option value="$PROJECT_DIR$/source/Graph.py" />
+        <option value="$PROJECT_DIR$/source/main.py" />
+        <option value="$PROJECT_DIR$/source/Simone/discover.py" />
+        <option value="$PROJECT_DIR$/source/Simone/functions.py" />
+        <option value="$PROJECT_DIR$/tests/test3.py" />
+        <option value="$PROJECT_DIR$/tests/test.py" />
+        <option value="$PROJECT_DIR$/tests/test2.py" />
       </list>
     </option>
   </component>
@@ -170,10 +201,11 @@
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
-      <showMembers ProjectPane="true" />
+      <showMembers ProjectPane="false" />
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -195,7 +227,7 @@
               <item name="LPL-realOne" type="b2602c69:ProjectViewProjectNode" />
               <item name="LPL-realOne" type="462c0819:PsiDirectoryNode" />
               <item name="source" type="462c0819:PsiDirectoryNode" />
-              <item name="corpusRelated" type="462c0819:PsiDirectoryNode" />
+              <item name="Simone" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="LPL-realOne" type="b2602c69:ProjectViewProjectNode" />
@@ -206,7 +238,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -221,16 +252,16 @@
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\vignal\PycharmProjects\LPL-realOne\corpusRelated" />
-      <recent name="C:\Users\vignal\PycharmProjects\LPL-realOne" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\vignal\PycharmProjects\LPL-realOne\source\Simone" />
       <recent name="C:\Users\vignal\PycharmProjects\LPL-realOne" />
       <recent name="C:\Users\vignal\PycharmProjects\LPL-realOne\source" />
       <recent name="C:\Users\vignal\PycharmProjects\LPL-realOne\tests" />
       <recent name="C:\Users\vignal\PycharmProjects\LPL-realOne\corpusRelated" />
-      <recent name="C:\Users\vignal\PycharmProjects\LPL-realOne\corpusRelated\txt" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\vignal\PycharmProjects\LPL-realOne\corpusRelated" />
+      <recent name="C:\Users\vignal\PycharmProjects\LPL-realOne" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -246,6 +277,28 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.test2 (1)">
+    <configuration name="functions" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="LPL-realOne" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/source/Simone" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/source/Simone/functions.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="LPL-realOne" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -334,28 +387,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test2" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="LPL-realOne" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="C:\Users\vignal\PycharmProjects\LPL-realOne\tests\test2.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="test3" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="LPL-realOne" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -381,10 +412,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.test2 (1)" />
-        <item itemvalue="Python.test3" />
         <item itemvalue="Python.test (2)" />
+        <item itemvalue="Python.test3" />
+        <item itemvalue="Python.functions" />
         <item itemvalue="Python.main (1)" />
-        <item itemvalue="Python.test2" />
       </list>
     </recent_temporary>
   </component>
@@ -435,7 +466,13 @@
       <workItem from="1559052300414" duration="293000" />
       <workItem from="1559113507337" duration="5282000" />
       <workItem from="1559129184321" duration="13748000" />
-      <workItem from="1559546270336" duration="3152000" />
+      <workItem from="1559546270336" duration="32048000" />
+      <workItem from="1559632179296" duration="10512000" />
+      <workItem from="1559653561995" duration="250000" />
+      <workItem from="1559653837078" duration="4025000" />
+      <workItem from="1559661073008" duration="1250000" />
+      <workItem from="1559719385487" duration="1835000" />
+      <workItem from="1559721242125" duration="19293000" />
     </task>
     <task id="LOCAL-00001" summary="création du fichier Speakers le traitement nécessaire pour obtenir les données sur les speakers et les convaersation. Analyse stat sortie du main est passé dans un fichier à part">
       <created>1555505237142</created>
@@ -570,36 +607,42 @@
       <option name="project" value="LOCAL" />
       <updated>1559034811372</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="K-mean and elbow method,adding serialized data">
+      <created>1559549601771</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1559549601771</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="509084000" />
+    <option name="totallyTimeSpent" value="575145000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="953" y="0" width="974" height="1167" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.3135965" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28399122" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3255814" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.29360464" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3988495" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.29263565" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39825583" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32945737" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.31509846" side_tool="true" weight="0.32945737" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.31509846" side_tool="true" weight="0.32853025" />
       <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.68490154" weight="0.3265504" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32564843" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="3" weight="0.6535088" />
+      <window_info anchor="right" id="SciView" order="3" weight="0.6513158" />
       <window_info anchor="right" id="Database" order="4" weight="0.32894737" />
     </layout>
     <layout-to-restore>
@@ -649,35 +692,21 @@
     <MESSAGE value="adding fisher second part, avoiding .DF_Store parasyte files, test on pickling" />
     <MESSAGE value="intra IPU frequency analysis," />
     <MESSAGE value="hotfix fisher2 t = 0" />
-    <option name="LAST_COMMIT_MESSAGE" value="hotfix fisher2 t = 0" />
+    <MESSAGE value="K-mean and elbow method,adding serialized data" />
+    <option name="LAST_COMMIT_MESSAGE" value="K-mean and elbow method,adding serialized data" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/LPL_realOne$test2.coverage" NAME="test2 Coverage Results" MODIFIED="1558688345209" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/LPL_realOne$test.coverage" NAME="test Coverage Results" MODIFIED="1558341522918" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/LPL_realOne$test__2_.coverage" NAME="test (2) Coverage Results" MODIFIED="1559133957181" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/LPL_realOne$test__2_.coverage" NAME="test (2) Coverage Results" MODIFIED="1559740638177" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/LPL_realOne$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1559034142402" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/source" />
-    <SUITE FILE_PATH="coverage/LPL_realOne$test3.coverage" NAME="test3 Coverage Results" MODIFIED="1559143412280" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/LPL_realOne$test2__1_.coverage" NAME="test2 (1) Coverage Results" MODIFIED="1559143425717" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/LPL_realOne$main.coverage" NAME="main Coverage Results" MODIFIED="1558954382794" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LPL_realOne$test3.coverage" NAME="test3 Coverage Results" MODIFIED="1559728489548" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/LPL_realOne$test2__1_.coverage" NAME="test2 (1) Coverage Results" MODIFIED="1559744611612" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/LPL_realOne$main.coverage" NAME="main Coverage Results" MODIFIED="1559565763617" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LPL_realOne$functions.coverage" NAME="functions Coverage Results" MODIFIED="1559654487503" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/source/Simone" />
     <SUITE FILE_PATH="coverage/LPL_realOne$test__1_.coverage" NAME="test (1) Coverage Results" MODIFIED="1558611417689" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/testServerBokeh/t2" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/test2.html" />
-    <entry file="file://$USER_HOME$/AppData/Local/Continuum/Anaconda2/envs/first/Lib/site-packages/matplotlib/pyplot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="252" selection-start-line="252" selection-end-line="252" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/myplot.png" />
-    <entry file="file://$USER_HOME$/AppData/Local/Continuum/Anaconda2/envs/first/Lib/site-packages/matplotlib/axes/_axes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="4043" column="43" lean-forward="true" selection-start-line="4043" selection-start-column="43" selection-end-line="4043" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/corpus/DVD/DVD_CM_1.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1395" />
@@ -782,13 +811,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/corpusRelated/CorpusReader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="850">
-          <caret line="65" column="35" selection-start-line="65" selection-start-column="35" selection-end-line="65" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/RadarModel.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -858,25 +880,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/Graph.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="954">
-          <caret line="144" column="34" selection-start-line="144" selection-start-column="34" selection-end-line="144" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/build/html/index.html">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/Cell.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="40" column="33" selection-start-line="40" selection-start-column="33" selection-end-line="40" selection-end-column="33" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/source/Input.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -906,50 +911,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test3.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="19" column="35" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/corpusRelated/Corpus.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4830">
           <caret line="327" column="23" selection-start-line="327" selection-start-column="23" selection-end-line="327" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="18" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/Model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3255">
-          <caret line="222" column="28" selection-start-line="222" selection-start-column="28" selection-end-line="222" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/corpusRelated/File.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3405">
-          <caret line="232" column="42" selection-start-line="232" selection-start-column="42" selection-end-line="232" selection-end-column="42" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
@@ -963,25 +928,130 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test2.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test.py">
+    <entry file="file://$PROJECT_DIR$/source/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="37" column="10" selection-start-line="37" selection-start-column="10" selection-end-line="37" selection-end-column="10" />
+        <state relative-caret-position="3690">
+          <caret line="271" column="8" selection-start-line="271" selection-start-column="8" selection-end-line="271" selection-end-column="8" />
           <folding>
-            <element signature="e#0#34#0" expanded="true" />
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/corpusRelated/File.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2010">
+          <caret line="139" column="31" selection-start-line="139" selection-start-column="31" selection-end-line="139" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/corpusRelated/CorpusReader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="25" column="36" selection-start-line="25" selection-start-column="36" selection-end-line="25" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#56#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/Graph.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1275">
+          <caret line="95" column="30" selection-start-line="95" selection-start-column="30" selection-end-line="95" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/Cell.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="41" column="38" selection-start-line="41" selection-start-column="38" selection-end-line="41" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/Model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4425">
+          <caret line="301" column="58" selection-start-line="301" selection-start-column="58" selection-end-line="301" selection-end-column="58" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/source/DimensionalityReduction.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="631">
-          <caret line="206" column="23" lean-forward="true" selection-start-line="206" selection-start-column="23" selection-end-line="206" selection-end-column="23" />
+        <state relative-caret-position="15">
+          <caret line="122" column="29" selection-start-line="122" selection-start-column="29" selection-end-line="122" selection-end-column="29" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Continuum/Anaconda2/envs/first/Lib/site-packages/matplotlib/cbook/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="215" selection-start-line="215" selection-end-line="215" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Continuum/Anaconda2/envs/first/Lib/site-packages/matplotlib/animation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="952" selection-start-line="952" selection-end-line="952" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/Simone/discover.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="42" column="30" lean-forward="true" selection-start-line="42" selection-start-column="30" selection-end-line="42" selection-end-column="30" />
+          <folding>
+            <element signature="e#1#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/Simone/functions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="98">
+          <caret line="849" column="16" lean-forward="true" selection-start-line="849" selection-start-column="16" selection-end-line="849" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="14" lean-forward="true" selection-start-line="25" selection-start-column="14" selection-end-line="25" selection-end-column="14" />
+          <folding>
+            <element signature="e#1#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>

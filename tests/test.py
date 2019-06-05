@@ -1,38 +1,49 @@
-from sklearn.cluster import KMeans
-from sklearn import metrics
-from scipy.spatial.distance import cdist
+
 import numpy as np
 import matplotlib.pyplot as plt
-from source.pathManagment import getPathToSerialized
-from os import path
-import pickle
+import math
+import random
+
+import matplotlib; matplotlib.use("TkAgg")  # needed on pycharm
+from matplotlib import pyplot as plt
+from matplotlib import animation
 
 
-f = open(path.join(getPathToSerialized(), "swbdDataframeBySpeaker"), "rb")
-dataframe = pickle.load(f)
-f.close()
+def rotatingGraph(pos, value):
+    x = pos[0]
+    y = pos[1]
+
+    # ignoring signs
+    xNegative = False
+    yNegative = False
+    if x < 0:
+        xNegative = True
+        x = -x
+    if y < 0:
+        yNegative = True
+        y = -y
+
+    if x != 0:
+        leadingCoef = y / x
+    else:
+        leadingCoef = 9999999
+
+    deltaH = value
+    deltaX = math.sqrt((deltaH ** 2) / (1 + (leadingCoef ** 2)))
+    deltaY = deltaX * leadingCoef
+
+    if deltaH < 0:
+        deltaX = -deltaX
+        deltaY = - deltaY
+
+    if yNegative:
+        if xNegative:
+            return -(x + deltaX), -(y + deltaY)
+        return (x + deltaX), -(y + deltaY)
+    if xNegative:
+        return -(x + deltaX), (y + deltaY)
+    return x + deltaX, y + deltaY
 
 
-dataframe = dataframe.drop(columns="label")
-print(dataframe)
+print(rotatingGraph((-0.017449798320796746, -0.4996954117645704), -0.5))
 
-# create new plot and data
-plt.plot()
-X = dataframe
-colors = ['b', 'g', 'r']
-markers = ['o', 'v', 's']
-
-# k means determine k
-distortions = []
-K = range(1,10)
-for k in K:
-    kmeanModel = KMeans(n_clusters=k).fit(X)
-    kmeanModel.fit(X)
-    distortions.append(sum(np.min(cdist(X, kmeanModel.cluster_centers_, 'euclidean'), axis=1)) / X.shape[0])
-
-# Plot the elbow
-plt.plot(K, distortions, 'bx-')
-plt.xlabel('k')
-plt.ylabel('Distortion')
-plt.title('The Elbow Method showing the optimal k')
-plt.show()

@@ -1,12 +1,17 @@
 from __future__ import print_function
 from bokeh.io import output_notebook
+from bokeh import server
 import os
+from IPython.display import display
 from source.pathManagment import getOriginePath, getPathToSerialized
 from source.corpusRelated.CorpusReader import createCorpusFromDirectory
 from source.corpusRelated.Speakers import getSpeakers
 from source import RadarGraph
 from source import RadarModel
 import warnings
+import ipywidgets as widgets
+from bokeh.plotting import figure, show
+from bokeh.models import ColumnDataSource
 from source.Graph import Graph
 from source import Cell
 from source import Model
@@ -17,24 +22,14 @@ import pickle
 from source.DimensionalityReduction import analysisInManyDimensions\
     , pca\
     , displayPlot\
-    , SWBDAnalysisSpeakers\
+    , SWBDAnalysis\
     , freqAnalysis
 # !!!!!!!!!! import for notebook !!!!!!!!!!
 
 warnings.filterwarnings("ignore")  # to avoid the displaying of a warning caused by the bokeh library...
 
 output_notebook()
-# global variable for first plot
-boxplotGraph = None
-# end global variable for first plot
 
-# global variable for second plot
-discrGraph = {}
-# end global variable for second plot
-
-# global variable for third plot
-dataBySpeaker_data_source = None
-# end global variable for third plot
 
 
 metaDataToLoad = ["sex", "age", "geography", "level_study"]
@@ -46,6 +41,12 @@ for corpusName in metaDataFiles:
     tempConversationInfo, tempspeakers = getSpeakers(metaDataFiles[corpusName], metaDataToLoad)
     conversationInfo[corpusName] = tempConversationInfo
     speakers[corpusName] = tempspeakers
+
+f = open(os.path.join(getPathToSerialized(), "swbdSpeakers"), "wb")
+pickle.dump(speakers, f)
+f.close()
+
+
 
 
 def initCorpus():
@@ -110,7 +111,7 @@ def globalView(corpusNames):
     corpora = choosingCorpora(corpusNames)
     cell = Cell.Cell()
 
-    model = Model.Model(arrayOfCorpus)
+    model = Model.Model(arrayOfCorpus, "mutipleCorpus")
     graph = Graph()
     graph.addGlyph("column", "VBar", model, option1=0.2, option2="#3AC0C3")
 
@@ -156,7 +157,7 @@ def analysisByConversation(corpusNames):
         options.append(corpus.getName())
     inputCorpus = Input.Input("checkboxGroup", "corpusNames", graph, options, "Corpus")
 
-    model = Model.Model(corpora)
+    model = Model.Model(corpora, "mutipleCorpus")
     model.addAssociatedInput(input)
     model.addAssociatedInput(inputCorpus)
     cell.addInput("analyse", input)
@@ -167,6 +168,7 @@ def analysisByConversation(corpusNames):
     cell.updateDisplay()
 
 # --------------------------------------------------------------------------------------------------------
+
 
 def speakerAnalysis(corpusNames):
     """
@@ -198,7 +200,7 @@ def speakerAnalysis(corpusNames):
         optionsCorpus.append(corpus)
     inputCorpus = Input.Input("radio", "corpusNames", graph, optionsCorpus, "Corpus")
 
-    model = Model.Model(corpora, speakers, orderXaxis="byX")
+    model = Model.Model(corpora, "speakers", speakers, orderXaxis="byX")
     model.addAssociatedInput(inputAnalyse)
     model.addAssociatedInput(inputDiscr)
     model.addAssociatedInput(inputCorpus)
@@ -243,7 +245,7 @@ def wordDistribution(corpusNames):
 
     inputCorpus = Input.Input("radio", "corpusNames", graph, optionsCorpus, "Corpus")
     cell.addInput(" ", inputCorpus)
-    model = Model.Model(corpora, monocorpusAnalysis=True, orderXaxis="byY")
+    model = Model.Model(corpora, "freq", monocorpusAnalysis=True, orderXaxis="byY")
     model.setTypeOfAnalysis("freqDist")
     model.addAssociatedInput(inputCorpus)
     graph.addGlyph("column", "VBar", model, option1=0.1, option2="#3AC0C3")
@@ -251,16 +253,23 @@ def wordDistribution(corpusNames):
     cell.updateDisplay()
 
 
+def contestPlot():
+
+    swbd = choosingCorpora("swbd")  # this function focuses on switchboard
+    cell = Cell.Cell()
+    graph = Graph(tools="pan,wheel_zoom,box_zoom,reset,hover", iscontinuous=True)
+    model = Model.Model(swbd,"pca", speakers, orderXaxis="can't")
+    model.setTypeOfAnalysis("sex")
+    pos = ColumnDataSource(data=dict(x=[], y=[]))
+    graph.addGlyph("scatterDots", "scatter", model, option1=10, option3= pos)
+    cell.addGraph("graph1", graph)
+    model()
 
 
-# df = SWBDAnalysisSpeakers(arrayOfCorpus[4], speakers["SWBD"], "level_study", isFreqAnalysis=True)
-# dataframe, pcaObject = pca(df)
-# displayPlot(dataframe, groupByLabel=True)
+    cell.updateDisplay()
 
-
-
-
-
+def leftSide():
+    pass
 
 
 

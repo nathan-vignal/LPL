@@ -1,40 +1,43 @@
-from random import random
-from bokeh.models import CustomJS, ColumnDataSource
-from bokeh.plotting import figure, output_file, show
 
-output_file("callback.html")
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+import random
 
-x = [random() for x in range(500)]
-y = [random() for y in range(500)]
-color = ["navy"] * len(x)
+import matplotlib; matplotlib.use("TkAgg")  # needed on pycharm
+from matplotlib import pyplot as plt
+from matplotlib import animation
 
-s = ColumnDataSource(data=dict(x=x, y=y, color=color))
-p = figure(plot_width=400, plot_height=400, tools="lasso_select", title="Select Here")
-p.circle('x', 'y', color='color', size=8, source=s, alpha=0.4)
 
-s2 = ColumnDataSource(data=dict(ym=[0.5, 0.5]))
-p.line(x=[0, 1], y='ym', color="orange", line_width=5, alpha=0.6, source=s2)
+def rotatingGraph(pos, value):
+    x = pos[0]
+    y = pos[1]
 
-s.callback = CustomJS(args=dict(s2=s2), code="""
-        var inds = cb_obj.get('selected')['1d'].indices;
-        var d = cb_obj.get('data');
-        var ym = 0
+    # ignoring signs
+    xNegative = False
+    yNegative = False
+    if x < 0:
+        xNegative = True
+        x = -x
+    if y < 0:
+        yNegative = True
+        y = -y
 
-        if (inds.length == 0) { return; }
+    if x != 0:
+        leadingCoef = (y / x)
+    else:
+        leadingCoef = 9999999
 
-        for (i = 0; i < d['color'].length; i++) {
-            d['color'][i] = "navy"
-        }
-        for (i = 0; i < inds.length; i++) {
-            d['color'][inds[i]] = "firebrick"
-            ym += d['y'][inds[i]]
-        }
+    deltaH = value
+    deltaX = math.sqrt((deltaH ** 2) / ((1 + leadingCoef) ** 2))
+    deltaY = deltaX * leadingCoef
+    # if yNegative:
+    #     if xNegative:
+    #         return -(x + deltaX), -(y + deltaY)
+    #     return (x + deltaX), -(y + deltaY)
+    # if xNegative:
+    #     return -(x + deltaX), (y + deltaY)
+    return x + deltaX, y + deltaY
 
-        ym /= inds.length
-        s2.get('data')['ym'] = [ym, ym]
 
-        cb_obj.trigger('change');
-        s2.trigger('change');
-    """)
-
-show(p)
+print(rotatingGraph((0.7,0.7),1))

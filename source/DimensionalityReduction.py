@@ -120,7 +120,7 @@ def freqAnalysis(corpus, numberOfWords, printMostCommon=False):
     return dataFrame
 
 
-def SWBDAnalysisSpeakers(swbdCorpus, speakerData, labelWanted = None, numberOfWords=5, clusterKMean=0):
+def SWBDAnalysis(swbdCorpus, speakerData, labelWanted = None, numberOfWords=5, clusterKMean=0):
     """
 
     :param swbdCorpus:
@@ -216,6 +216,12 @@ def displayPlot(dataFrame, groupByLabel=False):
         dataFrame = dataFrame.reset_index()
         dotSize *= 10
     print(dataFrame)
+
+
+
+    f = open(path.join(getPathToSerialized(), "mtplotToBokeh"), "wb")
+    pickle.dump(dataFrame, f)
+    f.close()
 
     fig = plt.figure(figsize=(8, 8))
     # creating the axes
