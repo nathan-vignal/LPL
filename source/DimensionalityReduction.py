@@ -8,6 +8,7 @@ from sklearn.cluster import KMeans
 from source.pathManagment import getTextPath, getPathToSerialized
 import numpy as np
 import pickle
+import os
 import math
 
 pd.options.display.max_columns = 10
@@ -99,10 +100,10 @@ def freqAnalysis(corpus, numberOfWords, printMostCommon=False):
     mostCommonLongStart = [x[0] for x in longStart.most_common(numberOfWords)]
     mostCommonLongEnd = [x[0] for x in longEnd.most_common(numberOfWords)]
 
-    if printMostCommon:
-        print("most common in short IPUs : " + str(mostCommonShort))
-        print("most common as first word in Long IPU : " + str(mostCommonLongStart))
-        print("most common as last word in Long IPU : " + str(mostCommonLongEnd))
+    # if printMostCommon:
+    #     print("most common in short IPUs : " + str(mostCommonShort))
+    #     print("most common as first word in Long IPU : " + str(mostCommonLongStart))
+    #     print("most common as last word in Long IPU : " + str(mostCommonLongEnd))
 
     # storing the most common words inside a dictionary
     # We are also adding a postfix to the word because we don't want categories to mix
@@ -130,21 +131,23 @@ def SWBDAnalysis(swbdCorpus, speakerData, labelWanted = None, numberOfWords=5, c
     :param clusterKMean: if 0 we will use label
     :return:
     """
+    if not os.path.isdir(path.join(getPathToSerialized(), "swbdDataframe")):
 
-    # frequencyAnalysis = freqAnalysis(swbdCorpus, numberOfWords=numberOfWords, printMostCommon=True)
-    #
-    #
-    # dimensionAnalysis = analysisInManyDimensions([swbdCorpus])
-    # dataframe = pd.concat([frequencyAnalysis, dimensionAnalysis], axis=1, sort=False)
-    #
-    #
-    # f = open(path.join(getPathToSerialized(), "swbdDataframe"), "wb")
-    # pickle.dump(dataframe, f)
-    # f.close()
 
-    f = open(path.join(getPathToSerialized(), "swbdDataframe"), "rb")
-    dataframe = pickle.load(f)
-    f.close()
+        frequencyAnalysis = freqAnalysis(swbdCorpus, numberOfWords=numberOfWords, printMostCommon=True)
+
+
+        dimensionAnalysis = analysisInManyDimensions([swbdCorpus])
+        dataframe = pd.concat([frequencyAnalysis, dimensionAnalysis], axis=1, sort=False)
+
+
+        f = open(path.join(getPathToSerialized(), "swbdDataframe"), "wb")
+        pickle.dump(dataframe, f)
+        f.close()
+    else:
+        f = open(path.join(getPathToSerialized(), "swbdDataframe"), "rb")
+        dataframe = pickle.load(f)
+        f.close()
 
     # grouping files by speaker
     eachFilespeakerID = swbdCorpus.getSpeakerByFile()

@@ -301,7 +301,6 @@ ax = None
 def leftSide(id_conv):
     global leftSideFigure
     global ax
-    print("calling leftSide : " + str(id_conv))
     # Download RAW Data ( is a dataframe that contain all the token for each conversation of the corpus)
     N_directory = 20
     RAW_data = download_data(N_directory, 'X')
