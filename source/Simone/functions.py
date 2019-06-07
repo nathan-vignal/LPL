@@ -9,9 +9,11 @@ from sklearn import datasets, linear_model
 from sklearn.metrics import mean_squared_error, r2_score
 import sklearn.model_selection
 import matplotlib.pyplot as plt
+from IPython.core.debugger import Tracer
+import time, sys
 import sklearn
 from sklearn.linear_model import LinearRegression
-
+import sklearn.model_selection
 import matplotlib as mpl
 from sklearn import preprocessing
 from sklearn.preprocessing import StandardScaler
@@ -22,32 +24,30 @@ from itertools import cycle
 from matplotlib.pyplot import cm
 import matplotlib.patches as mpatches
 from IPython.core.debugger import Tracer
+from source.pathManagment import getSimoneOutputPath
+import os.path
 
 
 # data = pd.read_pickle('..\output\data.pkl')
 def download_data(n_directory, name_file):
-    path = '../output/X' + str(n_directory) + '/'
-    path_name_file = str(path) + str(name_file) + '.pkl'
+    path = os.path.join(getSimoneOutputPath(), "X"+ str(n_directory))
+    path_name_file = os.path.join(path, str(name_file) +".pkl")
     file = pd.read_pickle(path_name_file)
     return file
 
 
 def upload_data(N, file, name_file):
-    path = '..\output\X' + str(N) + ('\\')
-    path_name_file_plk = str(path) + str(name_file) + '.pkl'
-    path_name_file_csv = str(path) + str(name_file) + '.csv'
+
+    path = os.path.join(getSimoneOutputPath(),"X"+ str(N))
+    path_name_file_plk = os.path.join(path,name_file+".pkl")
+    path_name_file_csv = os.path.join(path,name_file+".csv")
+
+
     file.to_pickle(path_name_file_plk)
     file.to_csv(path_name_file_csv, sep='\t', encoding='utf-8')
     return path_name_file_plk
 
 
-def upload_data(N, file, name_file):
-    path = '..\output\X' + str(N) + ('\\')
-    path_name_file_plk = str(path) + str(name_file) + '.pkl'
-    path_name_file_csv = str(path) + str(name_file) + '.csv'
-    file.to_pickle(path_name_file_plk)
-    file.to_csv(path_name_file_csv, sep='\t', encoding='utf-8')
-    return path_name_file_plk
 
 
 def linear_regression_parameter(X, test_SIZE):
@@ -62,7 +62,7 @@ def linear_regression_parameter(X, test_SIZE):
         X_train = X_input
         Y_train = Y_output
     else:
-        X_train, X_test, Y_train, Y_test = sklearn.cross_validation.train_test_split(X_input, Y_output,
+        X_train, X_test, Y_train, Y_test = sklearn.model_selection.train_test_split(X_input, Y_output,
                                                                                      test_size=test_SIZE,
                                                                                      random_state=5)
 
@@ -110,7 +110,7 @@ def linear_regression_parameter(X, test_SIZE):
 
 
 
-import time, sys
+
 
 # update_progress() : Displays or updates a console progress bar
 ## Accepts a float between 0 and 1. Any int will be converted to a float.
@@ -521,7 +521,7 @@ def overlapping(N_intervals_perc, id_conv, min_turn_duration, n_significative_wo
             TURN_LATENCY, TIME_INTERVENT, PERC_TURN_LESS_2SEC, AVERAGE_TURN1, NUMBER_TURN1, NUMBER_TRANSITION, limits]
 
 
-from IPython.core.debugger import Tracer
+
 
 
 def turn_taking_corpus(id_speaker1, id_speaker2, N, min_turn_duration, n_significative_word, Stop_words, id_conve_list,
@@ -768,9 +768,9 @@ def visualize_timing1(id_conv, X, word_trash, conversation_tot_new, x, delta):
     fig2.set_size_inches(35, 15, forward=True)
 
     return plt.show()
+#   --------------------------------------------------------------------------------------
 
-
-def visualize_timing(id_conv, X, word_trash, x, delta, list_colors):
+def visualize_timing(id_conv, X, word_trash, x, delta, list_colors, fig1, ax):
     # original timing of the conersation
     convers_A = X[(X['ID_conversation'] == str(id_conv)) & (X['ID_speaker'] == 'A')]
     convers_B = X[(X['ID_conversation'] == str(id_conv)) & (X['ID_speaker'] == 'B')]
@@ -808,8 +808,9 @@ def visualize_timing(id_conv, X, word_trash, x, delta, list_colors):
     start_duration_tot_B.extend(start_duration_silence_B)
     f_color_B.extend(['orange'] * len(start_duration_silence_B))
     #####################################################################################
-    fig1 = plt.figure(figsize=(12, 7))
-    ax = fig1.add_subplot(111)
+    if fig1 is None:
+        fig1 = plt.figure(figsize=(12, 7))
+        ax = fig1.add_subplot(111)
     ax.broken_barh(start_duration_tot_A, (20, 9), facecolors=f_color_A)
     ax.broken_barh(start_duration_tot_B, (10.8, 9), facecolors=f_color_B)
     ax.set_ylim(8, 33)
@@ -821,7 +822,7 @@ def visualize_timing(id_conv, X, word_trash, x, delta, list_colors):
     ax.grid(True)
 
     legend_dict = {}
-    for key, color in zip(no_content_token_list, list_color):
+    for key, color in zip(word_trash, list_colors):
         legend_dict[key] = color
     legend_dict['discourse'] = 'orange'
     patchList = []
@@ -833,49 +834,8 @@ def visualize_timing(id_conv, X, word_trash, x, delta, list_colors):
     # ax.legend(word_trash, bbox_to_anchor=(1.14, 1.04),fontsize=20)
     # ax.legend((line1, line2, line3), ('label1', 'label2', 'label3'))
     fig1.set_size_inches(35, 15, forward=True)
-
-    return plt.show()
-
-
-
-######Download RAW Data ( is a dataframe that contain all the token for each conversation of the corpus)
-N_directory = 20
-RAW_data = download_data(N_directory,'X')
-N_directory_save = 20
-N_directory_download = 20
-download_silence = 1
-
-
-########Download Processed Data (basically contain a new segmentation of the turns)
-N_directory = 10
-N_directory_download = 10
-download_label = 1
-min_time_silence = 1.5
-
-if download_label == 0:
-    conversation_tot_new = label_new_turn(conversation_tot_new, min_time_silence, N_directory)
-else:
-# download conversation labeled
-    min_time_silence_ms = min_time_silence * 1000
-    name_download = 'conversation_label_silence' + str(int(min_time_silence_ms)) + 'ms'
-    conversation_tot_new = download_data(N_directory_download, name_download)
-
-
-
-
-id_conv = 2010 # chose the id of the conversation to visualize
-x = 0    # start time point
-delta = 0 # interval length( if <= 0 it takes by default the end of the conversation)
-
-#chose the type of token we want to visualize in the conversation. It will display anyway in Orange colour all the tokens not specified n the list
-no_content_token_list = ['[silence]','[noise]', '[vocalized-noise]', '[laughter]', 'yeah','right','um-hum', 'uh-huh', 'right', 'mh', 'okay'] # list of no-informative words
-# Assign at each token of the list "no_content_token_list" a colour
-list_color = ["palegreen", "gray", "gray","violet", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue"]
-
-visualize_timing(id_conv, RAW_data, no_content_token_list, x, delta, list_color) #RAW DATA
-
-visualize_timing(id_conv, conversation_tot_new, no_content_token_list, x, delta, list_color) #PROCESSED DATA NEW TURN
-
+    #plt.show()
+    return fig1, ax
 
 
 

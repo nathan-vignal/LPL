@@ -1,49 +1,21 @@
+from bokeh.plotting import figure, show
+from bokeh.models import Legend, LegendItem
+from bokeh.models.glyphs import VBar, Circle
+p = figure()
+r = p.multi_line([[1,2,3], [1,2,3]], [[1,3,2], [3,4,3]],
+                 color=["orange", "red"], line_width=4)
+legend = Legend(items=[
+    LegendItem(label="orange", renderers=[r], index=1),
+    LegendItem(label="red", renderers=[r], index=0),
+])
+p.add_layout(legend)
+p.legend.location = "top_left"
 
-import numpy as np
-import matplotlib.pyplot as plt
-import math
-import random
+print(p.renderers)
+show(p)
 
-import matplotlib; matplotlib.use("TkAgg")  # needed on pycharm
-from matplotlib import pyplot as plt
-from matplotlib import animation
+a = [1,2,3,4]
+print(a)
 
-
-def rotatingGraph(pos, value):
-    x = pos[0]
-    y = pos[1]
-
-    # ignoring signs
-    xNegative = False
-    yNegative = False
-    if x < 0:
-        xNegative = True
-        x = -x
-    if y < 0:
-        yNegative = True
-        y = -y
-
-    if x != 0:
-        leadingCoef = y / x
-    else:
-        leadingCoef = 9999999
-
-    deltaH = value
-    deltaX = math.sqrt((deltaH ** 2) / (1 + (leadingCoef ** 2)))
-    deltaY = deltaX * leadingCoef
-
-    if deltaH < 0:
-        deltaX = -deltaX
-        deltaY = - deltaY
-
-    if yNegative:
-        if xNegative:
-            return -(x + deltaX), -(y + deltaY)
-        return (x + deltaX), -(y + deltaY)
-    if xNegative:
-        return -(x + deltaX), (y + deltaY)
-    return x + deltaX, y + deltaY
-
-
-print(rotatingGraph((-0.017449798320796746, -0.4996954117645704), -0.5))
-
+a.clear()
+print(a)

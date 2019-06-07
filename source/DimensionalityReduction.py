@@ -153,7 +153,6 @@ def SWBDAnalysis(swbdCorpus, speakerData, labelWanted = None, numberOfWords=5, c
 
 
 
-
     if clusterKMean == 0 and labelWanted is not None:
         # we cluster by labelWanted
         filteredSpeaker = {}
@@ -161,10 +160,11 @@ def SWBDAnalysis(swbdCorpus, speakerData, labelWanted = None, numberOfWords=5, c
             for info in speakerData[speaker]:
                 if info == labelWanted:
                     filteredSpeaker[speaker] = speakerData[speaker][info]
-        dataframe["label"] = pd.Series(filteredSpeaker)
 
+        dataframe["label"] = pd.Series(filteredSpeaker)
         #dataframe.index = pd.RangeIndex(len(dataframe.index)) does not work
         dataframe.index = np.arange(len(dataframe))
+
     elif clusterKMean > 0:
 
         dataframe.index = pd.RangeIndex(len(dataframe.index))  # restarting the indexes is important
@@ -180,7 +180,7 @@ def SWBDAnalysis(swbdCorpus, speakerData, labelWanted = None, numberOfWords=5, c
     pickle.dump(dataframe, f)
     f.close()
 
-    return dataframe
+    return dataframe, eachFilespeakerID
 
 
 def pca(dataFrame):
@@ -205,7 +205,6 @@ def pca(dataFrame):
     finalDf = pd.concat([principalDf, dataFrame[['label']]], axis=1)
     finalDf = finalDf[np.invert(finalDf['principal component 2'].isna())]  # when we delete extreme values we delete
     # rows that are still in dataFrame, so we obtain NaN when we merge dataframe and principalDf, here we delete the Nan
-
     return finalDf, pca
 
 

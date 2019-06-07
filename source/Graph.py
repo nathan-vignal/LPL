@@ -8,6 +8,7 @@ from bokeh.plotting import figure, curdoc
 from bokeh.io import show, push_notebook
 from bokeh.models import CustomJS, Div
 import math
+from bokeh.models import Legend, LegendItem
 from bokeh import events
 
 
@@ -43,6 +44,8 @@ class Graph:
         self.__handler = None  # wil host the handler to push the notebook
         self.__glyphs = {}
         self.__tools = tools
+        self.__figure.legend.location = "top_left"
+        self.__figure.legend.click_policy = "hide"
 
     def addGlyph(self, name, glyphType, model, option1=None, option2=None, option3=None):
         """
@@ -87,23 +90,16 @@ class Graph:
         elif glyphType == "scatter":  # scatter plot
             if option1 is None:
                 option1 = 0.1
-            if option2 is None:
-                option2 = "black"
 
             temp = []
             temp.append(Circle(x="x", y="top", size=option1, fill_color="fill_color"))
-            temp.append(ColumnDataSource(data=dict(x=[], top=[], fill_color=[])))
+            temp.append(ColumnDataSource(data=dict(x=[], top=[], fill_color=[], legend=[])))
             temp.append(model)
-            self.__figure.add_glyph(temp[1], temp[0])
+            self.__figure.circle(x="x", y="top", size=option1, fill_color="fill_color", legend="legend", source=temp[1]
+                                 ,line_width=0)
+            #self.__figure.add_glyph(temp[1], temp[0])
             temp.append(glyphType)
             self.__glyphs[name] = temp
-            # position = option3#ColumnDataSource(data=dict(x=[], y=[]))  # ColumnDataSource(data=dict(x=0, y=0))
-            # tap = TapTool()
-            # tap.callback = self.display_event(position)
-            # self.__figure.add_tools(tap)
-            # #source.selected.on_change('indices', cb)
-            # self.__figure.js_on_event(events.Tap, self.display_event(position))
-
 
     # --------------------------------------------------------------------------------------------------------
 
@@ -137,23 +133,10 @@ class Graph:
             temp.append(key)
         return temp
 
-    # --------------------------------------------------------------------------------------------------------
-
-    def getGlyph(self,name):
-        """
-        get the associated glyph given the name
-        :param name: str
-        :return:
-        """
-
-        if name not in self.__glyphs:
-            print("glyph name doesn't exist")
-            return -1
-        return self.__glyphs[name]
 
     # --------------------------------------------------------------------------------------------------------
 
-    def changeGlyph(self, name, x, y, bottom=None, colors=None):
+    def changeGlyph(self, name, x, y, bottom=None, colors=None, tooltips=None, legend=None):
         """
         change variable inside the glyph with the given name
         :param name: str
@@ -162,6 +145,8 @@ class Graph:
         :param bottom: [number,....,number]
         :return:
         """
+
+
 
         if not(isinstance(x, list) and isinstance(y, list)):
             print("x and y must be lists. in :changeGlyph")
@@ -182,9 +167,43 @@ class Graph:
             "came in scatter"
             if colors == None:
                 colors = ["black" for i in range(0,len(x))]
-            glyphData[1].data.update(x=x, top=y, fill_color=colors)
+            legend = list(legend)
+
+            glyphData[1].data.update(x=x, top=y, fill_color=colors, legend=legend)
+
+            # renderer = self.__figure.renderers[0]
+            # l = []
+
+            # for word in legend:
+            #     l.append(LegendItem(label=word, renderers=[renderer], index=legend[word]))
+            # legend = Legend(items=l)
+            # self.__figure.legend.clear()
+            # print(self.__figure.legend)
+            # self.__figure.add_layout(legend)
+
+
         else:
             print("unknown glyph type in Graph.py")
+
+        # tooltips managment
+        if tooltips is not None:
+            glyphData[1].data.update(tooltips)  # add new tooltips to the source
+
+            #  [ ("(x,y)", "(@x,@top)")] the figure tools must look like that
+            #  [ (firstPart, SecondPart)]
+
+            secondPart = "(@"
+            keys = list(glyphData[1].data.keys())
+            keys.remove("fill_color")
+            for key in keys:
+                secondPart += key + ",@"
+            if secondPart[-1] == "@":  # removing the last
+                secondPart = secondPart[:-2]
+            secondPart += ")"
+            firstPart = secondPart.replace("@", "")
+            self.changeToolTips([(firstPart, secondPart)])
+
+
 
     # ---------------------------------------------------------------------------------
 
@@ -205,7 +224,10 @@ class Graph:
                 else:
                     self.changeGlyph(glyphName, model.getX(), model.getQ3(), model.getQ1())
             elif type == "scatter":
-                self.changeGlyph(glyphName, model.getX(), model.getY())
+                self.changeGlyph(glyphName, model.getX(), model.getY()
+                                 , colors=model.getColors()
+                                 , tooltips=model.getTooltips()
+                                 ,legend=model.getLegend())
 
             else:
                 print("graph.py unkown glyphtype")
@@ -221,20 +243,28 @@ class Graph:
         else:
             push_notebook(handle=self.__handler)
 
-    def display_event(self, source):
-        #div = div
-        print(source)
-        return CustomJS(args=dict(source=source), code="""
-                                        let data = source.data;
-                                        console.log(data["x"])
-                                        data["x"] = cb_obj['x']
-                                        data["y"] = cb_obj['y']
-                                        
-                                        source.change.emit();
-                                          
-                                          """)
+
 
     # -----------------end class------------------
+
+    def changeToolTips(self, newToolTips):
+        for item in self.__figure.tools:
+            if isinstance(item, HoverTool):
+                item.tooltips = newToolTips
+                break
+
+    def legend(self):
+        pass
+        # legend = Legend(items=[
+        #     LegendItem(label="orange", renderers=[r], index=0),
+        #     LegendItem(label="red", renderers=[r], index=1),
+        # ])
+        #
+        # self.__figure.add_layout(legend)
+
+
+
+
 
 
 '''

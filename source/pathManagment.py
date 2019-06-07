@@ -8,3 +8,6 @@ def getTextPath():
 
 def getPathToSerialized():
     return os.path.join(getOriginePath(), "serialized")
+
+def getSimoneOutputPath():
+    return os.path.join(getOriginePath(),"source", "Simone", "output")

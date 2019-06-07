@@ -10,6 +10,7 @@ class File:
     def __init__(self, path, corpus):
         self.__corpus = corpus
         self.path = path
+        #print(path) debug
         self.__nbOfLines = 0
         self.__duration = 0
         self.__numberOfWords = 0

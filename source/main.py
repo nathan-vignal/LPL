@@ -1,6 +1,7 @@
 from __future__ import print_function
 from bokeh.io import output_notebook
 from bokeh import server
+from source.Simone.functions import download_data, visualize_timing
 import os
 from IPython.display import display
 from source.pathManagment import getOriginePath, getPathToSerialized
@@ -9,13 +10,16 @@ from source.corpusRelated.Speakers import getSpeakers
 from source import RadarGraph
 from source import RadarModel
 import warnings
+import time
 import ipywidgets as widgets
+import matplotlib.pyplot as plt
 from bokeh.plotting import figure, show
 from bokeh.models import ColumnDataSource
 from source.Graph import Graph
 from source import Cell
 from source import Model
 from source import Input
+from bokeh.io import curdoc
 import pickle
 
 # !!!!!!!!!! import for notebook !!!!!!!!!!
@@ -30,8 +34,6 @@ warnings.filterwarnings("ignore")  # to avoid the displaying of a warning caused
 
 output_notebook()
 
-
-
 metaDataToLoad = ["sex", "age", "geography", "level_study"]
 
 metaDataFiles = {"SWBD": os.path.join(getOriginePath(), "data", "metadata")}
@@ -45,8 +47,6 @@ for corpusName in metaDataFiles:
 f = open(os.path.join(getPathToSerialized(), "swbdSpeakers"), "wb")
 pickle.dump(speakers, f)
 f.close()
-
-
 
 
 def initCorpus():
@@ -258,22 +258,83 @@ def contestPlot():
     swbd = choosingCorpora("swbd")  # this function focuses on switchboard
     cell = Cell.Cell()
     graph = Graph(tools="pan,wheel_zoom,box_zoom,reset,hover", iscontinuous=True)
-    model = Model.Model(swbd,"pca", speakers, orderXaxis="can't")
+
+    groupOptions = {
+        "level of study": "level_study",
+        "age": "age",
+        "origin": "geography",
+        "sex": "sex",
+        "3": "3",
+        "4": "4",
+        "5": "5",
+    }
+
+    inputGroups = Input.Input("radio", "option1", graph, groupOptions, "goups")
+    cell.addInput(" ", inputGroups)
+
+    model = Model.Model(swbd, "pca", speakers, orderXaxis="can't")
     model.setTypeOfAnalysis("sex")
     pos = ColumnDataSource(data=dict(x=[], y=[]))
-    graph.addGlyph("scatterDots", "scatter", model, option1=10, option3= pos)
+    graph.addGlyph("scatterDots", "scatter", model, option1=10, option3=pos)
     cell.addGraph("graph1", graph)
+    model.addAssociatedInput(inputGroups)
     model()
 
+    button = widgets.Button(description="Search")
+    input = widgets.IntText(description="conversation id", continuous_update=False)
+    display(button)
+    display(input)
+
+    def on_button_clicked(b):
+        # if input.value in
+        leftSide(input.value)
+
+    button.on_click(on_button_clicked)
 
     cell.updateDisplay()
+    # leftSide(2010)  # temporary for dev purpose # debug
+    # time.sleep(1)  # debug
+    # leftSide(2001)  # temporary for dev purpose# debug
 
-def leftSide():
-    pass
+leftSideFigure = None
+ax = None
+def leftSide(id_conv):
+    global leftSideFigure
+    global ax
+    print("calling leftSide : " + str(id_conv))
+    # Download RAW Data ( is a dataframe that contain all the token for each conversation of the corpus)
+    N_directory = 20
+    RAW_data = download_data(N_directory, 'X')
+    N_directory_save = 20
+    N_directory_download = 20
+    download_silence = 1
 
+    # Download Processed Data (basically contain a new segmentation of the turns)
+    N_directory = 10
+    N_directory_download = 10
+    download_label = 1
+    min_time_silence = 1.5
 
+    # download conversation labeled
+    min_time_silence_ms = min_time_silence * 1000
+    name_download = 'conversation_label_silence' + str(int(min_time_silence_ms)) + 'ms'
+    conversation_tot_new = download_data(N_directory_download, name_download)
 
+    x = 0  # start time point
+    delta = 0  # interval length( if <= 0 it takes by default the end of the conversation)
 
+    # chose the type of token we want to visualize in the conversation. It will display anyway in Orange colour
+    # all the tokens not specified n the list
+    no_content_token_list = ['[silence]', '[noise]', '[vocalized-noise]', '[laughter]', 'yeah', 'right', 'um-hum',
+                             'uh-huh', 'right', 'mh', 'okay']  # list of no-informative words
+    # Assign at each token of the list "no_content_token_list" a colour
+    list_color = ["palegreen", "gray", "gray", "violet", "blue", "blue", "blue", "blue", "blue", "blue", "blue", "blue",
+                  "blue"]
+    leftSideFigure, ax = visualize_timing(id_conv, conversation_tot_new, no_content_token_list, x, delta, list_color
+                                      , leftSideFigure, ax)  # RAW DATA
+    leftSideFigure.canvas.draw()
+    # leftSideFigure.canvas.draw()
+    # plt.show()
 
 
 

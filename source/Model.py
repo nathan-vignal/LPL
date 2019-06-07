@@ -26,10 +26,14 @@ class Model:
         self.__q1 = None
         self.__q3 = None
         self.__AnalysisFct = None  # eg(number of lines)
+        self.__color = None
         self.__discriminationCriterion = None  # eg age, sex
+        self.__option1 = None  # an input that isn't used for the same thing
+        self.__legend = None
         self.__speakersInfos = speakersInfos
         self.__orderXaxis = orderXaxis
         self.__typeOfAnalysis = typeOfAnalysis
+        self.__tooltips = {}
 
 
     def getXAxis(self):
@@ -267,15 +271,68 @@ class Model:
             for corpus in self.__corpora:
 
                 if (corpus.getName() in self.__corpusToAnalyzeNames) or self.__corpusToAnalyzeNames == "*":
-                    dataframe = SWBDAnalysis(corpus, self.__speakersInfos, numberOfWords=10,
-                                                     clusterKMean=10, labelWanted=self.__typeOfAnalysis)
+                    # getting the DATA
+                    dataframe = None
+                    speakersIDs = None
+                    if isinstance(self.__option1, str):
 
+                        if self.__option1.isdigit():
+                            # speakersIDs is ordered in the dataframe way
+                            dataframe, speakersIDs = SWBDAnalysis(corpus, self.__speakersInfos["SWBD"], numberOfWords=10
+                                                     , clusterKMean=int(self.__option1))
+                        else:
+                            dataframe, speakersIDs = SWBDAnalysis(corpus, self.__speakersInfos["SWBD"], numberOfWords=10
+                                                 , labelWanted=self.__option1)
+                    else:
+                        print("can't use self.__option1, must be a string not :" + str(type(self.__option1)))
+
+                    # Proceeding to PCA
                     df, pcaObject = pca(dataframe)
                     self.__x = list(df["principal component 1"])
                     self.__y = list(df["principal component 2"])
 
+                    # managing colors
+                    labels = df["label"].unique()
+                    availableColors = ["green", "blue", "black", "red", "yellow", "purple", "pink", "grey", "brown"]
+                    if len(labels) > len(availableColors):
+                        availableColors.extend("black" for i in range(100))
+
+                    colorForLabel = dict(zip(labels, availableColors))
+                    colors = []
+                    for label in df["label"]:
+                        colors.append(colorForLabel[label])
+
+                    self.__color = colors
+
                     self.defXAxis()
+
+                    # preparing the tooltips
+                    self.__tooltips = {}
+
+                    # initiliaze an array for each type of information eg(sex, age etc)
+                    for key in self.__speakersInfos["SWBD"][speakersIDs[0]]:
+                        self.__tooltips[key] = []
+
+                    for sID in speakersIDs:
+                        speakerData = self.__speakersInfos["SWBD"][sID]
+                        for infoType in speakerData:
+                            self.__tooltips[infoType].append(speakerData[infoType])
+                    #     self.__tooltips["speakerId"].extend(self.__speakersInfos["SWBD"][sID])
+
+                    # adding speaker IDs inside to the tooltips
+                    self.__tooltips["speakerID"] = speakersIDs
+
+                    # managing the legend
+
+                    # legends = dataframe["label"].unique()
+                    #labels = dataframe["label"]
+                    # for word in legends:
+                    #     self.__legend[word] = labels[labels == word].index[0]
+                    self.__legend = df["label"]
+
                     continue  # for now pca analysis is only intended for one corpus
+
+
 
         else:
             print("unknown self.__typeOfAnalysis in Model.py")
@@ -298,6 +355,8 @@ class Model:
                 self.__corpusToAnalyzeNames = input.getValue()
             elif dataType == "analysisFunction":
                 self.__AnalysisFct = input.getValue()
+            elif dataType == "option1":
+                self.__option1 = input.getValue()
             else:
                 print("unrecognized data type" + input.getDataType())
 
@@ -322,18 +381,8 @@ class Model:
         if "no" == self.__orderXaxis:
             self.__xAxis = set(self.__x)
         elif "can't" == self.__orderXaxis:
+            # will be done by bokeh automatically
             pass
-            # # creating a range from the min to the max
-            # min = math.inf
-            # for x in self.__x:
-            #     if x < min:
-            #         min = x
-            #
-            # max = -math.inf
-            # for x in self.__x:
-            #     if x < max:
-            #         max = x
-            # self.__xAxis = ()
 
 
 
@@ -364,3 +413,14 @@ class Model:
                 self.__xAxis = [i[1] for i in xtemp]
             else:
                 print("can't order by x")
+
+    def getColors(self):
+        return copy.copy(self.__color)
+
+    def getTooltips(self):
+        return copy.copy(self.__tooltips)
+
+    def getLegend(self):
+        return copy.copy(self.__legend)
+
+
