@@ -293,7 +293,7 @@ class Model:
 
                     # managing colors
                     labels = df["label"].unique()
-                    availableColors = ["green", "blue", "black", "red", "yellow", "purple", "pink", "grey", "brown"]
+                    availableColors = ["green", "blue", "black", "yellow", "purple", "pink", "grey", "brown","indigo"]
                     if len(labels) > len(availableColors):
                         availableColors.extend("black" for i in range(100))
 

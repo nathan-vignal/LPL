@@ -64,6 +64,17 @@ class Input:
             verticalBox = widgets.VBox()
             verticalBox.children = inputs
             self.__widget = verticalBox
+        elif inputType == "text":
+            textInput = widgets.IntText(description=options, continuous_update=False)
+
+            def onclick():
+                return textInput.value
+            button = widgets.IntText(description="conversation id", continuous_update=False)
+            button.on_click(onclick)
+
+
+
+
         if inputType == "checkboxGroup":
             for widget in self.__widget.children:
                 widget.observe(self._callOnChange)
@@ -146,6 +157,8 @@ class Input:
 
     def getWidget(self):
         return self.__widget
+
+
 
 
 

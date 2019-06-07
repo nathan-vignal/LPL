@@ -203,8 +203,6 @@ class Graph:
             firstPart = secondPart.replace("@", "")
             self.changeToolTips([(firstPart, secondPart)])
 
-
-
     # ---------------------------------------------------------------------------------
 
     def update(self):
@@ -243,8 +241,6 @@ class Graph:
         else:
             push_notebook(handle=self.__handler)
 
-
-
     # -----------------end class------------------
 
     def changeToolTips(self, newToolTips):
@@ -261,6 +257,34 @@ class Graph:
         # ])
         #
         # self.__figure.add_layout(legend)
+
+    def RUSH_HIGHLIGHT_SPEAKERS(self, ids):
+        """
+        done for the contest must not be used in the long term
+        :return:
+        """
+        data = None
+        for name in self.__glyphs:
+            data = self.__glyphs[name][1].data
+            break
+        position = []
+        for id in ids:
+            position.append(data["speakerID"].index(id))
+
+        colors = data["fill_color"]
+        for pos in position:
+            colors[pos] = "red"
+        for name in self.__glyphs:
+            self.__glyphs[name][1].data["fill_color"] = colors
+            break
+        push_notebook(handle=self.__handler)
+
+
+
+
+
+
+
 
 
 

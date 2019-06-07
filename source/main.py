@@ -287,7 +287,14 @@ def contestPlot():
 
     def on_button_clicked(b):
         # if input.value in
-        leftSide(input.value)
+        swbd = conversationInfo["SWBD"]
+
+        if str(input.value) not in swbd.keys():
+            print("wrong id for conversation")
+        else:
+            graph.RUSH_HIGHLIGHT_SPEAKERS([swbd[str(input.value)][0], swbd[str(input.value)][1]])
+            leftSide(input.value)
+
 
     button.on_click(on_button_clicked)
 
