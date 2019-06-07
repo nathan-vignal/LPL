@@ -131,8 +131,10 @@ def SWBDAnalysis(swbdCorpus, speakerData, labelWanted = None, numberOfWords=5, c
     :param clusterKMean: if 0 we will use label
     :return:
     """
-    if not os.path.isdir(path.join(getPathToSerialized(), "swbdDataframe")):
+    dataframe = None
 
+    if not os.path.isfile(path.join(getPathToSerialized(), "swbdDataframe")):
+        print("fecthing the data")
 
         frequencyAnalysis = freqAnalysis(swbdCorpus, numberOfWords=numberOfWords, printMostCommon=True)
 
@@ -145,6 +147,7 @@ def SWBDAnalysis(swbdCorpus, speakerData, labelWanted = None, numberOfWords=5, c
         pickle.dump(dataframe, f)
         f.close()
     else:
+        print("using pickling")
         f = open(path.join(getPathToSerialized(), "swbdDataframe"), "rb")
         dataframe = pickle.load(f)
         f.close()
