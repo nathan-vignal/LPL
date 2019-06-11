@@ -1,0 +1,46 @@
+# 
+# Description of the fields in Fisher English 2003 "pindata.tbl"
+# 
+# Eight fields, comma-delimited:
+# 
+#  FLD    -- Description
+1  PIN    -- 4- or 5-digit number, identifies the participant who (was) called
+2  S_SEX  -- single character (M or F), as reported when participant enrolled
+3  S_AGE  -- 2-digit number, as reported when participant enrolled
+4  EDU    -- 2-digit number, years of education as reported by participant
+5  NATIVE_LANG  -- variable-length string, native language as reported by participant
+6  WHERE_RAISED -- variable-length string, country or U.S. state as reported by participant
+7  NSIDES       -- 1-digit number, number of calls collected that involve this PIN
+8  SIDE_DATA    -- variable-length string, one or more CALLID_CHN/sex.dialect; (see below)
+# 
+# Notes:
+#
+# The first line of the table is the comma-delimited string of field names.
+#
+# "NA" in any field indicates that there is no data available for that field.
+#
+# The first six fields are drawn from the "subjects" table in the LDC's Fisher
+# database; the information here is "as reported" by the participants, and no
+# attempt has been made to verify any of it.  Also, since PIN validation was
+# only used on dial-ins (but most conversation sides result from dial-outs),
+# it can (and does) happen that the person who answers the phone and records a
+# call is NOT the person who was recruited and assigned a given PIN.  As a
+# result, these first six fields may be incomplete and "speculative".
+#
+# The "NSIDES" field indicates how many calls in the Fisher 2003 Training
+# corpus contain the given PIN on one or the other channel.
+#
+# If the PIN has been recorded in two or more calls, the last field (SIDE_DATA)
+# is actually a composite set of "sub-fields", delimited by semicolons.  Each
+# "sub-field" provides the CALLID (the 5-digit number used in file names),
+# and the CHANNEL ("A" or "B"), together with the sex (m/f) and dialect (a/o)
+# information produced by the manual auditing done at LDC on that call side.
+# Each sub-field entry is punctuated so that these four pieces of information
+# are distinctly separated:  "CALLID_CHN/sex.dialect" (e.g. "00003_B/f.a").
+# For the audited dialect field, "a" indicates "American", "o" is "Other".
+#
+# By comparing the audit information of multiple calls, and checking these
+# against the reported demographic information from the subjects table, it is
+# possible to identify some cases where the recruited subject differs from
+# the recorded speaker.
+

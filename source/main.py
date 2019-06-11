@@ -31,25 +31,52 @@ from source.DimensionalityReduction import analysisInManyDimensions\
 # !!!!!!!!!! import for notebook !!!!!!!!!!
 
 warnings.filterwarnings("ignore")  # to avoid the displaying of a warning caused by the bokeh library...
-
 output_notebook()
 
 metaDataToLoad = ["sex", "age", "geography", "level_study"]
-
 metaDataFiles = {"SWBD": os.path.join(getOriginePath(), "data", "metadata")}
+
 conversationInfo = {}
 speakers = {}
-for corpusName in metaDataFiles:
-    tempConversationInfo, tempspeakers = getSpeakers(metaDataFiles[corpusName], metaDataToLoad)
-    conversationInfo[corpusName] = tempConversationInfo
-    speakers[corpusName] = tempspeakers
+# if we don't have the serialized version of conversationInfo or speakers
+if (not os.path.isfile(os.path.join(getPathToSerialized(), "swbdSpeakers")))\
+        or (not os.path.isfile(os.path.join(getPathToSerialized(), "swbdConversations"))):
 
-f = open(os.path.join(getPathToSerialized(), "swbdSpeakers"), "wb")
-pickle.dump(speakers, f)
-f.close()
+    # we process them
+    for corpusName in metaDataFiles:
+        tempConversationInfo, tempspeakers = getSpeakers(metaDataFiles[corpusName], metaDataToLoad)
+        conversationInfo[corpusName] = tempConversationInfo
+        speakers[corpusName] = tempspeakers
+
+    # then we store them
+
+    f = open(os.path.join(getPathToSerialized(), "swbdSpeakers"), "wb")
+    pickle.dump(speakers, f)
+    f.close()
+
+    f = open(os.path.join(getPathToSerialized(), "swbdConversations"), "wb")
+    pickle.dump(conversationInfo, f)
+    f.close()
+
+else:
+
+    # we get the serialized version
+    f = open(os.path.join(getPathToSerialized(), "swbdSpeakers"), "rb")
+    speakers = pickle.load(f)
+    f.close()
+
+    f = open(os.path.join(getPathToSerialized(), "swbdConversations"), "rb")
+    conversationInfo = pickle.load(f)
+    f.close()
+
 
 
 def initCorpus():
+    '''
+    initiliaze corpora from the folder containing the corpora and return and array
+    of corpus object
+    :return:
+    '''
     global conversationInfo
     arrayOfCorpus = []
     sourceDirectory = os.path.join(getOriginePath(), "data", "corpus")
@@ -63,19 +90,25 @@ def initCorpus():
 # --------------------------------------------------------------------------------------------------------
 
 
-arrayOfCorpus = initCorpus()
 
-f = open(os.path.join(getPathToSerialized(), "arrayOfCorpus"), "wb")
-pickle.dump(arrayOfCorpus, f)
-f.close()
+arrayOfCorpus = None
+# if arrayOfCorpus not serialized
+if not os.path.isfile(os.path.join(getPathToSerialized(), "arrayOfCorpus")):
 
-# f = open(os.path.join(getPathToSerialized(), "arrayOfCorpus"), "rb")
-#
-#
-# arrayOfCorpus = pickle.load(f)
-# f.close()
+    #  we process and serialize it
+    arrayOfCorpus = initCorpus()
+    f = open(os.path.join(getPathToSerialized(), "arrayOfCorpus"), "wb")
+    pickle.dump(arrayOfCorpus, f)
+    f.close()
+else:
+
+    f = open(os.path.join(getPathToSerialized(), "arrayOfCorpus"), "rb")
+    arrayOfCorpus = pickle.load(f)
+    f.close()
 
 
+
+# print what are the available corpora
 message = "available corpora : "
 for corpus in arrayOfCorpus:
     message += "\n  - " + corpus.getName()
@@ -86,7 +119,7 @@ print(message)
 
 def choosingCorpora(corpusNames):
     """
-
+    turn a string request of corpus into an array of the requested corpus as objects
     :param corporaNames: should look like this "SWBD, cid, fisher"
     :return:
     """
@@ -107,8 +140,14 @@ def choosingCorpora(corpusNames):
 
 # --------------------------------------------------------------------------------------------------------
 
-def globalView(corpusNames):
-    corpora = choosingCorpora(corpusNames)
+def globalView(corporaNames):
+    """
+    creates an interactive analysis with a global view of the corpora
+    :param corporaNames: should look like this "SWBD, cid, fisher"
+    :return:
+    """
+
+    corpora = choosingCorpora(corporaNames)
     cell = Cell.Cell()
 
     model = Model.Model(arrayOfCorpus, "mutipleCorpus")
@@ -136,6 +175,11 @@ def globalView(corpusNames):
 
 
 def analysisByConversation(corpusNames):
+    '''
+    create an interactive analysis with stats given in boxplot
+    :param corpusNames: should look like this "SWBD, cid, fisher"
+    :return:
+    '''
     corpora = choosingCorpora(corpusNames)
     cell = Cell.Cell()
     graph = Graph()
@@ -171,10 +215,11 @@ def analysisByConversation(corpusNames):
 
 
 def speakerAnalysis(corpusNames):
-    """
-    analysis menu regarding corpus with speakers
+    '''
+
+    :param corpusNames: should look like this "SWBD, cid, fisher"
     :return:
-    """
+    '''
     corpora = choosingCorpora(corpusNames)
     cell = Cell.Cell()
     graph = Graph(tools="wheel_zoom")

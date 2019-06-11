@@ -1,0 +1,10 @@
+# 
+# Description of the fields in the Fisher English 2003 "filelist.tbl"
+# 
+# Four fields, tab-delimited:
+#
+# FLD        -- Description
+1  FILEID    -- 5-digit number, from file name: fe_03_FILEID.*
+2  ABGENDER  -- Gender of A and B speakers: "mm", "mf", "fm" or "ff"
+3  PART      -- "Part1" or "Part2"
+4  TRANS_BY  -- "bbn" or "ldc"

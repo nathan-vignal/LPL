@@ -1,0 +1,53 @@
+# 
+# Description of the fields in Fisher English 2003 "calldata.tbl"
+# 
+# Fifteen fields, comma-delimited:
+# 
+#  FLD       -- Description
+1  CALLID    -- 5-digit number, matches file names (fe_03_CALLID.*)
+2  DATE_TIME -- when the call was recorded: YYYYMMDD_HH24:MI:SS
+3  TOPICID   -- ENGnn, matches the "id=..." attribute of a topic in topics.sgm
+4  SIG_GRADE -- variable-length numeric ("N" or "N.N"): perceived signal quality
+5  CNV_GRADE -- variable-length numeric ("N" or "N.N"): perceived conversation quality
+6  APIN      -- subject-id of speaker on channel A, matches first field of pindata.tbl
+7  ASEX.DIA  -- [m|f].[a.o] : male or female, American or other English dialect
+8  APHNUM    -- alphanumeric, "encrypted" phone number of caller A (if known)
+9  APHSET    -- phone-set type: 1=speaker-phone, 2=headset, 3=ear-bud, 4=hand-held
+10 APHTYP    -- phone-service type: 1=cell, 2=cordless, 3=regular (land-line)
+11 BPIN      -- channel B data, same as for channel A
+12 BSEX.DIA
+13 BPHNUM
+14 BPHSET
+15 BPHTYP
+#
+# Notes:
+#
+# The first line of the table is the comma-delimited string of field names.
+#
+# The SIG_GRADE and CNV_GRADE numbers represent an "average" score of percieved
+# quality for signal (relative noise or distortion) and conversation content
+# (topicality, "directed speech"), where 0 is "worst score" and 4 is "best".
+#
+# The [AB]SEX.DIA fields have "m" or "f" for speaker sex, and "a" or "o"
+# for speaker dialect (American vs. Other), as reported by auditors.
+#
+# The [AB]PHNUM fields are "encrypted" to conceal the actual phone
+# numbers of subjects, but they are kept distinct, and the true area
+# codes and exchanges (first three digits of the local 7-digit number)
+# are retained; a given four-digit sequence always produces the same
+# distinct 3-letter encrypted string.  The collection system sometimes
+# failed to retain the phone number, or stored only a partial string;
+# in these cases, you'll find the strings "no_APHNUM" or "no_BPHNUM"
+# in the respective fields.
+#
+# The "PHSET" and "PHTYP" fields hold the responses provided by
+# callers to questions about the kind of phone equipment/service they
+# were using during the call; this information is missing for a number
+# of calls in the collecion.  During the first few months of the
+# collection, these responses were not being gathered -- the early
+# calls are tabulated with just the "PHTYP" value (cell vs. cordless
+# vs. standard), where this was available based on the subjects'
+# registered phone information.  Even after we started collecting
+# these responses during the call, they were not always successfully
+# captured (or not always provided by the subject).
+

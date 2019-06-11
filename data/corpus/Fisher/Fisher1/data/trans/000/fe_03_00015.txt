@@ -1,0 +1,648 @@
+# fe_03_00015.sph
+# Transcribed at the LDC
+
+0.78 1.74 A: hello 
+
+1.73 2.30 B: hi 
+
+2.98 5.77 A: huh my name is janet what's yours 
+
+5.93 6.33 B: sara 
+
+6.41 6.98 A: sara 
+
+6.95 7.78 B: what do you do janet 
+
+8.07 8.50 A: hum 
+
+9.60 10.97 A: to to keep from getting sick 
+
+11.28 11.68 B: yeah 
+
+11.67 14.10 A: yeah i hum i take a bunch of 
+
+14.31 17.16 A: vitamins everyday and i try to eat a balanced diet 
+
+17.31 18.00 A: how about you 
+
+18.09 18.81 B: balanced diet 
+
+19.58 23.14 B: probably what i do indirectly otherwise i really 
+
+21.40 22.02 A: huh-huh 
+
+23.40 25.10 B: i really don't do much unless i 
+
+25.28 26.21 B: feel it's coming on 
+
+26.39 28.95 B: then i will really then i'll be more careful and take 
+
+26.43 27.08 A: huh-huh 
+
+29.40 31.37 B: extra vitamins or hum 
+
+31.61 32.53 B: sometimes echinacea 
+
+33.11 34.62 A: oh and does it seem to help 
+
+35.23 38.23 B: echinacea i think does but i i'm not sure if 
+
+38.66 41.52 B: i'm i'm honestly not sure if it's a lot of psychology 
+
+41.43 42.38 A: mhm 
+
+42.12 44.79 B: because it's just i convince myself that it's going to work 
+
+44.47 45.27 A: yeah 
+
+45.01 49.45 B: or you know i i mean it's possible that it actually does too so 
+
+49.62 53.59 A: well yeah it could just activate whatever systems in our brain um 
+
+54.22 55.03 A: kick in our 
+
+55.12 56.38 A: immune system 
+
+56.27 56.60 B: yeah 
+
+56.82 57.07 B: yeah 
+
+57.78 58.85 A: how do you tell 
+
+59.20 59.52 B: yeah 
+
+59.76 64.42 B: yeah i don't know but i really i'm knock on wood i haven't 
+
+64.76 65.08 B: been 
+
+65.26 66.08 B: sick much 
+
+66.17 66.43 B: for 
+
+66.68 68.86 B: any reason for a long time it seems 
+
+69.09 71.03 A: hm um where do you live 
+
+71.35 73.14 B: um i'm in ohio right now 
+
+73.23 73.86 A: huh-huh 
+
+73.43 75.04 B: columbus ohio where are you where do you live 
+
+75.19 76.46 A: huh i'm in quebec 
+
+77.22 77.99 B: oh in quebec 
+
+78.15 78.66 A: yeah 
+
+78.55 79.37 B: oh what part 
+
+79.78 82.85 A: hum i'm halfway between montreal and quebec city 
+
+84.38 87.25 B: so seasons are really drastic there to some extent 
+
+87.18 92.81 A: yeah well summer's not as bad as summer is in ohio but ah winter is pretty rigorous 
+
+93.97 94.38 A: but (( )) 
+
+94.09 96.36 B: yeah i think geography plays a big role 
+
+96.63 97.29 A: mhm 
+
+97.20 98.75 B: because i know i i 
+
+99.04 103.07 B: go to grad school usually in saint louis missouri and saint louis is just 
+
+101.36 101.77 A: uh-huh 
+
+103.64 104.01 B: i guess 
+
+104.13 105.45 B: for some reason like 
+
+105.71 111.70 B: all of the wind patterns in the world seem to converge and b- and blow in all of the pollen along with the humidity 
+
+111.98 112.41 A: uh-huh 
+
+112.23 113.02 B: and they just 
+
+113.27 114.72 B: i mean there are severe problems 
+
+114.99 115.52 B: there with 
+
+115.74 117.30 B: allerg- seasonal allergies 
+
+118.29 119.00 B: me i even 
+
+119.13 121.12 B: even dogs get allergies there 
+
+120.90 121.81 A: oh god 
+
+122.68 132.54 A: yeah come to think of it i used to work uh as a secretary for the kansas veterinary medical association and some of our members were specialists in dog allergies 
+
+132.38 132.70 B: oh 
+
+134.09 134.36 B: yeah 
+
+135.97 138.93 B: now do you believe the saying that they mentioned about um 
+
+140.00 140.64 B: the cold 
+
+140.08 141.09 A: um 
+
+141.37 142.42 A: yeah i 
+
+143.30 144.60 A: well i i think that 
+
+145.11 149.61 A: once or twice in my lifetime i've managed to shorten the span of a cold but 
+
+149.86 153.81 A: mostly yeah you get a cold it lasts for seven days no matter what 
+
+153.67 154.05 B: yeah 
+
+154.40 158.63 B: yeah i've never i guess i've never thought about going to the doctor just for a cold 
+
+158.92 159.61 A: mhm 
+
+160.28 162.09 A: no i i never have either 
+
+162.05 162.44 B: yeah 
+
+162.48 165.27 A: i mean like if i have a sore throat or something then i think 
+
+165.53 167.52 A: an antibiotic would help then i'll go 
+
+167.60 170.99 B: right or like the threat of strep i got strep a lot in high school 
+
+172.13 173.37 B: i'm always nervous about that 
+
+174.97 176.98 A: what are you studying in graduate school 
+
+176.87 178.40 B: children language and literature 
+
+178.49 179.10 A: oh 
+
+179.20 179.63 B: yeah 
+
+179.93 180.88 B: yeah i do um 
+
+181.46 184.27 B: yeah mostly austrian literature and architecture right now 
+
+184.44 184.91 A: mhm 
+
+185.89 187.67 B: and do you still work for a veterinarian 
+
+186.03 186.32 A: (( )) 
+
+187.66 192.30 A: uh no i'm um i'm a teacher but right now i'm waiting for 
+
+192.57 195.84 A: permission to work in quebec so i'm really doing nothing 
+
+196.51 196.86 A: uh 
+
+196.59 197.66 B: where did you teach before 
+
+197.79 199.21 A: uh i taught in kansas 
+
+199.51 200.31 B: uh-huh and w- 
+
+199.95 200.32 A: i ta- 
+
+200.57 203.47 A: i taught french and spanish at high school and college level 
+
+203.90 204.74 B: oh wow 
+
+205.41 206.42 B: oh that would be fun 
+
+206.86 208.42 A: yeah college is fun 
+
+208.30 211.09 B: yeah and i would think with french knowing french you'd be able to do it 
+
+211.43 212.77 B: in quebec fairly easily 
+
+213.28 216.87 A: well when i start working here i'll be teaching english as a second language 
+
+217.07 217.40 B: oh 
+
+217.80 220.43 A: because the people especially in my little area 
+
+220.59 226.65 A: they they really don't have a chance to to learn english well there's no one to practice english with 
+
+227.81 231.26 A: so they they come to english classes pretty well um 
+
+231.59 232.84 A: handicapped 
+
+233.15 233.42 B: oh 
+
+233.88 235.36 B: oh i guess i never really i 
+
+235.57 237.09 B: i've done i used to live in vermont 
+
+237.33 237.68 A: uh-huh 
+
+237.74 240.28 B: and so i ma- my my step father worked 
+
+240.59 246.17 B: for the federal government doing transportation and as a result he had to work in quebec with companies that trucked 
+
+243.44 243.74 A: oh 
+
+246.34 247.39 B: things into the state 
+
+247.63 248.06 A: oh 
+
+248.32 249.11 B: and um 
+
+249.42 254.05 B: so i've been up to montreal but i didn't seem montreal seemed to me so bilingual 
+
+254.09 256.48 A: oh yeah (( )) definitely bilingual 
+
+256.22 259.24 B: so the further and the more rural you get the less bilingual it gets 
+
+259.45 260.64 A: absolutely 
+
+260.23 260.66 B: oh 
+
+260.83 264.24 A: yeah montreal is kind of this little island of 
+
+264.69 265.19 A: it 
+
+265.37 268.04 A: montreal is is an entity into itself 
+
+268.24 268.76 A: and 
+
+269.22 271.11 A: and the rest of quebec is quebec 
+
+271.35 271.64 B: huh 
+
+271.92 272.19 B: huh 
+
+272.30 276.72 B: i guess maybe the university plays a role and just like the size and the amount of traffic 
+
+277.33 281.42 A: yeah well and the fact that it's such a big industrial center 
+
+281.67 282.64 A: with so much 
+
+282.97 284.59 A: influence from the outside world 
+
+284.73 287.09 A: and the airport and transportation and so forth 
+
+287.58 288.99 A: business 
+
+289.33 293.49 A: but the rest of quebec just pretty much keeps to itself speaks french and uh 
+
+294.14 295.06 A: happy being 
+
+295.33 296.70 A: the quebec 
+
+296.01 299.54 B: yeah that's must be quite a change from kansas 
+
+299.83 303.14 A: yeah it's uh it's a pleasant change um 
+
+302.58 302.87 B: oh 
+
+303.76 304.90 A: i don't know people here 
+
+305.31 307.50 A: i i'm developing this theory that uh 
+
+308.15 310.29 A: quebecers are kind to each other 
+
+310.46 311.11 A: and 
+
+311.85 313.25 A: um but very frugal 
+
+313.51 315.80 A: so it's kind of like vermont in the frugality 
+
+316.40 319.45 A: but they also they're very generous and last night i was at uh 
+
+320.17 321.20 A: dunkin donuts 
+
+322.09 323.25 A: in the states it seems like 
+
+323.45 329.08 A: people go into dunkin donuts they get their coffee and donuts and they leave here they get their coffee and donuts and sit at a table 
+
+326.56 326.86 B: yeah 
+
+329.33 331.01 A: and they talk to somebody 
+
+331.12 332.36 A: for hours 
+
+332.46 338.63 A: that's so delightful to see people talking to each other and having a community life of some sort 
+
+333.50 334.04 B: yeah 
+
+335.42 336.11 B: yeah 
+
+338.30 339.30 B: yeah yeah 
+
+339.64 340.93 B: yeah i think that's sort of a 
+
+341.12 346.49 B: a well i don't know i guess it's a general impression i get from even almost all over the world between north and south 
+
+346.78 347.24 A: mhm 
+
+347.24 348.27 B: that sometimes uh 
+
+348.41 352.11 B: uh an issue i know in the north people might be more reserved and 
+
+352.26 353.49 B: slightly frugal in a in a 
+
+353.79 354.34 B: certain ways 
+
+354.84 355.52 B: but um 
+
+355.97 357.39 B: once you get to know them 
+
+357.68 358.16 A: mhm 
+
+357.77 358.39 B: and once 
+
+358.57 359.93 B: they they really make efforts 
+
+360.40 360.90 A: mm 
+
+360.91 361.55 B: and um 
+
+361.88 362.89 B: the south is just so 
+
+364.04 365.58 B: immediately open and warm 
+
+365.89 366.68 A: mhm 
+
+366.51 367.54 B: i think at least 
+
+367.82 368.42 B: at least 
+
+368.75 372.45 B: saint louis seemed to be to me and that made it more southern for me 
+
+372.65 373.35 A: mhm 
+
+373.03 375.90 B: but people just sort of generally but they always keep it very 
+
+376.20 376.86 B: superficial 
+
+377.29 377.83 A: mm 
+
+377.67 381.67 B: and they rarely actually sit down and take the time to chat for a long time 
+
+381.96 383.08 A: yeah 
+
+382.87 384.82 B: um and vermont is at least for 
+
+386.15 387.23 B: vermont as i know they've 
+
+387.50 388.39 B: they'll take the time 
+
+388.77 389.87 B: they'll sit down 
+
+390.14 393.45 B: they may not talk much at first but after a while 
+
+391.63 392.44 A: uh-huh 
+
+392.88 394.82 A: yup 
+
+393.74 396.04 B: yeah 
+
+396.35 397.92 B: yeah hm 
+
+397.63 397.99 A: yeah 
+
+398.13 399.88 B: yeah i miss the cold weather and 
+
+400.86 402.27 B: people and everything in vermont 
+
+403.36 404.86 B: i like cold weather i think the heat 
+
+406.42 411.03 A: yeah i i think the cold weather makes people stronger getting sort of back onto the topic um 
+
+410.53 412.32 B: mhm 
+
+411.17 415.86 A: the i mean it makes stronger psychologically and physically too 
+
+416.01 416.73 A: you know that 
+
+417.03 420.62 A: the threat is out there so you have to steel yourself to it 
+
+420.68 421.01 B: yeah 
+
+421.04 424.37 A: but if it's always warm and nice oh well you know 
+
+424.96 425.56 A: you you 
+
+425.72 427.65 A: you'll get laid back you don't 
+
+427.92 433.12 A: take many precautions and most of the time you get away with it but when i lived in venezuela 
+
+433.79 434.19 A: (( )) 
+
+434.44 439.89 A: it it seemed like if the temperature dropped five degrees everyone caught a cold 
+
+439.81 440.42 B: yeah 
+
+440.82 442.99 B: yeah i thought that was interesting recently 
+
+443.09 447.60 B: that reminded me of somebody that um that whose from the bahamas and she can't even take 
+
+446.47 446.90 A: mhm 
+
+447.90 449.75 B: saint louis fall temperatures 
+
+449.92 450.41 A: huh 
+
+450.34 453.92 B: like she's immediately talking about how awfully cold it is and how 
+
+453.39 454.63 A: oh my goodness 
+
+454.30 456.95 B: and as a result she she drives a lot 
+
+457.38 457.74 A: uh-huh 
+
+457.51 459.98 B: and um stays inside and 
+
+460.11 465.49 B: i mean un- probably doesn't 
+
+465.85 468.35 B: i mean it probably ends up impacting her 
+
+468.74 471.90 B: exercise habits and everything and the amount of time she spends out doors 
+
+472.31 472.93 A: yea 
+
+473.46 478.03 A: yea that's actually one reason i came to quebec cause i thought i'd be spending more time out doors and huh 
+
+478.17 478.91 A: be healthier 
+
+479.12 479.52 B: mm 
+
+479.61 480.78 A: and and it's true 
+
+480.97 485.00 A: course in the summer it's not so deathly hot so you can go out doors and not 
+
+480.98 481.28 B: yea 
+
+485.41 488.09 A: you know have a heat stroke but even in the winter 
+
+486.68 486.99 B: right 
+
+488.29 488.56 A: there's 
+
+489.16 492.13 A: they're people riding there bicycles at twelve degrees 
+
+492.27 492.94 B: wow 
+
+493.05 493.60 A: and 
+
+493.70 500.05 A: people just think nothing of walk a few block to the grocery store or the post office or where ever they need to go and 
+
+500.24 501.69 A: they just get out and walk 
+
+501.46 501.80 B: yea 
+
+502.03 502.32 B: yea 
+
+502.49 504.63 A: i think it's huh a much healthier way to live 
+
+504.99 507.85 B: yea yea i agree i don't know i guess i like 
+
+508.15 509.38 B: mean if your going to 
+
+510.76 512.78 B: to me health being keep staying not 
+
+512.99 518.25 B: or being healthy is combined with being out doors and i like being out doors in the cold so much better than the 
+
+518.40 519.75 B: than the excessive heat 
+
+519.90 520.62 A: yea 
+
+521.47 530.35 A: yea and i try to explain this to people in quebec and they don't quite get it because there's never been an oppressive heat they think that when it gets up to thirty five 
+
+530.53 532.27 A: centigrade in the summer but you know 
+
+532.71 536.54 A: that they've gone to hell in a hand basket and they just can't 
+
+537.12 541.84 A: imagine what it's like to have that day after day from may through september 
+
+542.10 542.43 B: yea 
+
+543.15 545.07 B: yea i've never even realized either 
+
+545.73 551.30 B: being i mean i spent most of my time in northern countries in europe or in in 
+
+551.50 553.65 B: northern states in america really 
+
+553.66 554.11 A: mm 
+
+553.79 557.23 B: and particularly in the summers i always spent summers either in oregon or vermont 
+
+557.42 558.11 A: ah 
+
+557.69 558.47 B: and hum 
+
+558.85 561.28 B: and when i first had my first summer 
+
+561.43 562.97 B: saint saint louis i i mean 
+
+563.28 564.28 B: it's not you'll get 
+
+564.78 566.07 B: physically sick or anything 
+
+566.39 567.13 B: but you go nuts 
+
+567.26 571.06 B: in a certain way and people like had there tempers (( )) 
+
+571.34 571.89 A: mm 
+
+571.42 576.17 B: there's a higher crime rate the hotter it gets because people just get so angry 
+
+576.50 577.57 A: right 
+
+577.50 579.03 B: so i mean there's a version of 
+
+579.59 584.11 B: i guess psychological sickness or illness that comes a long with really hot humid 
+
+585.23 586.08 B: oppressive heat 
+
+586.28 590.08 A: you know and it's too hot to i mean like if you have a boy friend you can't even 
+
+590.55 591.83 A: get close because 
+
+591.94 596.58 A: it's too hot you don't want to do anything that makes you hotter 
+
+592.90 594.68 B: yea 
+
+595.75 600.42 B: yea over cold is just 
+
+600.54 602.26 B: better and it keeps you healthier i think 
+
+602.62 604.97 A: i think so yea sort of like hum 
+
+605.18 607.91 A: are you old enough to remember the mary tyler moore 
+
+608.15 609.53 A: series with 
+
+609.86 611.32 A: she went to huh 
+
+611.89 614.96 A: hum huh minnesota minneapolis to work 
+
+616.53 617.08 A: d._r._p. 
+
+617.51 621.76 B: yea i remember it clearly but i don't remember as many details about it 
+
+621.90 628.00 A: yea well one of the lines from that was that she went to minnesota because it's colder and she thought she'd keep it better 
+
+630.36 638.39 B: yea although i've heard like i guess there's also a danger of 
+
+638.70 640.32 B: of an inability to navigate 
+
+640.46 644.52 B: out side in the winter like minnesota i know for sure 
+
+645.10 645.86 B: where they have 
+
+646.22 647.49 B: a certain campuses 
+
+647.99 648.77 B: like hum 
+
+648.94 653.20 B: i know u. of minnesota have it in the winter they actually string 
+
+653.75 656.96 B: ropes and things between buildings just in case you can't find a way 
+
+657.26 658.19 A: oh 
+
+659.36 660.54 A: hum 
+
+660.54 660.90 B: yea 
+
+661.73 669.24 B: and i don't know i've always i guess the one thing i loved about oregon was the ability that it never really got really warm and it never got seriously clod 
+
+669.47 669.98 A: mm 
+
+669.67 671.92 B: but you can always go to the mountains where it was really cold 
+
+673.20 681.36 B: so you could sort of in where there was so much snow you didn't know what to do about it and i think if you had all that snow all the time 
+
+677.61 678.21 A: mm 
+
+681.85 682.44 B: i don't know 
+
+683.76 684.73 B: i don't know i guess 
+
+684.88 688.40 B: i guess that vermont had all the snow all the time just not above my head 
+
+688.71 689.21 A: mm 
+
+689.20 690.81 B: and when it gets up above the 
+
+690.94 694.42 B: my head i just sort of it begins to feel more claustrophobic then 
+
+694.77 698.06 A: yea i imagine it would i haven't experienced that yet 
+
+698.30 699.58 A: and so far 
+
+699.99 705.79 A: well our first major storm was twenty centimeters 
+
+704.81 705.21 B: yea 
+
+705.50 705.87 B: yea 
+
+706.26 709.17 A: after about a week it started melting so 
+
+709.88 712.44 A: so don't have that high accumulation yet 
+
+713.33 714.72 A: but i know to fit on the 
