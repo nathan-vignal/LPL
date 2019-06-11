@@ -260,6 +260,11 @@ def speakerAnalysis(corpusNames):
 
 
 def mutliCriterionAnalysis(corpusNames):
+    '''
+    create a radar graph with 5 variables regarding the corpora
+    :param corpusNames: should look like this "SWBD, cid, fisher"
+    :return:
+    '''
     corpora = choosingCorpora(corpusNames)
 
     cell = Cell.Cell()
@@ -276,6 +281,12 @@ def mutliCriterionAnalysis(corpusNames):
 
 
 def wordDistribution(corpusNames):
+    """
+    Create intractive graph of distribution frequency of words in a corpus, you can also choose
+    which corpus with radio buttons
+    :param corpusNames: should look like this "SWBD, cid, fisher"
+    :return:
+    """
     corpora = choosingCorpora(corpusNames)
     cell = Cell.Cell()
 
@@ -299,6 +310,10 @@ def wordDistribution(corpusNames):
 
 
 def contestPlot():
+    """
+
+    :return:
+    """
 
     swbd = choosingCorpora("swbd")  # this function focuses on switchboard
     cell = Cell.Cell()
